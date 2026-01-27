@@ -64,8 +64,6 @@ namespace Sexy
 		virtual void			ButtonPress(int theId);
 		virtual void			ButtonDepress(int theId);
 
-		virtual void			KeyChar(SexyChar theChar); // TODO REMOVE THIS
-
 		GameObject*				ConfirmPurchase();
 		void					InitializeStoreButtons(int theSeed);
 		void					CommonFishStoreSlots();

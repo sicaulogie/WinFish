@@ -562,10 +562,6 @@ void Board::RemovedFromManager(WidgetManager* theWidgetManager)
 void Board::Update()
 {
 	Widget::Update();
-	mMoney = 99999; // TODO REMOVE THESE PARTS
-	if(!mSlotUnlocked[SLOT_EGG] && mApp->mGameMode != WinFishApp::GAMEMODE_VIRTUAL_TANK)
-		MakeAndUnlockMenuButton(SLOT_EGG, true);
-
 
 	int aLastMX = mApp->mWidgetManager->mLastMouseX;
 	int aLastMY = mApp->mWidgetManager->mLastMouseY;
@@ -1268,20 +1264,7 @@ void Board::DrawOverlay(Graphics* g, int thePriority)
 }
 void Sexy::Board::KeyChar(SexyChar theChar)
 {
-	// TODO REMOVE THESE IN FUTURE
-	if (theChar == 'W')
-		Unk07(2500);
-	if (theChar == 'U')
-		SpawnUltraBought();
-	if (theChar == 'G')
-		SpawnGekkoBought();
-	if (theChar == 'Q')
-	{
-		mApp->mCurrentProfile->m0x98 = Rand();
-		memset(mApp->mCurrentProfile->mStoreScreenBought, 0, 8);
-	}
-
-	if (mApp->mGameMode != WinFishApp::GAMEMODE_SANDBOX) // TODO == not !=
+	if (mApp->mGameMode == WinFishApp::GAMEMODE_SANDBOX)
 	{
 		bool gusInTank = false;
 		if (!mAlienList->empty())

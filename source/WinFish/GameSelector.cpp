@@ -349,9 +349,6 @@ void Sexy::GameSelector::OrderInManagerChanged()
 
 void Sexy::GameSelector::KeyChar(SexyChar theChar)
 {
-	if (theChar == 'n') // TODO REMOVE THIS
-		mApp->mCurrentProfile->NextLevel(); // REMOVE THIS
-
 	if (mApp->mDebugKeysEnabled)
 		return;
 	if (mSandboxCheatCode->CheckCodeActivated(theChar))

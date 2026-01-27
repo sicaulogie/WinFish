@@ -316,7 +316,7 @@ Sexy::WinFishApp::~WinFishApp()
 
 	for (int i = 0; i < DIALOG_END_ID; i++)
 		KillDialog(i);
-	ProcessSafeDeleteList(); // This line missed in original game TODO
+	ProcessSafeDeleteList(); // This line missed in original game
 
 	if (mBoard != NULL)
 	{

@@ -332,14 +332,6 @@ void Sexy::StoreScreen::ButtonDepress(int theId)
 	}
 }
 
-void Sexy::StoreScreen::KeyChar(SexyChar theChar) // TODO REMOVE WHOLE FUNC (USING THIS FOR DEBUG ONLY)
-{
-	if (theChar == 'r' || theChar == 'R')
-	{
-		InitializeStoreButtons(Rand());
-	}
-}
-
 Sexy::GameObject* Sexy::StoreScreen::ConfirmPurchase()
 {
 	mBoughtItemTimer = 108;
