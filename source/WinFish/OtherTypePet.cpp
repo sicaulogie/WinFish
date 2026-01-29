@@ -1,11 +1,18 @@
+#include "SexyAppFramework/WidgetManager.h"
+#include "SexyAppFramework/Font.h"
+
 #include "OtherTypePet.h"
 #include "BilaterusHead.h"
 #include "WinFishApp.h"
 #include "Board.h"
+#include "Shadow.h"
+#include "Missle.h"
+#include "Fish.h"
+#include "Oscar.h"
+#include "Gekko.h"
+#include "Breeder.h"
+#include "Ultra.h"
 #include "Res.h"
-
-#include "SexyAppFramework/WidgetManager.h"
-#include "SexyAppFramework/Font.h"
 
 using namespace Sexy;
 
@@ -616,7 +623,7 @@ void Sexy::OtherTypePet::UpdatePetSpecialAnimations()
 			mApp->mBoard->PlaySample(SOUND_NIKOCLOSE_ID, 3, 1.0);
 		else if (mPetSpecialtyTimer == 1233)
 		{
-			mApp->mBoard->DropCoin(mX + 1, mY - 2, Coin::COIN_NIKOPEARL, this, -1.0, 0);
+			mApp->mBoard->DropCoin(mX + 1, mY - 2, CoinTypes::COIN_NIKOPEARL, this, -1.0, 0);
 			m0x1c0 = false;
 			mApp->mBoard->SpawnBubble(mX + 11, mY + 5);
 			mApp->mBoard->SpawnBubble(mX + 7, mY + 3);

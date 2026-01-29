@@ -1,8 +1,10 @@
+#include "SexyAppFramework/WidgetManager.h"
+
 #include "TankScreen.h"
 #include "WinFishApp.h"
 #include "WinFishAppCommon.h"
+#include "ProfileMgr.h"
 #include "Res.h"
-#include "SexyAppFramework/WidgetManager.h"
 
 Sexy::TankScreen::TankScreen(WinFishApp* theApp)
 {

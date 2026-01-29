@@ -1,10 +1,12 @@
-#include "SimSetupScreen.h"
-#include "WinFishAppCommon.h"
 #include "SexyAppFramework/WidgetManager.h"
 #include "SexyAppFramework/Font.h"
+
+#include "SimSetupScreen.h"
+#include "WinFishAppCommon.h"
 #include "WinFishApp.h"
-#include "Res.h"
 #include "Board.h"
+#include "ProfileMgr.h"
+#include "Res.h"
 
 Sexy::SimSetupScreen::SimSetupScreen(WinFishApp* theApp)
 {

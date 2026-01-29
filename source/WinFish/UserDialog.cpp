@@ -1,9 +1,11 @@
-#include "UserDialog.h"
-#include "Res.h"
 #include "SexyAppFramework/ScrollbarWidget.h"
 #include "SexyAppFramework/DialogButton.h"
 #include "SexyAppFramework/WidgetManager.h"
+
+#include "UserDialog.h"
 #include "WinFishAppCommon.h"
+#include "ProfileMgr.h"
+#include "Res.h"
 
 using namespace Sexy;
 

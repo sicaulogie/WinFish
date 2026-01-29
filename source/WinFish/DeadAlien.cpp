@@ -1,10 +1,11 @@
+#include "SexyAppFramework/WidgetManager.h"
+
 #include "DeadAlien.h"
 #include "WinFishApp.h"
 #include "WinFishAppCommon.h"
 #include "Board.h"
+#include "Alien.h"
 #include "Res.h"
-
-#include "SexyAppFramework/WidgetManager.h"
 
 Sexy::DeadAlien::DeadAlien()
 {

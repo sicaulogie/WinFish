@@ -1,11 +1,15 @@
+#include "SexyAppFramework/WidgetManager.h"
+
 #include "BilaterusHead.h"
 #include "BilaterusBone.h"
 #include "Board.h"
+#include "WinFishApp.h"
+#include "Fish.h"
+#include "Shadow.h"
 #include "Res.h"
 
-#include "SexyAppFramework/WidgetManager.h"
-
 using namespace Sexy;
+
 Sexy::BilaterusHead::BilaterusHead(Bilaterus* theBilaterus,int theX, int theY, bool active) 
 	: GameObject()
 {

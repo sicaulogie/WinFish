@@ -1,34 +1,17 @@
 #pragma once
 
 #include "SexyApp.h"
-#include "SexyAppFramework/Dialog.h"
-#include "SexyAppFramework/ButtonListener.h"
-#include "ProfileMgr.h"
 #include "SexyAppFramework/MTRand.h"
 #include "SexyAppFramework/Color.h"
-#include "FishSongMgr.h"
+#include "SexyAppFramework/KeyCodes.h"
 
 namespace Sexy
 {
-	class WinFishApp;
 	class Board;
-	class Screen;
 	class TitleScreen;
-	class HelpScreen;
-	class HallOfFameScreen;
-	class VirtualTankScreen;
-	class StoreScreen;
-	class TankSetupScreen;
-	class FishSetupScreen;
-	class InstructionsScreen;
-	class YouHaveFoundScreen;
-	class TimeTrialScreen;
-	class ChooseYourPetsScreen;
-	class BonusResultsScreen;
-	class JukeboxScreen;
-
 	class GameSelector;
 	class PetsScreen;
+	class StoreScreen;
 	class HatchScreen;
 	class BonusScreen;
 	class InterludeScreen;
@@ -37,29 +20,25 @@ namespace Sexy
 	class SimFishScreen;
 	class TankScreen;
 	class HighScoreScreen;
+	class HelpScreen;
 
 	class WorkerThread;
 	class HighScoreMgr;
+	class ProfileMgr;
+	class UserProfile;
+	class FishSongMgr;
+	class FishSongData;
 
-	class DDImage;
-	class Dialog;
-	class Buffer;
-
+	class GameObject;
 	class Fish;
 	class OtherTypePet;
 
-	class FishSongData;
-
-	extern bool gMerylActive;
 	extern bool gUnkBool01;
 	extern bool gDoHundredUpdates;
-	extern bool gUnkBool02;
 	extern bool gUnkBool03;
 	extern bool gUnkBool04;
 	extern bool gUnkBool05;
 	extern bool gUnkBool06;
-	extern bool gUnkBool07;
-	extern bool gUnkBool08;
 	extern bool gUnkBool09;
 	extern bool gCanRemapMusic;
 	extern bool gFishSongsLoaded;
@@ -67,14 +46,10 @@ namespace Sexy
 	extern int gUpdateFramesCounter;
 	extern bool gFirstVirtualTankEnter;
 	extern int gUsersDatVersion;
-	extern int gFoodType;
 	extern int gFoodLimit;
 	extern int gUnkInt01;
 	extern FishSongData* gKilgoreSongDataPtr;
 	extern FishSongData* gTestSongDataPtr;
-	extern int gUnkInt02;
-	extern int gUnkInt05;
-	extern int gUnkInt06;
 	extern int gUnkInt03;
 	extern int gUnkInt07;
 	extern int gPetsDiedOnBossLevel;
@@ -82,17 +57,9 @@ namespace Sexy
 	extern int gUnkInt10;
 	extern int gUnkInt11;
 	extern int gLastStoryId;
-	extern int gDeadPetsIdArray[GameObject::PET_END];
+	extern int gDeadPetsIdArray[24];
 	extern int gUnkIntArray02[100];
 	extern SexyString gFishSongParseError;
-
-	extern int gWadsworthTimer;
-	extern int gWadsworthX;
-	extern int gWadsworthY;
-
-	extern bool gZombieMode;
-
-	extern Color gUnkColor01;
 
 	extern std::vector<FishSongData*> gSongsVector1;
 	extern std::vector<FishSongData*> gSongsVector2;
@@ -107,17 +74,16 @@ namespace Sexy
 
 	struct PrestoMenuData
 	{
-		MemoryImage*		mPetImages[GameObject::PET_END];
+		MemoryImage*		mPetImages[24];
 	};
 
 	struct CheatCode
 	{
 		SexyString		mCheatString;
 		uint			mCurrentIndex;
-		uint			mCurrentIndex2;
 
-		CheatCode() { mCheatString = ""; mCurrentIndex = 0; mCurrentIndex2 = 0; }
-		CheatCode(SexyString theStr) { mCheatString = theStr; mCurrentIndex = 0; mCurrentIndex2 = 0; }
+		CheatCode() { mCheatString = ""; mCurrentIndex = 0; }
+		CheatCode(SexyString theStr) { mCheatString = theStr; mCurrentIndex = 0; }
 
 		bool CheckCodeActivated(SexyChar theChar)
 		{
@@ -129,7 +95,6 @@ namespace Sexy
 				if (mCurrentIndex == mCheatString.size())
 				{
 					mCurrentIndex = 0;
-					mCurrentIndex2 = 0;
 					return true;
 				}
 			}
@@ -142,18 +107,21 @@ namespace Sexy
 		{
 			if (mCheatString.empty())
 				return false;
-			if (mCheatString[mCurrentIndex2] == theKey)
+			if (mCheatString[mCurrentIndex] == '\0')
 			{
-				mCurrentIndex2++;
-				if (mCurrentIndex2 == mCheatString.size())
+				mCurrentIndex++;
+				if (mCheatString[mCurrentIndex] == theKey)
 				{
-					mCurrentIndex = 0;
-					mCurrentIndex2 = 0;
-					return true;
+					mCurrentIndex++;
+					if (mCurrentIndex == mCheatString.size())
+					{
+						mCurrentIndex = 0;
+						return true;
+					}
 				}
+				else
+					mCurrentIndex = 0;
 			}
-			else
-				mCurrentIndex2 = 0;
 			return false;
 		}
 	};

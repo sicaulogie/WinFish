@@ -1,9 +1,4 @@
-#include "WinFishApp.h"
-
-#include "WinFishAppCommon.h"
-#include "InternetManager.h"
 #include "SexyAppFramework/SEHCatcher.h"
-
 #include "SexyAppFramework/SexyAppBase.h"
 #include "SexyAppFramework/WidgetManager.h"
 #include "SexyAppFramework/ResourceManager.h"
@@ -16,6 +11,15 @@
 #include "SexyAppFramework/Buffer.h"
 #include "SexyAppFramework/Color.h"
 
+#include "WinFishApp.h"
+#include "WinFishAppCommon.h"
+#include "InternetManager.h"
+#include "Res.h"
+
+#include "Fish.h"
+#include "Bilaterus.h"
+
+#include "Board.h"
 #include "TitleScreen.h"
 #include "HelpScreen.h"
 #include "StoreScreen.h"
@@ -29,15 +33,12 @@
 #include "TankScreen.h"
 #include "PetsScreen.h"
 #include "SimSetupScreen.h"
-#include "Res.h"
-#include "Board.h"
-#include "Bilaterus.h"
 
 #include "WorkerThread.h"
 #include "HighScoreMgr.h"
+#include "ProfileMgr.h"
+#include "FishSongMgr.h"
 
-#include <chrono>
-#include <ctime>
 #include "MoneyDialog.h"
 #include "ContinueDialog.h"
 #include "NewUserDialog.h"
@@ -51,38 +52,28 @@
 #include "FoodDialog.h"
 #include "RegisterDialog.h"
 
-#include "FishSongMgr.h"
+#include <chrono>
+#include <ctime>
 
 namespace Sexy
 {
-	int gWadsworthTimer = 0;
-	int gWadsworthX = 0, gWadsworthY = 0;
-	bool gMerylActive = false;
 	bool gUnkBool01 = false;
 	bool gDoHundredUpdates = false;
-	bool gUnkBool02 = false;
 	bool gUnkBool03 = false;
 	bool gUnkBool04 = false;
 	bool gUnkBool05 = false;
 	bool gUnkBool06 = false;
-	bool gUnkBool07 = false;
-	bool gUnkBool08 = false;
 	bool gUnkBool09 = false;
 	bool gCanRemapMusic = true;
 	bool gFishSongsLoaded = false;
 	int gUsersDatVersion = 14;
 	bool gScreenSaverStarted;
-	bool gZombieMode = false;
 	int gUpdateFramesCounter = 0;
 	bool gFirstVirtualTankEnter = false;
-	int gFoodType = 0;
 	int gFoodLimit = 1;
 	int gUnkInt01 = 0;
 	FishSongData* gKilgoreSongDataPtr = nullptr;
 	FishSongData* gTestSongDataPtr = nullptr;
-	int gUnkInt02 = 0;
-	int gUnkInt05 = 0;
-	int gUnkInt06 = 0;
 	int gUnkInt03 = 0;
 	int gUnkInt07 = 5000;
 	int gPetsDiedOnBossLevel = 0;
@@ -93,7 +84,6 @@ namespace Sexy
 	int gDeadPetsIdArray[24] = {0};
 	int gUnkIntArray02[100] = {0};
 	SexyString gFishSongParseError;
-	Color gUnkColor01 = Color(0,0,0,0);
 	std::vector<FishSongData*> gSongsVector1;
 	std::vector<FishSongData*> gSongsVector2;
 	std::vector<FishSongData*> gLudwigSongs;
@@ -117,7 +107,6 @@ void LoadFishSongs(bool flag)
 	Sexy::gSongsVector2.clear();
 	Sexy::gLudwigSongs.clear();
 	Sexy::gLongSongsMap.clear();
-	// Santa songs clear?
 
 	gKilgoreSongDataPtr = nullptr;
 	gTestSongDataPtr = nullptr;
@@ -241,7 +230,6 @@ WinFishApp::WinFishApp()
 	mHighScoreScreen = NULL;
 	mHelpScreen = NULL;
 
-	// Project started in november 2022 and was called simply Test Project
 	mProdName = "Insaniquarium";
 	
 	mTitle = StringToSexyStringFast("Insaniquarium Deluxe " + mProductVersion);
@@ -283,13 +271,13 @@ WinFishApp::WinFishApp()
 
 	mPrestoPtr = NULL;
 
-	mScreenSaverSound = true;            // 0x839
-	mScreenSaverRotateBackdrops = true;  // 0x83a
-	mScreenSaverPeriodicDim = true;      // 0x83b
-	mScreenSaverShowMoney = false;       // 0x83c
-	mScreenSaverPowerSave = false;       // 0x83e
-	mScreenSaverEnabled = false;         // 0x838
-	mScreenSaverUnk01 = false;           // 0x83d
+	mScreenSaverSound = true;
+	mScreenSaverRotateBackdrops = true;
+	mScreenSaverPeriodicDim = true;
+	mScreenSaverShowMoney = false;
+	mScreenSaverPowerSave = false;
+	mScreenSaverEnabled = false;
+	mScreenSaverUnk01 = false;
 
 	mTankGameModeChoose = 1;
 
@@ -503,8 +491,6 @@ void Sexy::WinFishApp::Init()
 					mMusicInterface->LoadMusic(4, "music/Insaniq2.mo3");
 					mMusicInterface->LoadMusic(1, "music/Alien.mo3");
 					mMusicInterface->LoadMusic(3, "music/Lullaby.mo3");
-
-					// FUN_0054b1a0
 					PlayMusic(2, 45);
 				}
 				SetCursorImage(CURSOR_POINTER, IMAGE_CURSOR_POINTER);
@@ -1046,7 +1032,7 @@ void Sexy::WinFishApp::FadeInMusic(int theSongId, int theSongOffset, double theS
 	mMusicInterface->FadeIn(theSongId, theSongOffset, theSpeed, noLoop);
 }
 
-void Sexy::WinFishApp::RemapMusicTrack(int* theSongId, int* theSongOffset) // FUN_0054b090
+void Sexy::WinFishApp::RemapMusicTrack(int* theSongId, int* theSongOffset)
 {
 	if (!gCanRemapMusic)
 		return;
@@ -1056,53 +1042,58 @@ void Sexy::WinFishApp::RemapMusicTrack(int* theSongId, int* theSongOffset) // FU
 
 	if (aOriginalSongId == 0)
 	{
-		if (aOriginalOffset == 22) // 0x16
+		if (aOriginalOffset == 22)
 		{
 			*theSongId = 4;
-			*theSongOffset = 0; // asembler postavlja ovo na originalni song id, što je 0
+			*theSongOffset = 0;
 			return;
 		}
 		if (aOriginalOffset == 0)
 		{
 			*theSongId = 4;
-			*theSongOffset = 12; // 0xc
+			*theSongOffset = 12;
 			return;
 		}
 	}
 
 	if (aOriginalSongId == 2)
 	{
-		if (aOriginalOffset == 32) { // 0x20
+		if (aOriginalOffset == 32) 
+		{
 			*theSongId = 4;
-			*theSongOffset = 25; // 0x19
+			*theSongOffset = 25;
 			return;
 		}
-		if (aOriginalOffset == 45) { // 0x2d
+		if (aOriginalOffset == 45) 
+		{
 			*theSongId = 4;
-			*theSongOffset = 37; // 0x25
+			*theSongOffset = 37;
 			return;
 		}
-		if (aOriginalOffset == 0) {
+		if (aOriginalOffset == 0) 
+		{
 			*theSongId = 4;
-			*theSongOffset = 45; // 0x2d
+			*theSongOffset = 45;
 			return;
 		}
-		if (aOriginalOffset == 54) { // 0x36
+		if (aOriginalOffset == 54) 
+		{
 			*theSongId = 4;
-			*theSongOffset = 49; // 0x31
+			*theSongOffset = 49;
 			return;
 		}
-		if (aOriginalOffset == 5) {
+		if (aOriginalOffset == 5) 
+		{
 			*theSongId = 4;
-			*theSongOffset = 50; // 0x32
+			*theSongOffset = 50;
 			return;
 		}
 	}
 
-	if ((aOriginalSongId == 0) && (aOriginalOffset == 13)) // 0xd
+	if ((aOriginalSongId == 0) && (aOriginalOffset == 13))
 	{
 		*theSongId = 4;
-		*theSongOffset = 58; // 0x3a
+		*theSongOffset = 58;
 		return;
 	}
 }
@@ -1335,9 +1326,9 @@ void Sexy::WinFishApp::ReadSSFromRegistry()
 	RegistryReadBoolean(mScreenSaverRegPath + "ShowMoney", &mScreenSaverShowMoney);
 	RegistryReadBoolean(mScreenSaverRegPath + "Powersave", &mScreenSaverPowerSave);
 
-	SexyString aPath2 = GetScreenSaverFilePath();// FUN_0054d230(local_30);
+	SexyString aPath2 = GetScreenSaverFilePath();
 	SexyString aPathToSYSSS;
-	GetSystemScreenSaverPath(aPathToSYSSS);//FUN_0054d0c0(); 0054e46b
+	GetSystemScreenSaverPath(aPathToSYSSS);
 
 	bool aPathsAreTheSame = (_stricmp(aPathToSYSSS.c_str(), aPath2.c_str()) == 0);
 
@@ -1428,7 +1419,6 @@ void Sexy::WinFishApp::GetSystemScreenSaverPath(SexyString& theDest)
 		}
 	}
 
-	//Sexy::CopyStringTo(aOutPath, aPathBuffer, strlen(aPathBuffer));
 	theDest.assign(aPathBuffer, strlen(aPathBuffer));
 }
 
@@ -2102,12 +2092,14 @@ void Sexy::WinFishApp::StartGame()
 		StartGameMusic();
 		return;
 	}
+
 	if (mGameMode == GAMEMODE_VIRTUAL_TANK)
 	{
 		mBoard->StartVirtualTank();
 		StartGameMusic();
 		return;
 	}
+
 	mBoard->StartGame();
 	StartGameMusic();
 }
@@ -2161,12 +2153,12 @@ void Sexy::WinFishApp::MakeNewUser(bool makeUser)
 				}
 				else
 				{
-					mCurrentProfile = aProf;
 					mProfileMgr->SaveUsersDat();
+					mCurrentProfile = aProf;
 					KillDialog(DIALOG_USER_DIALOG);
 					KillDialog(DIALOG_NEW_USER);
 					mWidgetManager->MarkAllDirty();
-					// BlankFunction();
+					if (mGameSelector != nullptr);
 					return;
 				}
 			}

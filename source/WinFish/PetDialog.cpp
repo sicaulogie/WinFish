@@ -1,7 +1,9 @@
-#include "PetDialog.h"
-#include "Res.h"
 #include "SexyAppFramework/DialogButton.h"
 #include "SexyAppFramework/Font.h"
+
+#include "PetDialog.h"
+#include "ProfileMgr.h"
+#include "Res.h"
 
 using namespace Sexy;
 

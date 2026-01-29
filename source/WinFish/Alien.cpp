@@ -1,9 +1,16 @@
+#include "SexyAppFramework/WidgetManager.h"
+
 #include "Alien.h"
 #include "WinFishApp.h"
 #include "Board.h"
+#include "ProfileMgr.h"
+#include "Missle.h"
+#include "Food.h"
+#include "Fish.h"
+#include "Shadow.h"
+#include "Warp.h"
 #include "Res.h"
 
-#include "SexyAppFramework/WidgetManager.h"
 
 Sexy::Alien::Alien()
 {

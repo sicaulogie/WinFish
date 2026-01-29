@@ -1,8 +1,13 @@
+#include "SexyAppFramework/WidgetManager.h"
+
 #include "Gekko.h"
 #include "WinFishApp.h"
 #include "Board.h"
+#include "Coin.h"
+#include "Larva.h"
+#include "Missle.h"
+#include "Shadow.h"
 #include "Res.h"
-#include "SexyAppFramework/WidgetManager.h"
 
 Sexy::Gekko::Gekko()
 {
@@ -126,7 +131,7 @@ void Sexy::Gekko::DropCoin()
 		{
 			mCoinDropTimer = 0;
 			if (RelaxModeCanDrop())
-				mApp->mBoard->DropCoin(mX + 5, mY + 10, Coin::COIN_PEARL, nullptr, -1.0, 0);
+				mApp->mBoard->DropCoin(mX + 5, mY + 10, CoinTypes::COIN_PEARL, nullptr, -1.0, 0);
 		}
 	}
 }

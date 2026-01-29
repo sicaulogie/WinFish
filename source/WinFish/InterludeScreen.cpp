@@ -1,11 +1,12 @@
-#include "InterludeScreen.h"
-#include "WinFishApp.h"
-#include "BubbleMgr.h"
-#include "Res.h"
-
 #include "SexyAppFramework/HyperlinkWidget.h"
 #include "SexyAppFramework/WidgetManager.h"
 #include "SexyAppFramework/Font.h"
+
+#include "InterludeScreen.h"
+#include "WinFishApp.h"
+#include "BubbleMgr.h"
+#include "ProfileMgr.h"
+#include "Res.h"
 
 bool Sexy::gInterludeBool01 = 1;
 int Sexy::gInterludeInt02 = 0;

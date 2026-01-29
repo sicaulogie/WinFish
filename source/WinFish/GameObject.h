@@ -1,11 +1,8 @@
-#ifndef _GAME_OBJECT_H_
-#define _GAME_OBJECT_H_
-
-#pragma once
+#ifndef __GAME_OBJECT_H__
+#define __GAME_OBJECT_H__
 
 #include "DataSync.h"
 #include "SexyAppFramework/Widget.h"
-#include <SexyAppFramework/Buffer.h>
 
 namespace Sexy
 {

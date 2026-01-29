@@ -1,7 +1,9 @@
+#include "SexyAppFramework/WidgetManager.h"
+
 #include "DeadFish.h"
 #include "WinFishApp.h"
 #include "Board.h"
-#include "SexyAppFramework/WidgetManager.h"
+#include "Shadow.h"
 #include "Res.h"
 
 using namespace Sexy;

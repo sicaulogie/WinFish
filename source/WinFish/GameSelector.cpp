@@ -1,10 +1,12 @@
-#include "GameSelector.h"
-#include "WinFishApp.h"
-#include "WinFishAppCommon.h"
-#include "Res.h"
 #include "SexyAppFramework/Font.h"
 #include "SexyAppFramework/WidgetManager.h"
 #include "SexyAppFramework/ButtonWidget.h"
+
+#include "GameSelector.h"
+#include "WinFishApp.h"
+#include "WinFishAppCommon.h"
+#include "ProfileMgr.h"
+#include "Res.h"
 
 Sexy::GameSelector::GameSelector(WinFishApp* theApp)
 {
@@ -96,8 +98,8 @@ Sexy::GameSelector::GameSelector(WinFishApp* theApp)
 	mPreviousHoverId = 0;
 	mHoverChangeTimer = 0;
 
-	mSandboxCheatCode = new CheatCode({ KEYCODE_UP, KEYCODE_UP ,KEYCODE_DOWN, KEYCODE_DOWN, 
-		KEYCODE_LEFT, KEYCODE_RIGHT, KEYCODE_LEFT, KEYCODE_RIGHT, 'B', 'A'});
+	mSandboxCheatCode = new CheatCode({0, KEYCODE_UP,0, KEYCODE_UP ,0,KEYCODE_DOWN, 0,KEYCODE_DOWN,
+		0,KEYCODE_LEFT, 0,KEYCODE_RIGHT, 0,KEYCODE_LEFT, 0,KEYCODE_RIGHT, 'b', 'a'});
 	mGiveCheatCode = new CheatCode("give");
 
 	mSparkleAnimTimer = 0;
@@ -353,7 +355,7 @@ void Sexy::GameSelector::KeyChar(SexyChar theChar)
 		return;
 	if (mSandboxCheatCode->CheckCodeActivated(theChar))
 		SandboxActivated();
-	if (mGiveCheatCode->CheckCodeActivated(theChar))
+	else if (mGiveCheatCode->CheckCodeActivated(theChar))
 		mApp->DoGiveDialog();
 }
 
@@ -363,7 +365,7 @@ void Sexy::GameSelector::KeyDown(KeyCode theKey)
 		return;
 	if (mSandboxCheatCode->CheckCodeActivated(theKey))
 		SandboxActivated();
-	if (mGiveCheatCode->CheckCodeActivated(theKey))
+	else if (mGiveCheatCode->CheckCodeActivated(theKey))
 		mApp->DoGiveDialog();
 }
 

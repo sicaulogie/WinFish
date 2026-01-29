@@ -1,13 +1,14 @@
-#include "BonusScreen.h"
-#include "WinFishApp.h"
-#include "WinFishAppCommon.h"
-#include "Res.h"
-#include "Board.h"
-
 #include "SexyAppFramework/WidgetManager.h"
 #include "SexyAppFramework/SoundManager.h"
 #include "SexyAppFramework/SoundInstance.h"
 #include "SexyAppFramework/Font.h"
+
+#include "BonusScreen.h"
+#include "WinFishApp.h"
+#include "WinFishAppCommon.h"
+#include "Board.h"
+#include "ProfileMgr.h"
+#include "Res.h"
 
 Sexy::BonusScreen::BonusScreen(WinFishApp* theApp)
 {

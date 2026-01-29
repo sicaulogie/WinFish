@@ -1,10 +1,20 @@
+#include "SexyAppFramework/WidgetManager.h"
+
 #include "Missle.h"
 #include "WinFishApp.h"
 #include "WinFishAppCommon.h"
 #include "Board.h"
 #include "Bilaterus.h"
 #include "BilaterusHead.h"
-#include "SexyAppFramework/WidgetManager.h"
+#include "Fish.h"
+#include "Oscar.h"
+#include "Ultra.h"
+#include "Gekko.h"
+#include "Penta.h"
+#include "Grubber.h"
+#include "Breeder.h"
+#include "OtherTypePet.h"
+#include "FishTypePet.h"
 #include "Res.h"
 
 Sexy::Missle::Missle()

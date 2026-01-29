@@ -1,8 +1,12 @@
+#include "SexyAppFramework/WidgetManager.h"
+
 #include "Grubber.h"
 #include "WinFishApp.h"
-#include "Res.h"
 #include "Board.h"
-#include "SexyAppFramework/WidgetManager.h"
+#include "Fish.h"
+#include "Missle.h"
+#include "Shadow.h"
+#include "Res.h"
 
 Sexy::Grubber::Grubber()
 {

@@ -1,42 +1,11 @@
-#pragma once
+#ifndef __BOARD_H__
+#define __BOARD_H__
 
 #include "SexyAppFramework/Widget.h"
 #include "SexyAppFramework/ButtonListener.h"
-#include "SexyAppFramework/Dialog.h"
-
-#include "WinFishApp.h"
-#include "DataSync.h"
+#include "SexyAppFramework/Color.h"
 #include "GameObject.h"
-#include "Fish.h"
-#include "DeadFish.h"
-#include "DeadAlien.h"
-#include "Oscar.h"
-#include "Food.h"
-#include "FishTypePet.h"
-#include "OtherTypePet.h"
-#include "Alien.h"
-#include "Breeder.h"
-#include "Grubber.h"
-#include "Larva.h"
-#include "Gekko.h"
-#include "Penta.h"
-#include "Ultra.h"
-#include "Shot.h"
-#include "Shadow.h"
-#include "Coin.h"
-#include "Missle.h"
-#include "Warp.h"
-#include "SylvesterFish.h"
-#include "BallFish.h"
-#include "BiFish.h"
-#include "FishSongMgr.h"
-#include "BubbleMgr.h"
-#include "Bilaterus.h"
-#include "MessageWidget.h"
-
 #include "Res.h"
-
-extern bool mBlipInTank;
 
 namespace Sexy
 {
@@ -50,11 +19,90 @@ namespace Sexy
 	class MenuButtonWidget;
 	class MyLabelWidget;
 	class StarField;
+	class DataSync;
+	class FishSongMgr;
+	class BubbleMgr;
+	class MessageWidget;
+	class CheatCode;
 
+	class Fish;
+	class DeadFish;
+	class DeadAlien;
+	class Oscar;
+	class Food;
+	class FishTypePet;
+	class OtherTypePet;
+	class Alien;
+	class Breeder;
+	class Grubber;
+	class Larva;
+	class Gekko;
+	class Penta;
+	class Ultra;
+	class Shot;
+	class Shadow;
+	class Coin;
+	class Missle;
+	class Warp;
+	class Bilaterus;
+
+	///////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////
+	extern int gUnkInt02;
+	extern int gUnkInt05;
+	extern int gUnkInt06;
+	extern bool gMerylActive;
+	extern bool gUnkBool02;
+	extern bool gZombieMode;
+	extern int gWadsworthTimer;
+	extern int gWadsworthX;
+	extern int gWadsworthY;
+	extern int gFoodType;
+	extern Color gUnkColor01;
+	extern bool gUnkBool07;
+	extern bool gUnkBool08;
+
+	///////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////
 	typedef std::vector<bool> BoolVector;
 	typedef std::vector<int> IntVector;
 	typedef std::set<GameObject*> GameObjectSet;
 
+	///////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////
+	enum SlotTypes
+	{
+		SLOT_GUPPY,
+		SLOT_BREEDER,
+		SLOT_FOODLVL,
+		SLOT_FOODLIMIT,
+		SLOT_OSCAR,
+		SLOT_POTION,
+		SLOT_STARCATCHER,
+		SLOT_GRUBBER,
+		SLOT_GEKKO,
+		SLOT_ULTRA,
+		SLOT_WEAPON,
+		SLOT_EGG,
+		SLOT_END
+	};
+
+	///////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////
+	enum CheatCodeTypes
+	{
+		CC_WAVY,
+		CC_PREGO,
+		CC_VOID,
+		CC_SPACE,
+		CC_ZOMBIE,
+		CC_BETATEST,
+		CC_SUPERMEGA,
+		CC_TIME
+	};
+
+	///////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////
 	class Board : public Widget, public ButtonListener
 	{
 	public:
@@ -116,22 +164,6 @@ namespace Sexy
 		int									mCrosshair2Y;
 		int									m0x2dc;
 		int									m0x2e0;
-		enum SlotTypes
-		{
-			SLOT_GUPPY,
-			SLOT_BREEDER,
-			SLOT_FOODLVL,
-			SLOT_FOODLIMIT,
-			SLOT_OSCAR,
-			SLOT_POTION,
-			SLOT_STARCATCHER,
-			SLOT_GRUBBER,
-			SLOT_GEKKO,
-			SLOT_ULTRA,
-			SLOT_WEAPON,
-			SLOT_EGG,
-			SLOT_END
-		};
 		int									mSlotNumber[SLOT_END];
 		int									mSlotPrices[SLOT_END];
 		int									m0x344[SLOT_END];
@@ -203,18 +235,6 @@ namespace Sexy
 		bool								mAlienAttractorShown;
 		bool								mAlwaysShowWhenHungry;
 		bool								m0x500;
-
-		enum CheatCodeTypes
-		{
-			CC_WAVY,
-			CC_PREGO,
-			CC_VOID,
-			CC_SPACE,
-			CC_ZOMBIE,
-			CC_BETATEST,
-			CC_SUPERMEGA,
-			CC_TIME
-		};
 
 	public:
 		Board(WinFishApp* theApp);
@@ -376,6 +396,8 @@ namespace Sexy
 		void					RessurectBreeder(int theX, int theY, int theSize, bool flipped);
 	};
 
+	///////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////
 	class BoardOverlay : public Widget
 	{
 	public:
@@ -389,3 +411,5 @@ namespace Sexy
 		virtual void			Draw(Graphics* g);
 	};
 }
+
+#endif //__BOARD_H__

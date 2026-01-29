@@ -1,15 +1,16 @@
-#include "HighScoreScreen.h"
-#include "WinFishApp.h"
-#include "WinFishAppCommon.h"
-#include "BubbleMgr.h"
-#include "HighScoreMgr.h"
-#include "Res.h"
-
 #include "SexyAppFramework/DialogButton.h"
 #include "SexyAppFramework/WidgetManager.h"
 #include "SexyAppFramework/Font.h"
 #include <SexyAppFramework/D3DInterface.h>
 #include <SexyAppFramework/DDInterface.h>
+
+#include "HighScoreScreen.h"
+#include "WinFishApp.h"
+#include "WinFishAppCommon.h"
+#include "BubbleMgr.h"
+#include "HighScoreMgr.h"
+#include "ProfileMgr.h"
+#include "Res.h"
 
 using namespace Sexy;
 

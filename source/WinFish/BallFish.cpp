@@ -1,9 +1,12 @@
+#include "SexyAppFramework/WidgetManager.h"
+
 #include "BallFish.h"
 #include "WinFishApp.h"
 #include "Board.h"
+#include "Missle.h"
+#include "Shadow.h"
+#include "Food.h"
 #include "Res.h"
-
-#include "SexyAppFramework/WidgetManager.h"
 
 Sexy::BallFish::BallFish()
 {

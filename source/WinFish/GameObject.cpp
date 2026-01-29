@@ -1,14 +1,22 @@
-#include "GameObject.h"
-#include "WinFishApp.h"
-#include "Board.h"
 #include <SexyAppFramework/SexyAppBase.h>
 #include <SexyAppFramework/WidgetManager.h>
 #include <SexyAppFramework/Font.h>
 #include <SexyAppFramework/MemoryImage.h>
-#include <ctime>
-#include "Food.h"
-#include "Res.h"
+
+#include "GameObject.h"
+#include "WinFishApp.h"
 #include "WinFishAppCommon.h"
+#include "Board.h"
+#include "Food.h"
+#include "Fish.h"
+#include "Missle.h"
+#include "Shadow.h"
+#include "Oscar.h"
+#include "Breeder.h"
+#include "Coin.h"
+#include "Res.h"
+
+#include <ctime>
 
 using namespace Sexy;
 

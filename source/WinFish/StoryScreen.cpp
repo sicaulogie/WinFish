@@ -1,11 +1,12 @@
+#include "SexyAppFramework/WidgetManager.h"
+#include "SexyAppFramework/Font.h"
+
 #include "StoryScreen.h"
 #include "WinFishApp.h"
 #include "WinFishAppCommon.h"
 #include "BubbleMgr.h"
+#include "ProfileMgr.h"
 #include "Res.h"
-
-#include "SexyAppFramework/WidgetManager.h"
-#include "SexyAppFramework/Font.h"
 
 const SexyString STORY_TITLES[33] = {
 	"STINKY the Snail",

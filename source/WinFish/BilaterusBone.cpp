@@ -3,6 +3,7 @@
 #include "BilaterusHead.h"
 #include "WinFishApp.h"
 #include "Board.h"
+#include "Fish.h"
 #include "Res.h"
 
 Sexy::BilaterusBone::BilaterusBone(Bilaterus* theBilaterus, int theX, int theY, int theBoneId)

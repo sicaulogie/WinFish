@@ -1,6 +1,7 @@
 #include "BoxingGlove.h"
 #include "WinFishApp.h"
 #include "Board.h"
+#include "FishSongMgr.h"
 #include "Res.h"
 
 Sexy::BoxingGlove::BoxingGlove(FishTypePet* theWalter, bool right)

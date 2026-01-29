@@ -1,8 +1,11 @@
+#include "SexyAppFramework/WidgetManager.h"
+
 #include "Penta.h"
 #include "WinFishApp.h"
 #include "Board.h"
+#include "Shadow.h"
+#include "Missle.h"
 #include "Res.h"
-#include "SexyAppFramework/WidgetManager.h"
 
 Sexy::Penta::Penta()
 {

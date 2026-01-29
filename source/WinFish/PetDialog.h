@@ -10,8 +10,8 @@ namespace Sexy
 	public:
 		int m0x158;
 		int m0x15c;
-		Rect mRects[GameObject::PET_END];
-		bool mPetsUnlocked[GameObject::PET_END];
+		Rect mRects[24];
+		bool mPetsUnlocked[24];
 
 	public:
 		PetDialog(WinFishApp* theApp);

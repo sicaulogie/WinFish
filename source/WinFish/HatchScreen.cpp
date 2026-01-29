@@ -1,9 +1,11 @@
-#include "HatchScreen.h"
-#include "WinFishAppCommon.h"
-#include "Res.h"
 #include "SexyAppFramework/DialogButton.h"
 #include "SexyAppFramework/WidgetManager.h"
 #include "SexyAppFramework/Font.h"
+
+#include "HatchScreen.h"
+#include "WinFishAppCommon.h"
+#include "ProfileMgr.h"
+#include "Res.h"
 
 Sexy::HatchScreen::HatchScreen(WinFishApp* theApp, int thePetId)
 {

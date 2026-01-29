@@ -1,9 +1,14 @@
+#include "SexyAppFramework/WidgetManager.h"
+
 #include "Breeder.h"
 #include "WinFishApp.h"
 #include "Board.h"
+#include "FishTypePet.h"
+#include "Shadow.h"
+#include "Food.h"
+#include "Alien.h"
+#include "Missle.h"
 #include "Res.h"
-
-#include "SexyAppFramework/WidgetManager.h"
 
 #include <time.h>
 
@@ -579,7 +584,7 @@ void Sexy::Breeder::OnFoodAte(Food* theFood)
 			m0x1d0 = 900;
 			if (mApp->mGameMode != WinFishApp::GAMEMODE_VIRTUAL_TANK)
 				m0x1a8 = mApp->mSeed->Next() % 5 + 5;
-			mApp->mBoard->MakeAndUnlockMenuButton(Board::SLOT_BREEDER, true);
+			mApp->mBoard->MakeAndUnlockMenuButton(SlotTypes::SLOT_BREEDER, true);
 		}
 		if (mSize == SIZE_LARGE)
 		{
@@ -587,7 +592,7 @@ void Sexy::Breeder::OnFoodAte(Food* theFood)
 				m0x1d0 = 0;
 			m0x1d4 = mApp->mSeed->Next() % 200 + 500;
 			if(mApp->mGameMode == WinFishApp::GAMEMODE_TIME_TRIAL)
-				mApp->mBoard->MakeAndUnlockMenuButton(Board::SLOT_EGG, true);
+				mApp->mBoard->MakeAndUnlockMenuButton(SlotTypes::SLOT_EGG, true);
 		}
 		m0x1a4 = 0;
 		mGrowthAnimationTimer = 10;

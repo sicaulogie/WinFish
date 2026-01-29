@@ -1,7 +1,5 @@
-#ifndef __Fish_H__
-#define __Fish_H__
-
-#pragma once
+#ifndef __FISH_H__
+#define __FISH_H__
 
 #include "GameObject.h"
 

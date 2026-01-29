@@ -1,7 +1,12 @@
+#include "SexyAppFramework/WidgetManager.h"
+
 #include "Ultra.h"
 #include "WinFishApp.h"
-#include "SexyAppFramework/WidgetManager.h"
 #include "Board.h"
+#include "FishSongMgr.h"
+#include "Oscar.h"
+#include "Missle.h"
+#include "Shadow.h"
 #include "Res.h"
 
 Sexy::Ultra::Ultra()

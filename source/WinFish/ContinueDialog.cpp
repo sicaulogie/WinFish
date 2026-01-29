@@ -1,7 +1,9 @@
-#include "ContinueDialog.h"
-#include "WinFishAppCommon.h"
 #include "SexyAppFramework/WidgetManager.h"
 #include "SexyAppFramework/DialogButton.h"
+
+#include "ContinueDialog.h"
+#include "WinFishAppCommon.h"
+#include "ProfileMgr.h"
 #include "Res.h"
 
 using namespace Sexy;

@@ -1,7 +1,16 @@
+#include "SexyAppFramework/WidgetManager.h"
+
 #include "Fish.h"
 #include "WinFishApp.h"
 #include "Board.h"
-#include "SexyAppFramework/WidgetManager.h"
+#include "ProfileMgr.h"
+#include "FishTypePet.h"
+#include "Shadow.h"
+#include "Food.h"
+#include "Alien.h"
+#include "Coin.h"
+#include "MessageWidget.h"
+#include "Missle.h"
 #include "Res.h"
 
 using namespace Sexy;
@@ -1310,9 +1319,9 @@ void Fish::DropCoin()
         {
             aCoinType = mSize;
             if (mSize == GameObject::TYPE_MEDIUM_GUPPY)
-                aCoinType = Coin::COIN_SILVER_C;
+                aCoinType = CoinTypes::COIN_SILVER_C;
             else if (mSize == GameObject::TYPE_BIG_GUPPY)
-                aCoinType = Coin::COIN_GOLD_C;
+                aCoinType = CoinTypes::COIN_GOLD_C;
             if (!mVirtualFish)
             {
                 if (mSize < 1)
@@ -1654,9 +1663,9 @@ void Sexy::Fish::FishOnGrow()
     int aFinishedGame = mApp->mCurrentProfile->mFinishedGame;
     if (mSize == 1)
     {
-        if (!aBoard->mSlotUnlocked[Board::SLOT_GUPPY])
+        if (!aBoard->mSlotUnlocked[SlotTypes::SLOT_GUPPY])
         {
-            aBoard->MakeAndUnlockMenuButton(Board::SLOT_GUPPY, true);
+            aBoard->MakeAndUnlockMenuButton(SlotTypes::SLOT_GUPPY, true);
             if (aTank == 1 && aLevel == 1 && !aFinishedGame)
             {
                 aBoard->m0x4b0[2] = true;
@@ -1671,14 +1680,14 @@ void Sexy::Fish::FishOnGrow()
     else if (mSize == 2) // 33
     {
         if (mApp->mGameMode == WinFishApp::GAMEMODE_TIME_TRIAL)
-            aBoard->MakeAndUnlockMenuButton(Board::SLOT_EGG, true);
+            aBoard->MakeAndUnlockMenuButton(SlotTypes::SLOT_EGG, true);
         if (aTank == 1)
         {
             if (aLevel == 1)
             {
-                if (!aBoard->mSlotUnlocked[Board::SLOT_EGG])
+                if (!aBoard->mSlotUnlocked[SlotTypes::SLOT_EGG])
                 {
-                    aBoard->MakeAndUnlockMenuButton(Board::SLOT_EGG, true);
+                    aBoard->MakeAndUnlockMenuButton(SlotTypes::SLOT_EGG, true);
                     aBoard->m0x4b0[2] = false;
                     aBoard->m0x4b0[40] = true;
                     if (!aFinishedGame && aBoard->mMessageWidget->m0xd0 < 1)
@@ -1690,47 +1699,47 @@ void Sexy::Fish::FishOnGrow()
             }
             else if (aLevel == 2)
             {
-                if (!aBoard->mSlotUnlocked[Board::SLOT_FOODLVL])
+                if (!aBoard->mSlotUnlocked[SlotTypes::SLOT_FOODLVL])
                 {
                     aBoard->m0x4b0[15] = true;
                     if (!aFinishedGame)
                         aBoard->ShowText("Upgrade Food Quality to make food more nourishing!", false, 11);
-                    aBoard->MakeAndUnlockMenuButton(Board::SLOT_FOODLVL, true);
+                    aBoard->MakeAndUnlockMenuButton(SlotTypes::SLOT_FOODLVL, true);
                     return;
                 }
             }
             else
             { //53
-                aBoard->MakeAndUnlockMenuButton(Board::SLOT_FOODLVL, true);
-                aBoard->MakeAndUnlockMenuButton(Board::SLOT_FOODLIMIT, true);
-                aBoard->MakeAndUnlockMenuButton(Board::SLOT_OSCAR, true);
+                aBoard->MakeAndUnlockMenuButton(SlotTypes::SLOT_FOODLVL, true);
+                aBoard->MakeAndUnlockMenuButton(SlotTypes::SLOT_FOODLIMIT, true);
+                aBoard->MakeAndUnlockMenuButton(SlotTypes::SLOT_OSCAR, true);
             }
         }
         else if (aTank == 2)
         {
-            aBoard->MakeAndUnlockMenuButton(Board::SLOT_FOODLVL, true);
-            aBoard->MakeAndUnlockMenuButton(Board::SLOT_FOODLIMIT, true);
-            aBoard->MakeAndUnlockMenuButton(Board::SLOT_POTION, true);
+            aBoard->MakeAndUnlockMenuButton(SlotTypes::SLOT_FOODLVL, true);
+            aBoard->MakeAndUnlockMenuButton(SlotTypes::SLOT_FOODLIMIT, true);
+            aBoard->MakeAndUnlockMenuButton(SlotTypes::SLOT_POTION, true);
             if (aLevel == 1)
             {
-                aBoard->MakeAndUnlockMenuButton(Board::SLOT_EGG, true);
+                aBoard->MakeAndUnlockMenuButton(SlotTypes::SLOT_EGG, true);
                 return;
             }
-            aBoard->MakeAndUnlockMenuButton(Board::SLOT_STARCATCHER, true);
+            aBoard->MakeAndUnlockMenuButton(SlotTypes::SLOT_STARCATCHER, true);
             return;
         }
         else if (aTank == 3)
         {
-            aBoard->MakeAndUnlockMenuButton(Board::SLOT_FOODLVL, true);
-            aBoard->MakeAndUnlockMenuButton(Board::SLOT_FOODLIMIT, true);
-            aBoard->MakeAndUnlockMenuButton(Board::SLOT_GRUBBER, true);
+            aBoard->MakeAndUnlockMenuButton(SlotTypes::SLOT_FOODLVL, true);
+            aBoard->MakeAndUnlockMenuButton(SlotTypes::SLOT_FOODLIMIT, true);
+            aBoard->MakeAndUnlockMenuButton(SlotTypes::SLOT_GRUBBER, true);
             return;
         }
         else if (aTank == 4)
         {
-            aBoard->MakeAndUnlockMenuButton(Board::SLOT_FOODLVL, true);
-            aBoard->MakeAndUnlockMenuButton(Board::SLOT_FOODLIMIT, true);
-            aBoard->MakeAndUnlockMenuButton(Board::SLOT_OSCAR, true);
+            aBoard->MakeAndUnlockMenuButton(SlotTypes::SLOT_FOODLVL, true);
+            aBoard->MakeAndUnlockMenuButton(SlotTypes::SLOT_FOODLIMIT, true);
+            aBoard->MakeAndUnlockMenuButton(SlotTypes::SLOT_OSCAR, true);
             return;
         }
     }

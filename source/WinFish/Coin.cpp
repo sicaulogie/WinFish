@@ -1,11 +1,22 @@
+#include "SexyAppFramework/WidgetManager.h"
+#include "SexyAppFramework/Font.h"
+
 #include "Coin.h"
 #include "WinFishApp.h"
 #include "Board.h"
-#include "Res.h"
-#include "BilaterusHead.h"
+#include "Fish.h"
+#include "Oscar.h"
+#include "Ultra.h"
+#include "Gekko.h"
+#include "Penta.h"
+#include "Grubber.h"
+#include "Breeder.h"
 #include "OtherTypePet.h"
-#include "SexyAppFramework/WidgetManager.h"
-#include "SexyAppFramework/Font.h"
+#include "Alien.h"
+#include "Bilaterus.h"
+#include "BilaterusHead.h"
+#include "Missle.h"
+#include "Res.h"
 
 using namespace Sexy;
 

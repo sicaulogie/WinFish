@@ -1,9 +1,11 @@
-#include "PetsScreen.h"
-#include "Board.h"
-#include "WinFishAppCommon.h"
 #include "SexyAppFramework/MemoryImage.h"
 #include "SexyAppFramework/WidgetManager.h"
 #include "SexyAppFramework/Font.h"
+
+#include "PetsScreen.h"
+#include "Board.h"
+#include "WinFishAppCommon.h"
+#include "ProfileMgr.h"
 #include "Res.h"
 
 using namespace Sexy;

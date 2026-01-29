@@ -1,11 +1,14 @@
+#include "SexyAppFramework/WidgetManager.h"
+#include "SexyAppFramework/Font.h"
+
 #include "SimFishScreen.h"
 #include "WinFishApp.h"
 #include "WinFishAppCommon.h"
 #include "Board.h"
+#include "ProfileMgr.h"
+#include "Fish.h"
+#include "Food.h"
 #include "Res.h"
-
-#include "SexyAppFramework/WidgetManager.h"
-#include "SexyAppFramework/Font.h"
 
 #include <time.h>
 

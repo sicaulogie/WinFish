@@ -1,9 +1,16 @@
+#include "SexyAppFramework/WidgetManager.h"
+
 #include "FishTypePet.h"
 #include "WinFishApp.h"
 #include "Board.h"
-#include "Res.h"
 #include "BilaterusHead.h"
-#include "SexyAppFramework/WidgetManager.h"
+#include "Shadow.h"
+#include "Missle.h"
+#include "Coin.h"
+#include "Breeder.h"
+#include "DeadFish.h"
+#include "Food.h"
+#include "Res.h"
 
 const int gConst01 = 360;
 
@@ -139,7 +146,7 @@ void Sexy::FishTypePet::Update()
 		&& (!m0x230 || mUpdateCnt > 720))
 	{
 		aBoard->PlaySample(SOUND_SONAR_ID, 3, 1.0);
-		for (int i = 0; i < Board::SLOT_END; i++)
+		for (int i = 0; i < SlotTypes::SLOT_END; i++)
 			aBoard->MakeAndUnlockMenuButton(i, true);
 	}
 
@@ -552,7 +559,7 @@ void Sexy::FishTypePet::DropCoin()
 		if (mCoinDropTimer >= mCoinDropT)
 		{
 			mCoinDropTimer = 0;
-			mApp->mBoard->DropCoin(mX + 15, mY + 10, Coin::COIN_SHRAPNEL_BOMB, nullptr, -1.0, 0);
+			mApp->mBoard->DropCoin(mX + 15, mY + 10, CoinTypes::COIN_SHRAPNEL_BOMB, nullptr, -1.0, 0);
 			mApp->mBoard->PlaySample(SOUND_UNLEASH_ID, 3, 1.0);
 		}
 	}

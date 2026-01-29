@@ -1,13 +1,14 @@
+#include "SexyAppFramework/WidgetManager.h"
+
 #include "Bilaterus.h"
 #include "BilaterusHead.h"
 #include "BilaterusBone.h"
+#include "WinFishApp.h"
 #include "Board.h"
+#include "Warp.h"
+#include "Missle.h"
+#include "Shadow.h"
 #include "Res.h"
-
-#include "SexyAppFramework/WidgetManager.h"
-
-#define SPINE_FOLLOW_RESPONSE_TIME 15
-#define SPINE_SPEED_CHANGE_RESPONSE 0.05
 
 using namespace Sexy;
 

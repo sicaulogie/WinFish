@@ -1,5 +1,3 @@
-#include "Board.h"
-
 #include "SexyAppFramework/ButtonWidget.h"
 #include "SexyAppFramework/WidgetManager.h"
 #include "SexyAppFramework/SexyMatrix.h"
@@ -14,18 +12,61 @@
 
 #include "ImageLib/ImageLib.h"
 
-#include "Res.h"
+#include "Board.h"
+#include "WinFishApp.h"
 #include "Bilaterus.h"
 #include "BilaterusHead.h"
 #include "MenuButtonWidget.h"
 #include "StarField.h"
 #include "MyLabelWidget.h"
-
 #include "WinFishAppCommon.h"
 #include "HighScoreMgr.h"
+#include "ProfileMgr.h"
+#include "BubbleMgr.h"
+#include "MessageWidget.h"
+#include "Res.h"
+
+#include "Fish.h"
+#include "Oscar.h"
+#include "Grubber.h"
+#include "Penta.h"
+#include "Gekko.h"
+#include "Ultra.h"
+#include "Breeder.h"
+#include "Coin.h"
+#include "Food.h"
+#include "Missle.h"
+#include "OtherTypePet.h"
+#include "FishTypePet.h"
+#include "Alien.h"
+#include "DeadFish.h"
+#include "DeadAlien.h"
+#include "Warp.h"
+#include "Shot.h"
+#include "Larva.h"
+#include "Shadow.h"
+#include "SylvesterFish.h"
+#include "BallFish.h"
+#include "BiFish.h"
 
 #include <chrono>
 #include <ctime>
+
+namespace Sexy
+{
+	int gUnkInt02 = 0;
+	int gUnkInt05 = 0;
+	int gUnkInt06 = 0;
+	bool gMerylActive = false;
+	bool gUnkBool02 = false;
+	bool gZombieMode = false;
+	int gWadsworthTimer = 0;
+	int gWadsworthX = 0, gWadsworthY = 0;
+	int gFoodType = 0;
+	Color gUnkColor01 = Color(0, 0, 0, 0);
+	bool gUnkBool07 = false;
+	bool gUnkBool08 = false;
+}
 
 using namespace Sexy;
 
@@ -1262,6 +1303,7 @@ void Board::DrawOverlay(Graphics* g, int thePriority)
 	else if (thePriority == 1)
 		DrawOverlay1(g);
 }
+
 void Sexy::Board::KeyChar(SexyChar theChar)
 {
 	if (mApp->mGameMode == WinFishApp::GAMEMODE_SANDBOX)
@@ -4971,7 +5013,7 @@ void Sexy::Board::ResetMessageWidget(int unk)
 
 void Sexy::Board::MakeNote(int theX, int theY, int unk, const SexyString& theText)
 {
-	Coin* aCoin = new Coin(theX, theY, Coin::COIN_NOTE, nullptr, -1.0);
+	Coin* aCoin = new Coin(theX, theY, CoinTypes::COIN_NOTE, nullptr, -1.0);
 	aCoin->m0x1a0 = unk;
 	aCoin->m0x1a4 = theText;
 	AddGameObject(aCoin);

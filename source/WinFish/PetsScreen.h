@@ -25,9 +25,9 @@ namespace Sexy
 		DialogButton* mReturnButton;
 		DialogButton* mMenuButton;
 		PetScreenOverlay* mOverlay;
-		PetButtonWidget* mPetButtons[GameObject::PET_END];
+		PetButtonWidget* mPetButtons[24];
 		MemoryImage* mBackgroundImage;
-		bool m0x100[GameObject::PET_END];
+		bool m0x100[24];
 		int m0x118;
 		int m0x11c;
 		int m0x120;

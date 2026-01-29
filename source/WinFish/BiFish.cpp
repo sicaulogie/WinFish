@@ -1,9 +1,11 @@
+#include "SexyAppFramework/WidgetManager.h"
+
 #include "BiFish.h"
 #include "WinFishApp.h"
-#include "Res.h"
 #include "Board.h"
-
-#include "SexyAppFramework/WidgetManager.h"
+#include "Missle.h"
+#include "Shadow.h"
+#include "Res.h"
 
 Sexy::BiFish::BiFish()
 {

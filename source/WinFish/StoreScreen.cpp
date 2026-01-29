@@ -1,11 +1,25 @@
+#include "SexyAppFramework/Font.h"
+#include "SexyAppFramework/WidgetManager.h"
+
 #include "StoreScreen.h"
 #include "WinFishApp.h"
 #include "WinFishAppCommon.h"
-#include "Res.h"
 #include "Board.h"
 #include "MyLabelWidget.h"
-#include "SexyAppFramework/Font.h"
-#include "SexyAppFramework/WidgetManager.h"
+#include "ProfileMgr.h"
+#include "Fish.h"
+#include "Oscar.h"
+#include "Ultra.h"
+#include "Gekko.h"
+#include "Penta.h"
+#include "Grubber.h"
+#include "Breeder.h"
+#include "SylvesterFish.h"
+#include "BallFish.h"
+#include "BiFish.h"
+#include "Food.h"
+#include "Res.h"
+
 #include <ctime>
 
 Sexy::StoreScreen::StoreScreen(WinFishApp* theApp)
