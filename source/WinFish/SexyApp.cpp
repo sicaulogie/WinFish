@@ -1,8 +1,8 @@
+#include <SexyAppFramework\SEHCatcher.h>
+
 #include "SexyApp.h"
 #include "InternetManager.h"
 #include "BetaSupport.h"
-
-#include "SexyAppFramework\SEHCatcher.h"
 
 #include <time.h>
 #include <fstream>

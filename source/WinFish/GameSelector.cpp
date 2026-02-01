@@ -1,10 +1,11 @@
-#include "SexyAppFramework/Font.h"
-#include "SexyAppFramework/WidgetManager.h"
-#include "SexyAppFramework/ButtonWidget.h"
+#include <SexyAppFramework/Font.h>
+#include <SexyAppFramework/WidgetManager.h>
+#include <SexyAppFramework/ButtonWidget.h>
+#include <SexyAppFramework/DialogButton.h>
 
 #include "GameSelector.h"
 #include "WinFishApp.h"
-#include "WinFishAppCommon.h"
+#include "WinFishCommon.h"
 #include "ProfileMgr.h"
 #include "Res.h"
 
@@ -379,13 +380,13 @@ void Sexy::GameSelector::ButtonDepress(int theId)
 	mApp->mRelaxMode = false;
 	if (theId == 1)
 	{
-		mApp->mGameMode = WinFishApp::GAMEMODE_ADVENTURE;
+		mApp->mGameMode = GAMEMODE_ADVENTURE;
 		mApp->RemoveGameSelector();
 		mApp->SwitchToBoard(true, true);
 	}
 	else if (theId == 2)
 	{
-		mApp->mGameMode = WinFishApp::GAMEMODE_VIRTUAL_TANK;
+		mApp->mGameMode = GAMEMODE_VIRTUAL_TANK;
 		mApp->RemoveGameSelector();
 		mApp->SwitchToBoard(true, true);
 	}
@@ -413,7 +414,7 @@ void Sexy::GameSelector::ButtonDepress(int theId)
 			mApp->DoDialog(14, true, "Not Yet!", "You\'ll need to complete a tank in Adventure Mode before this option becomes available.", "OK", Dialog::BUTTONS_FOOTER);
 			return;
 		}
-		mApp->mGameMode = WinFishApp::GAMEMODE_TIME_TRIAL;
+		mApp->mGameMode = GAMEMODE_TIME_TRIAL;
 		mApp->RemoveGameSelector();
 		if (mApp->LoadBoardGame())
 			return;
@@ -426,7 +427,7 @@ void Sexy::GameSelector::ButtonDepress(int theId)
 			mApp->DoDialog(14, true, "Not Yet!", "You\'ll need to beat Adventure Mode before this option becomes available.", "OK", Dialog::BUTTONS_FOOTER);
 			return;
 		}
-		mApp->mGameMode = WinFishApp::GAMEMODE_CHALLENGE;
+		mApp->mGameMode = GAMEMODE_CHALLENGE;
 		mApp->RemoveGameSelector();
 		if (mApp->LoadBoardGame())
 			return;
@@ -589,7 +590,7 @@ void Sexy::GameSelector::SandboxActivated()
 	if (!aProf || aProf->mBonusItemId <= 5)
 		return;
 
-	mApp->mGameMode = WinFishApp::GAMEMODE_SANDBOX;
+	mApp->mGameMode = GAMEMODE_SANDBOX;
 	if (aProf->m0xb4 < 11)
 		aProf->m0xb4 = 11;
 	mApp->RemoveGameSelector();

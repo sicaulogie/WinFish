@@ -1,10 +1,12 @@
-#pragma once
+#ifndef __VIRTUALDIALOG_H__
+#define __VIRTUALDIALOG_H__
 
 #include "MoneyDialog.h"
-#include "BubbleMgr.h"
 
 namespace Sexy
 {
+	class BubbleMgr;
+
 	class VirtualDialog : public MoneyDialog, public ButtonListener
 	{
 	public:
@@ -20,3 +22,5 @@ namespace Sexy
 		virtual void			Resize(int theX, int theY, int theWidth, int theHeight);
 	};
 }
+
+#endif

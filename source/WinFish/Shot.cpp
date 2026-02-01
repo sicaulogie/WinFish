@@ -1,8 +1,9 @@
+#include <SexyAppFramework/WidgetManager.h>
+
 #include "Shot.h"
 #include "WinFishApp.h"
 #include "Board.h"
 #include "Res.h"
-#include "SexyAppFramework/WidgetManager.h"
 
 using namespace Sexy;
 

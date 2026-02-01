@@ -1,22 +1,16 @@
-#pragma once
-#include "SexyAppFramework/Widget.h"
-#include "SexyAppFramework/ButtonListener.h"
-#include "SexyAppFramework/DialogButton.h"
-#include "WinFishApp.h"
-#include "PetButtonWidget.h"
+#ifndef __PETSSCREEN_H__
+#define __PETSSCREEN_H__
+
+#include <SexyAppFramework/Widget.h>
+#include <SexyAppFramework/ButtonListener.h>
 
 namespace Sexy
 {
+	class WinFishApp;
 	class MemoryImage;
-	class PetScreenOverlay : public Widget
-	{
-	public:
-		PetsScreen* mScreen;
-
-	public:
-		virtual void			Draw(Graphics* g);
-
-	};
+	class PetButtonWidget;
+	class DialogButton;
+	class PetScreenOverlay;
 
 	class PetsScreen : public Widget, public ButtonListener
 	{
@@ -55,5 +49,16 @@ namespace Sexy
 
 		void					DrawPetInfo(Graphics* g, int thePetId, int theAlpha);
 	};
+
+	class PetScreenOverlay : public Widget
+	{
+	public:
+		PetsScreen* mScreen;
+
+	public:
+		virtual void			Draw(Graphics* g);
+
+	};
 }
 
+#endif

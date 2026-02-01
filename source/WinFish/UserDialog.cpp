@@ -1,9 +1,11 @@
-#include "SexyAppFramework/ScrollbarWidget.h"
-#include "SexyAppFramework/DialogButton.h"
-#include "SexyAppFramework/WidgetManager.h"
+#include <SexyAppFramework/ScrollbarWidget.h>
+#include <SexyAppFramework/DialogButton.h>
+#include <SexyAppFramework/WidgetManager.h>
+#include <SexyAppFramework/ListWidget.h>
 
 #include "UserDialog.h"
-#include "WinFishAppCommon.h"
+#include "WinFishApp.h"
+#include "WinFishCommon.h"
 #include "ProfileMgr.h"
 #include "Res.h"
 

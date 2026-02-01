@@ -1,12 +1,12 @@
-#include "SexyAppFramework/DialogButton.h"
-#include "SexyAppFramework/WidgetManager.h"
-#include "SexyAppFramework/Font.h"
+#include <SexyAppFramework/DialogButton.h>
+#include <SexyAppFramework/WidgetManager.h>
+#include <SexyAppFramework/Font.h>
 #include <SexyAppFramework/D3DInterface.h>
 #include <SexyAppFramework/DDInterface.h>
 
 #include "HighScoreScreen.h"
 #include "WinFishApp.h"
-#include "WinFishAppCommon.h"
+#include "WinFishCommon.h"
 #include "BubbleMgr.h"
 #include "HighScoreMgr.h"
 #include "ProfileMgr.h"

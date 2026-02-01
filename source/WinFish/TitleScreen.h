@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __TITLESCREEN_H__
+#define __TITLESCREEN_H__
 
 #include "SexyAppFramework/Widget.h"
 #include "SexyAppFramework/ButtonListener.h"
@@ -48,4 +49,4 @@ namespace Sexy
 	};
 }
 
-
+#endif

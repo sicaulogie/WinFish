@@ -1,8 +1,9 @@
-#include "FishSongMgr.h"
-#include "WinFishApp.h"
-#include "SexyAppFramework/Common.h"
+#include <SexyAppFramework/Common.h>
 #include <SexyAppFramework/SoundManager.h>
 #include <SexyAppFramework/SoundInstance.h>
+
+#include "FishSongMgr.h"
+#include "WinFishApp.h"
 
 using namespace Sexy;
 

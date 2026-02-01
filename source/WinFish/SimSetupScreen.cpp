@@ -1,8 +1,9 @@
-#include "SexyAppFramework/WidgetManager.h"
-#include "SexyAppFramework/Font.h"
+#include <SexyAppFramework/WidgetManager.h>
+#include <SexyAppFramework/Font.h>
+#include <SexyAppFramework/DialogButton.h>
 
 #include "SimSetupScreen.h"
-#include "WinFishAppCommon.h"
+#include "WinFishCommon.h"
 #include "WinFishApp.h"
 #include "Board.h"
 #include "ProfileMgr.h"
@@ -241,7 +242,7 @@ void Sexy::SimSetupScreen::ButtonDepress(int theId)
 		}
 		if (aNumOfBackdrops == 1)
 		{
-			mApp->DoDialog(WinFishApp::DIALOG_INFO, true, "Not Allowed", "You are not allowed to sell your only backdrop!", "OK", Dialog::BUTTONS_FOOTER);
+			mApp->DoDialog(DIALOG_INFO, true, "Not Allowed", "You are not allowed to sell your only backdrop!", "OK", Dialog::BUTTONS_FOOTER);
 		}
 		else
 		{
@@ -260,12 +261,12 @@ void Sexy::SimSetupScreen::CheckboxChecked(int theId, bool checked)
 	m0x9c = true;
 	if (theId == 4 && checked && mApp->mCurrentProfile->mBubbulatorBought == 0)
 	{
-		mApp->DoDialog(WinFishApp::DIALOG_INFO, true, "Unavailable", "You must buy the bubbulator in order to use this option.", "OK", Dialog::BUTTONS_FOOTER);
+		mApp->DoDialog(DIALOG_INFO, true, "Unavailable", "You must buy the bubbulator in order to use this option.", "OK", Dialog::BUTTONS_FOOTER);
 		mBubbulatorCB->mChecked = false;
 	}
 	else if (theId == 5 && checked && mApp->mCurrentProfile->mAlienAttractorBought == 0)
 	{
-		mApp->DoDialog(WinFishApp::DIALOG_INFO, true, "Unavailable", "You must buy the alien attractor in order to use this option.", "OK", Dialog::BUTTONS_FOOTER);
+		mApp->DoDialog(DIALOG_INFO, true, "Unavailable", "You must buy the alien attractor in order to use this option.", "OK", Dialog::BUTTONS_FOOTER);
 		mAttractorCB->mChecked = false;
 	}
 }

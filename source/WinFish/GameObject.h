@@ -16,6 +16,96 @@ namespace Sexy
 	class Breeder;
 	class Coin;
 
+	///////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////
+	enum PreNamedFishTypes
+	{
+		ROCKY,
+		LUDWIG,
+		COOKIE,
+		JOHNNYV,
+		KILGORE,
+		SANTA
+	};
+
+	///////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////
+	enum GameObjectTypes
+	{
+		TYPE_DEFAULT = -1,
+		TYPE_GUPPY,
+		TYPE_MEDIUM_GUPPY,
+		TYPE_BIG_GUPPY,
+		TYPE_STAR_GUPPY,
+		TYPE_CROWNED_GUPPY,
+		TYPE_OSCAR,
+		TYPE_ULTRA,
+		TYPE_GEKKO,
+		TYPE_PENTA,
+		TYPE_GRUBBER,
+		TYPE_BREEDER,
+		TYPE_MEDIUM_BREEDER,
+		TYPE_BIG_BREEDER,
+		TYPE_OTHER_TYPE_PET = 20,
+		TYPE_FISH_TYPE_PET,
+		TYPE_ALIEN,
+		TYPE_BILATERUS,
+		TYPE_COIN = 25,
+		TYPE_DEAD_ALIEN,
+		TYPE_DEAD_FISH,
+		TYPE_FOOD,
+		TYPE_LARVA,
+		TYPE_MISSLE,
+		TYPE_SHADOW,
+		TYPE_SHOT,
+		TYPE_WARP,
+		TYPE_SYLVESTER_FISH,
+		TYPE_BALL_FISH,
+		TYPE_BI_FISH,
+	};
+
+	///////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////
+	enum PetTypes
+	{
+		PET_STINKY,
+		PET_NIKO,
+		PET_ITCHY,
+		PET_PREGO,
+		PET_ZORF,
+		PET_CLYDE,
+		PET_VERT,
+		PET_RUFUS,
+		PET_MERYL,
+		PET_WADSWORTH,
+		PET_SEYMOUR,
+		PET_SHRAPNEL,
+		PET_GUMBO,
+		PET_BLIP,
+		PET_RHUBARB,
+		PET_NIMBUS,
+		PET_AMP,
+		PET_GASH,
+		PET_ANGIE,
+		PET_PRESTO,
+		PET_BRINKLEY,
+		PET_NOSTRADAMUS,
+		PET_STANLEY,
+		PET_WALTER,
+		PET_END
+	};
+
+	///////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////
+	enum FishSizes
+	{
+		SIZE_SMALL,
+		SIZE_MEDIUM,
+		SIZE_LARGE,
+		SIZE_STAR,
+		SIZE_CROWNED
+	};
+
 	class GameObject : public Widget
 	{
 	public:
@@ -60,90 +150,6 @@ namespace Sexy
 		int					mTimesFedToday;
 		int					mMentalState;
 		int					m0x150;
-
-		/////////////////////////////////////////////////////////////////////
-
-		enum PreNamedFishTypes
-		{
-			ROCKY,
-			LUDWIG,
-			COOKIE,
-			JOHNNYV,
-			KILGORE,
-			SANTA
-		};
-
-		enum GameObjectTypes
-		{
-			TYPE_DEFAULT = -1,
-			TYPE_GUPPY,
-			TYPE_MEDIUM_GUPPY,
-			TYPE_BIG_GUPPY,
-			TYPE_STAR_GUPPY,
-			TYPE_CROWNED_GUPPY,
-			TYPE_OSCAR,
-			TYPE_ULTRA,
-			TYPE_GEKKO,
-			TYPE_PENTA,
-			TYPE_GRUBBER,
-			TYPE_BREEDER,
-			TYPE_MEDIUM_BREEDER,
-			TYPE_BIG_BREEDER,
-			TYPE_OTHER_TYPE_PET = 20,
-			TYPE_FISH_TYPE_PET,
-			TYPE_ALIEN,
-			TYPE_BILATERUS,
-			TYPE_COIN = 25,
-			TYPE_DEAD_ALIEN,
-			TYPE_DEAD_FISH,
-			TYPE_FOOD,
-			TYPE_LARVA,
-			TYPE_MISSLE,
-			TYPE_SHADOW,
-			TYPE_SHOT,
-			TYPE_WARP,
-			TYPE_SYLVESTER_FISH,
-			TYPE_BALL_FISH,
-			TYPE_BI_FISH,
-		};
-
-		enum PetTypes
-		{
-			PET_STINKY,
-			PET_NIKO,
-			PET_ITCHY,
-			PET_PREGO,
-			PET_ZORF,
-			PET_CLYDE,
-			PET_VERT,
-			PET_RUFUS,
-			PET_MERYL,
-			PET_WADSWORTH,
-			PET_SEYMOUR,
-			PET_SHRAPNEL,
-			PET_GUMBO,
-			PET_BLIP,
-			PET_RHUBARB,
-			PET_NIMBUS,
-			PET_AMP,
-			PET_GASH,
-			PET_ANGIE,
-			PET_PRESTO,
-			PET_BRINKLEY,
-			PET_NOSTRADAMUS,
-			PET_STANLEY,
-			PET_WALTER,
-			PET_END
-		};
-
-		enum FishSizes
-		{
-			SIZE_SMALL,
-			SIZE_MEDIUM,
-			SIZE_LARGE,
-			SIZE_STAR,
-			SIZE_CROWNED
-		};
 
 	public:
 		GameObject();

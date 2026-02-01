@@ -1,10 +1,13 @@
-#include "SexyAppFramework/MemoryImage.h"
-#include "SexyAppFramework/WidgetManager.h"
-#include "SexyAppFramework/Font.h"
+#include <SexyAppFramework/MemoryImage.h>
+#include <SexyAppFramework/WidgetManager.h>
+#include <SexyAppFramework/Font.h>
+#include <SexyAppFramework/DialogButton.h>
 
 #include "PetsScreen.h"
+#include "WinFishApp.h"
+#include "WinFishCommon.h"
+#include "PetButtonWidget.h"
 #include "Board.h"
-#include "WinFishAppCommon.h"
 #include "ProfileMgr.h"
 #include "Res.h"
 
@@ -26,7 +29,7 @@ Sexy::PetsScreen::PetsScreen(WinFishApp* theApp)
 
 	mReturnButton = MakeDialogButton2(99, this, "Click Here To Continue", IMAGE_MAINBUTTON);
 
-	if (theApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK)
+	if (theApp->mGameMode == GAMEMODE_VIRTUAL_TANK)
 	{
 		mReturnButton->mLabel = "Return to Tank";
 		mApp->StopMusic();
@@ -44,16 +47,16 @@ Sexy::PetsScreen::PetsScreen(WinFishApp* theApp)
 	Graphics g(mBackgroundImage);
 	g.DrawImageBox(Rect(-5, -5, 650, 490), IMAGE_SCREENBACK);
 	g.DrawImageBox(Rect(20, 0, 600, IMAGE_SCREENTITLE->mHeight), IMAGE_SCREENTITLE);
-	if (mApp->mGameMode != WinFishApp::GAMEMODE_VIRTUAL_TANK)
+	if (mApp->mGameMode != GAMEMODE_VIRTUAL_TANK)
 		g.DrawImageBox(Rect(mMenuButton->mX - 1, mMenuButton->mY - 1, mMenuButton->mWidth + 2, IMAGE_SCREENTITLEHOLE->mHeight), IMAGE_SCREENTITLEHOLE);
 	
 	g.DrawImage(IMAGE_FISHBOX, 216, 48);
 	g.DrawImage(IMAGE_FISHBOXBUTTON, 221, 243);
 
 	int anYOffset = -374;
-	for (int i = 0; i < GameObject::PET_END; i++)
+	for (int i = 0; i < PET_END; i++)
 	{
-		if (mApp->mGameMode != WinFishApp::GAMEMODE_VIRTUAL_TANK)
+		if (mApp->mGameMode != GAMEMODE_VIRTUAL_TANK)
 			mApp->mCurrentProfile->m0x5a[i] = false;
 
 		mPetButtons[i] = new PetButtonWidget(IMAGE_SCL_STINKY_ID + i, i, this);
@@ -82,7 +85,7 @@ Sexy::PetsScreen::PetsScreen(WinFishApp* theApp)
 		{
 			mPetButtons[i]->Resize(m0x118 + m0x11c * 2 + 13, anYOffset - 996, 90, 83);
 		}
-		else if (i < GameObject::PET_END)
+		else if (i < PET_END)
 		{
 			mPetButtons[i]->Resize(m0x118 + m0x11c * 3 + 16, anYOffset - 1162, 90, 83);
 		}
@@ -94,12 +97,12 @@ Sexy::PetsScreen::PetsScreen(WinFishApp* theApp)
 		anYOffset += 83;
 	}
 
-	if (mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK && mApp->mBoard) // 207
+	if (mApp->mGameMode == GAMEMODE_VIRTUAL_TANK && mApp->mBoard) // 207
 	{
 		for (GameObjectSet::iterator it = mApp->mBoard->mGameObjectSet.begin(); it != mApp->mBoard->mGameObjectSet.end(); ++it)
 		{
 			GameObject* anObj = *it;
-			if (anObj->mVirtualTankId >= 1000 && anObj->mVirtualTankId - 1000 < GameObject::PET_END)
+			if (anObj->mVirtualTankId >= 1000 && anObj->mVirtualTankId - 1000 < PET_END)
 			{
 				int anIdx = anObj->mVirtualTankId - 1000;
 				if (!mPetButtons[anIdx]->mDisabled)
@@ -116,7 +119,7 @@ Sexy::PetsScreen::PetsScreen(WinFishApp* theApp)
 
 	m0x130 = mApp->mCurrentProfile->m0xb4 < mApp->mCurrentProfile->mNumOfUnlockedPets ? mApp->mCurrentProfile->m0xb4 : mApp->mCurrentProfile->mNumOfUnlockedPets;
 
-	if (mApp->mGameMode != WinFishApp::GAMEMODE_VIRTUAL_TANK && m0x130 > 4)
+	if (mApp->mGameMode != GAMEMODE_VIRTUAL_TANK && m0x130 > 4)
 		m0x130 = 4;
 
 	mOverlay = new PetScreenOverlay();
@@ -131,7 +134,7 @@ Sexy::PetsScreen::PetsScreen(WinFishApp* theApp)
 
 Sexy::PetsScreen::~PetsScreen()
 {
-	for (int i = 0;i < GameObject::PET_END; i++)
+	for (int i = 0;i < PET_END; i++)
 		if(mPetButtons[i])
 			delete mPetButtons[i];
 
@@ -151,24 +154,24 @@ Sexy::PetsScreen::~PetsScreen()
 void Sexy::PetsScreen::AddedToManager(WidgetManager* theWidgetManager)
 {
 	Widget::AddedToManager(theWidgetManager);
-	for (int i = 0; i < GameObject::PET_END; i++)
+	for (int i = 0; i < PET_END; i++)
 		theWidgetManager->AddWidget(mPetButtons[i]);
 
 	theWidgetManager->AddWidget(mOverlay);
 	theWidgetManager->AddWidget(mReturnButton);
-	if(mApp->mGameMode != WinFishApp::GAMEMODE_VIRTUAL_TANK)
+	if(mApp->mGameMode != GAMEMODE_VIRTUAL_TANK)
 		theWidgetManager->AddWidget(mMenuButton);
 }
 
 void Sexy::PetsScreen::RemovedFromManager(WidgetManager* theWidgetManager)
 {
 	Widget::RemovedFromManager(theWidgetManager);
-	for (int i = 0; i < GameObject::PET_END; i++)
+	for (int i = 0; i < PET_END; i++)
 		theWidgetManager->RemoveWidget(mPetButtons[i]);
 
 	theWidgetManager->RemoveWidget(mOverlay);
 	theWidgetManager->RemoveWidget(mReturnButton);
-	if (mApp->mGameMode != WinFishApp::GAMEMODE_VIRTUAL_TANK)
+	if (mApp->mGameMode != GAMEMODE_VIRTUAL_TANK)
 		theWidgetManager->RemoveWidget(mMenuButton);
 }
 
@@ -184,7 +187,7 @@ void Sexy::PetsScreen::Update()
 void Sexy::PetsScreen::DrawOverlay(Graphics* g)
 {
 	g->DrawImage(mBackgroundImage, 0, 0);
-	for (int i = 0; i < GameObject::PET_END; i++)
+	for (int i = 0; i < PET_END; i++)
 	{
 		g->DrawImage(IMAGE_PETBUTTONRING, mPetButtons[i]->mX, mPetButtons[i]->mY);
 		if(!mPetButtons[i]->mDisabled)
@@ -193,7 +196,7 @@ void Sexy::PetsScreen::DrawOverlay(Graphics* g)
 
 	g->SetFont(FONT_JUNGLEFEVER17OUTLINE);
 	g->SetColor(Color(0xff, 200, 0));
-	if (mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK)
+	if (mApp->mGameMode == GAMEMODE_VIRTUAL_TANK)
 		g->DrawString("Add/Remove Pets", 215, 25);
 	else
 		g->DrawString("Choose Your Pets", 215, 25);
@@ -210,7 +213,7 @@ void Sexy::PetsScreen::DrawOverlay(Graphics* g)
 	}
 
 	SexyString aStr1 = "";
-	if (mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK)
+	if (mApp->mGameMode == GAMEMODE_VIRTUAL_TANK)
 		aStr1 = "to display in your tank";
 	else
 		aStr1 = "to take to the next level";
@@ -258,7 +261,7 @@ void Sexy::PetsScreen::ButtonDepress(int theId)
 		if (theId == 99)
 		{
 			bool aFlag = false;
-			if (mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK)
+			if (mApp->mGameMode == GAMEMODE_VIRTUAL_TANK)
 			{
 				for (int i = 0; i < 24; i++)
 				{
@@ -289,7 +292,7 @@ void Sexy::PetsScreen::ButtonDepress(int theId)
 					mApp->mCurrentProfile->m0x5a[i] = mPetButtons[i]->m0x130;
 			}
 
-			if (m0x124 > 2 || mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK)
+			if (m0x124 > 2 || mApp->mGameMode == GAMEMODE_VIRTUAL_TANK)
 			{
 				mApp->RemovePetsScreen();
 				if (aFlag)
@@ -347,124 +350,124 @@ void Sexy::PetsScreen::DrawPetInfo(Graphics* g, int thePetId, int theAlpha)
 	int aYDrawPet = 90;
 	switch (thePetId)
 	{
-	case GameObject::PET_STINKY:
+	case PET_STINKY:
 		aStr1 = "STINKY roams around the";
 		aStr2 = "bottom of your tank, catching";
 		aStr3 = "any coins you may have missed.";
 		break;
-	case GameObject::PET_NIKO:
+	case PET_NIKO:
 		aStr1 = "NIKO produces pearls that";
 		aStr2 = "you can click on for a";
 		aStr3 = "hefty sum of money.";
 		aYDrawPet = 85;
 		break;
-	case GameObject::PET_ITCHY:
+	case PET_ITCHY:
 		aStr1 = "ITCHY helps you by attacking";
 		aStr2 = "aliens when they appear.";
 		aStr3 = "";
 		break;
-	case GameObject::PET_PREGO:
+	case PET_PREGO:
 		aStr1 = "PREGO helps populate your";
 		aStr2 = "tank by giving birth to a new";
 		aStr3 = "baby guppy every so often.";
 		break;
-	case GameObject::PET_ZORF:
+	case PET_ZORF:
 		aStr1 = "ZORF gives you a hand in";
 		aStr2 = "keeping your fish fed.";
 		aStr3 = "";
 		break;
-	case GameObject::PET_CLYDE:
+	case PET_CLYDE:
 		aStr1 = "CLYDE drifts slowly through";
 		aStr2 = "your tank, collecting any";
 		aStr3 = "coins it passes by.";
 		break;
-	case GameObject::PET_VERT:
+	case PET_VERT:
 		aStr1 = "VERT drops gold coins just like";
 		aStr2 = "a large guppy, but doesn't need";
 		aStr3 = "fish food to survive.";
 		break;
-	case GameObject::PET_RUFUS:
+	case PET_RUFUS:
 		aStr1 = "RUFUS does heavy damage to";
 		aStr2 = "enemies you've lured to the";
 		aStr3 = "bottom of the tank.";
 		break;
-	case GameObject::PET_MERYL:
+	case PET_MERYL:
 		aStr1 = "MERYL's song cheers up all the";
 		aStr2 = "guppies in the tank, making";
 		aStr3 = "them drop coins faster.";
 		break;
-	case GameObject::PET_WADSWORTH:
+	case PET_WADSWORTH:
 		aStr1 = "WADSWORTH helps by sheltering";
 		aStr2 = "your baby and medium guppies";
 		aStr3 = "from hungry aliens.";
 		break;
-	case GameObject::PET_SEYMOUR:
+	case PET_SEYMOUR:
 		aStr1 = "SEYMOUR's presence makes all";
 		aStr2 = "coins and diamonds drift";
 		aStr3 = "at a slower rate.";
 		break;
-	case GameObject::PET_SHRAPNEL:
+	case PET_SHRAPNEL:
 		aStr1 = "SHRAPNEL drops bombs that";
 		aStr2 = "blow up fish on contact but";
 		aStr3 = "give lots of cash when clicked.";
 		break;
-	case GameObject::PET_GUMBO:
+	case PET_GUMBO:
 		aStr1 = "GUMBO attracts guppies using";
 		aStr2 = "the lantern on his head,";
 		aStr3 = "luring them away from aliens.";
 		break;
-	case GameObject::PET_BLIP:
+	case PET_BLIP:
 		aStr1 = "BLIP provides you with info";
 		aStr2 = "that helps you better combat";
 		aStr3 = "aliens and keep your fish fed.";
 		break;
-	case GameObject::PET_RHUBARB:
+	case PET_RHUBARB:
 		aStr1 = "RHUBARB snaps his claws at";
 		aStr2 = "fish, keeping them off the";
 		aStr3 = "bottom of your tank.";
 		break;
-	case GameObject::PET_NIMBUS:
+	case PET_NIMBUS:
 		aStr1 = "NIMBUS tosses any coins or";
 		aStr2 = "food he catches back up";
 		aStr3 = "toward the top of the tank.";
 		break;
-	case GameObject::PET_AMP:
+	case PET_AMP:
 		aStr1 = "AMP can electrocute your";
 		aStr2 = "entire tank, killing your fish";
 		aStr3 = "and turning them into diamonds.";
 		aXDrawPet = 240;
 		break;
-	case GameObject::PET_GASH:
+	case PET_GASH:
 		aStr1 = "GASH viciously attacks aliens,";
 		aStr2 = "but will snack on one of";
 		aStr3 = "your guppies from time to time.";
 		break;
-	case GameObject::PET_ANGIE:
+	case PET_ANGIE:
 		aStr1 = "ANGIE has the ability to";
 		aStr2 = "resurrect dead fish.";
 		aStr3 = "";
 		break;
-	case GameObject::PET_PRESTO:
+	case PET_PRESTO:
 		aStr1 = "Change PRESTO into";
 		aStr2 = "any of your other pets";
 		aStr3 = "by right-clicking on him.";
 		break;
-	case GameObject::PET_WALTER:
+	case PET_WALTER:
 		aStr1 = "Likes: peach muffins, all";
 		aStr2 = "things brown and sticky";
 		aStr3 = "Dislikes: arugula";
 		break;
-	case GameObject::PET_NOSTRADAMUS:
+	case PET_NOSTRADAMUS:
 		aStr1 = "Little known fact:  NOSTRADAMUS";
 		aStr2 = "is the nose of ex-president";
 		aStr3 = "Rutherford B. Hayes";
 		break;
-	case GameObject::PET_STANLEY:
+	case PET_STANLEY:
 		aStr1 = "STANLEY knows no fear.. except";
 		aStr2 = "that of badgers, aprons,";
 		aStr3 = "and badgers wearing aprons.";
 		break;
-	case GameObject::PET_BRINKLEY:
+	case PET_BRINKLEY:
 		aStr1 = "Choosing this pet donates all";
 		aStr2 = "proceeds to the Falafel";
 		aStr3 = "Foundation. Free the falafels!";
@@ -476,7 +479,7 @@ void Sexy::PetsScreen::DrawPetInfo(Graphics* g, int thePetId, int theAlpha)
 		break;
 	}
 
-	if (thePetId >= GameObject::PET_STINKY)
+	if (thePetId >= PET_STINKY)
 	{
 		if (theAlpha != 255)
 		{
@@ -484,13 +487,13 @@ void Sexy::PetsScreen::DrawPetInfo(Graphics* g, int thePetId, int theAlpha)
 			g->SetColor(Color(255,255,255,theAlpha));
 		}
 		int aCol = (m0x120 % 20) / 2;
-		if (thePetId == GameObject::PET_NIKO || thePetId == GameObject::PET_VERT)
+		if (thePetId == PET_NIKO || thePetId == PET_VERT)
 		{
 			aCol = m0x120 % 18;
 			if (aCol > 9)
 				aCol = 18 - aCol;
 		}
-		else if (thePetId == GameObject::PET_SEYMOUR || thePetId == GameObject::PET_CLYDE || thePetId == GameObject::PET_SHRAPNEL || thePetId == GameObject::PET_RHUBARB)
+		else if (thePetId == PET_SEYMOUR || thePetId == PET_CLYDE || thePetId == PET_SHRAPNEL || thePetId == PET_RHUBARB)
 		{
 			aCol = (m0x120 % 40) / 4;
 		}

@@ -1,12 +1,14 @@
-#pragma once
+#ifndef __SCREENSAVERDIALOG_H__
+#define __SCREENSAVERDIALOG_H__
 
 #include "MoneyDialog.h"
-#include "WinFishApp.h"
 #include "SexyAppFramework/CheckboxListener.h"
-#include "SexyAppFramework/Checkbox.h"
 
 namespace Sexy
 {
+	class WinFishApp;
+	class Checkbox;
+
 	class ScreenSaverDialog : public MoneyDialog, public ButtonListener, public CheckboxListener
 	{
 	public:
@@ -35,3 +37,4 @@ namespace Sexy
 	};
 }
 
+#endif

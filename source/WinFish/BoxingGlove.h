@@ -1,6 +1,7 @@
-#pragma once
+#ifndef __BOXINGGLOVE_H__
+#define __BOXINGGLOVE_H__
+
 #include "GameObject.h"
-#include "FishTypePet.h"
 
 namespace Sexy
 {
@@ -23,3 +24,4 @@ namespace Sexy
 	};
 }
 
+#endif

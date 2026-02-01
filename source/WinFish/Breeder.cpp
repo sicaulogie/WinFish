@@ -1,4 +1,4 @@
-#include "SexyAppFramework/WidgetManager.h"
+#include <SexyAppFramework/WidgetManager.h>
 
 #include "Breeder.h"
 #include "WinFishApp.h"
@@ -56,7 +56,7 @@ void Sexy::Breeder::Update()
 	Board* aBoard = mApp->mBoard;
 	UpdateCounters();
 
-	if (mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK || gUnkInt02 == 0 || mSize > 1)
+	if (mApp->mGameMode == GAMEMODE_VIRTUAL_TANK || gUnkInt02 == 0 || mSize > 1)
 	{
 		if (!HungryLogic())
 		{
@@ -533,7 +533,7 @@ void Sexy::Breeder::OnFoodAte(Food* theFood)
 	bool hungry = IsHungryVisible();
 	Unk02(false);
 	bool flag = true;
-	if (mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK)
+	if (mApp->mGameMode == GAMEMODE_VIRTUAL_TANK)
 	{
 		if (mVirtualTankId < 0)
 			flag = false;
@@ -556,11 +556,11 @@ void Sexy::Breeder::OnFoodAte(Food* theFood)
 		if (mHunger > 1000)
 			mHunger = 1000;
 		if (flag)
-			m0x1a4 += (mApp->mGameMode != WinFishApp::GAMEMODE_VIRTUAL_TANK ? 2 : 1);
+			m0x1a4 += (mApp->mGameMode != GAMEMODE_VIRTUAL_TANK ? 2 : 1);
 	}
 	else
 	{
-		if (mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK)
+		if (mApp->mGameMode == GAMEMODE_VIRTUAL_TANK)
 		{
 			mHunger += 500;
 			if (mHunger > 800)
@@ -573,7 +573,7 @@ void Sexy::Breeder::OnFoodAte(Food* theFood)
 				mHunger = 1400;
 		}
 		if (flag)
-			m0x1a4 += (mApp->mGameMode != WinFishApp::GAMEMODE_VIRTUAL_TANK ? 3 : 2);
+			m0x1a4 += (mApp->mGameMode != GAMEMODE_VIRTUAL_TANK ? 3 : 2);
 	}
 
 	if (m0x1a8 <= m0x1a4 && mSize < SIZE_LARGE)
@@ -582,7 +582,7 @@ void Sexy::Breeder::OnFoodAte(Food* theFood)
 		if (mSize == SIZE_MEDIUM)
 		{
 			m0x1d0 = 900;
-			if (mApp->mGameMode != WinFishApp::GAMEMODE_VIRTUAL_TANK)
+			if (mApp->mGameMode != GAMEMODE_VIRTUAL_TANK)
 				m0x1a8 = mApp->mSeed->Next() % 5 + 5;
 			mApp->mBoard->MakeAndUnlockMenuButton(SlotTypes::SLOT_BREEDER, true);
 		}
@@ -591,7 +591,7 @@ void Sexy::Breeder::OnFoodAte(Food* theFood)
 			if (mVirtualTankId > -1)
 				m0x1d0 = 0;
 			m0x1d4 = mApp->mSeed->Next() % 200 + 500;
-			if(mApp->mGameMode == WinFishApp::GAMEMODE_TIME_TRIAL)
+			if(mApp->mGameMode == GAMEMODE_TIME_TRIAL)
 				mApp->mBoard->MakeAndUnlockMenuButton(SlotTypes::SLOT_EGG, true);
 		}
 		m0x1a4 = 0;
@@ -713,7 +713,7 @@ void Sexy::Breeder::Init(int theX, int theY)
 		mSpeedMod = 1.6;
 	m0x1a4 = 0;
 	mHunger = mApp->mSeed->Next() % 200 + 400;
-	if (mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK)
+	if (mApp->mGameMode == GAMEMODE_VIRTUAL_TANK)
 		m0x1a8 = Rand() % 9 + 12;
 	else
 		m0x1a8 = mApp->mSeed->Next() % 2 + 4;
@@ -750,7 +750,7 @@ bool Sexy::Breeder::HungryLogic()
 		{
 			if(!mApp->mBoard->AliensInTank())
 				return HungryBehavior();
-			if(!mApp->mBoard->mAlienList->empty() && mApp->mBoard->mAlienList->at(0)->mAlienType != Alien::ALIEN_GUS)
+			if(!mApp->mBoard->mAlienList->empty() && mApp->mBoard->mAlienList->at(0)->mAlienType != ALIEN_GUS)
 				return HungryBehavior();
 		}
 	}
@@ -870,12 +870,12 @@ void Sexy::Breeder::DropCoin()
 			m0x1d0 = 0;
 			if (RelaxModeCanDrop())
 			{
-				if (mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK)
+				if (mApp->mGameMode == GAMEMODE_VIRTUAL_TANK)
 				{
 					if (GiveBirth())
 						return;
 				}
-				if (mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK)
+				if (mApp->mGameMode == GAMEMODE_VIRTUAL_TANK)
 				{
 					m0x1d4 = 2160;
 					if (mSize != SIZE_LARGE)
@@ -890,7 +890,7 @@ void Sexy::Breeder::DropCoin()
 				}
 				Fish* aGuppy = mApp->mBoard->SpawnGuppy(mX + 5, mY + 10);
 
-				if (mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK)
+				if (mApp->mGameMode == GAMEMODE_VIRTUAL_TANK)
 					aGuppy->mCanBeEatenDelay = mExoticDietFoodType != 0 ? 40 : 150;
 				mApp->mBoard->PlayBirthSound(true);
 			}

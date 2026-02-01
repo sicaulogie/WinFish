@@ -1,17 +1,18 @@
-#include "SexyAppFramework/WidgetManager.h"
-#include "SexyAppFramework/DialogButton.h"
+#include <SexyAppFramework/WidgetManager.h>
+#include <SexyAppFramework/DialogButton.h>
 
 #include "ContinueDialog.h"
-#include "WinFishAppCommon.h"
+#include "WinFishApp.h"
+#include "WinFishCommon.h"
 #include "ProfileMgr.h"
 #include "Res.h"
 
 using namespace Sexy;
 
 Sexy::ContinueDialog::ContinueDialog(WinFishApp* theApp)
-	: MoneyDialog(theApp, IMAGE_DIALOG, IMAGE_DIALOGBUTTON, WinFishApp::DIALOG_CONTINUE_GAME, true, "CONTINUE GAME?", "", "CANCEL", Dialog::BUTTONS_FOOTER)
+	: MoneyDialog(theApp, IMAGE_DIALOG, IMAGE_DIALOGBUTTON, DIALOG_CONTINUE_GAME, true, "CONTINUE GAME?", "", "CANCEL", Dialog::BUTTONS_FOOTER)
 {
-	if (mApp->mGameMode == WinFishApp::GAMEMODE_ADVENTURE)
+	if (mApp->mGameMode == GAMEMODE_ADVENTURE)
 	{
 		mDialogLines = "Do you want to continue your current game or restart the level?";
 		mContinueButton = MakeDialogButton(0, this, "Continue", NULL);
@@ -84,14 +85,14 @@ void Sexy::ContinueDialog::ButtonDepress(int theId)
 	}
 	else if (theId == 1)
 	{
-		if (mApp->mGameMode == WinFishApp::GAMEMODE_ADVENTURE)
+		if (mApp->mGameMode == GAMEMODE_ADVENTURE)
 		{
-			Dialog* aDia = mApp->DoDialog(WinFishApp::DIALOG_RESTART_GAME, true, "Restart Level?", "Are you sure that you want to restart the level?", "", BUTTONS_OK_CANCEL);
+			Dialog* aDia = mApp->DoDialog(DIALOG_RESTART_GAME, true, "Restart Level?", "Are you sure that you want to restart the level?", "", BUTTONS_OK_CANCEL);
 			aDia->mYesButton->mLabel = "Restart";
 		}
 		else
 		{
-			Dialog* aDia = mApp->DoDialog(WinFishApp::DIALOG_RESTART_GAME, true, "New Game?", "Are you sure that you want to start a new game?", "", BUTTONS_OK_CANCEL);
+			Dialog* aDia = mApp->DoDialog(DIALOG_RESTART_GAME, true, "New Game?", "Are you sure that you want to start a new game?", "", BUTTONS_OK_CANCEL);
 			aDia->mYesButton->mLabel = "New Game";
 		}
 	}

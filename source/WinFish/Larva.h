@@ -1,5 +1,8 @@
-#pragma once
+#ifndef __LARVA_H__
+#define __LARVA_H__
+
 #include "GameObject.h"
+
 namespace Sexy
 {
 	class Larva : public GameObject
@@ -27,3 +30,4 @@ namespace Sexy
 	};
 }
 
+#endif

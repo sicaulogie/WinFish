@@ -1,15 +1,17 @@
+#include <SexyAppFramework/Slider.h>
+#include <SexyAppFramework/WidgetManager.h>
+#include <SexyAppFramework/DialogButton.h>
+
 #include "OptionsDialog.h"
-#include "WinFishAppCommon.h"
-#include "Res.h"
+#include "WinFishApp.h"
+#include "WinFishCommon.h"
 #include "Board.h"
-#include "SexyAppFramework/Slider.h"
-#include "SexyAppFramework/WidgetManager.h"
-#include "SexyAppFramework/DialogButton.h"
+#include "Res.h"
 
 using namespace Sexy;
 
 Sexy::OptionsDialog::OptionsDialog(WinFishApp* theApp, bool theFlag)
-	: MoneyDialog(theApp, IMAGE_DIALOG, IMAGE_DIALOGBUTTON, WinFishApp::DIALOG_OPTIONS, true, "Options",
+	: MoneyDialog(theApp, IMAGE_DIALOG, IMAGE_DIALOGBUTTON, DIALOG_OPTIONS, true, "Options",
 		"", "OK", BUTTONS_FOOTER)
 {
 	mApp2 = theApp;
@@ -254,8 +256,8 @@ void Sexy::OptionsDialog::ButtonDepress(int theId)
 		return;
 	}
 
-	if (mApp->mGameMode != WinFishApp::GAMEMODE_VIRTUAL_TANK && mApp->mBoard &&
-		mApp->mBoard->mShouldSave && mApp->mGameMode != WinFishApp::GAMEMODE_SANDBOX)
+	if (mApp->mGameMode != GAMEMODE_VIRTUAL_TANK && mApp->mBoard &&
+		mApp->mBoard->mShouldSave && mApp->mGameMode != GAMEMODE_SANDBOX)
 	{
 		mApp->DoLeaveGameDialog();
 		return;

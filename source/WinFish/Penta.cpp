@@ -1,10 +1,11 @@
-#include "SexyAppFramework/WidgetManager.h"
+#include <SexyAppFramework/WidgetManager.h>
 
 #include "Penta.h"
 #include "WinFishApp.h"
 #include "Board.h"
 #include "Shadow.h"
 #include "Missle.h"
+#include "Coin.h"
 #include "Res.h"
 
 Sexy::Penta::Penta()
@@ -420,10 +421,10 @@ void Sexy::Penta::Remove(bool removeShadow)
 bool Sexy::Penta::DropCoin()
 {
 	mCoinDropTimer++;
-	if (mApp->mGameMode != WinFishApp::GAMEMODE_VIRTUAL_TANK || mCoinDropTimer > 2)
+	if (mApp->mGameMode != GAMEMODE_VIRTUAL_TANK || mCoinDropTimer > 2)
 	{
 		mCoinDropTimer = 0;
-		if (mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK)
+		if (mApp->mGameMode == GAMEMODE_VIRTUAL_TANK)
 		{
 			if (!CanDropCoin() || !mApp->mBoard->m0x500)
 				return false;
@@ -445,9 +446,9 @@ Sexy::GameObject* Sexy::Penta::FindNearestFood()
 	Board* aBoard = mApp->mBoard;
 	int aDist = 100000000;
 	GameObject* aRet = nullptr;
-	for (int i = 0; i < aBoard->mCoinList1->size(); i++)
+	for (int i = 0; i < aBoard->mCoinList->size(); i++)
 	{
-		Coin* aCoin = aBoard->mCoinList1->at(i);
+		Coin* aCoin = aBoard->mCoinList->at(i);
 
 		if (IsCoinValid(aCoin))
 		{
@@ -497,9 +498,9 @@ void Sexy::Penta::CollideWithFood()
 	else
 	{
 		Board* aBoard = mApp->mBoard;
-		for (int i = 0; i < aBoard->mCoinList1->size(); i++)
+		for (int i = 0; i < aBoard->mCoinList->size(); i++)
 		{
-			Coin* aCoin = aBoard->mCoinList1->at(i);
+			Coin* aCoin = aBoard->mCoinList->at(i);
 
 			int aFX = aCoin->mX;
 			int aFY = aCoin->mY;

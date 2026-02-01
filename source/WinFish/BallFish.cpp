@@ -1,4 +1,4 @@
-#include "SexyAppFramework/WidgetManager.h"
+#include <SexyAppFramework/WidgetManager.h>
 
 #include "BallFish.h"
 #include "WinFishApp.h"
@@ -422,10 +422,10 @@ void Sexy::BallFish::Init()
 int Sexy::BallFish::GetFoodType()
 {
 	if (mSize == SIZE_SMALL)
-		return Food::EXO_FOOD_ICE_CREAM;
+		return EXO_FOOD_ICE_CREAM;
 	else if (mSize == SIZE_MEDIUM)
-		return Food::EXO_FOOD_CHICKEN;
-	return Food::EXO_FOOD_PIZZA;
+		return EXO_FOOD_CHICKEN;
+	return EXO_FOOD_PIZZA;
 }
 
 bool Sexy::BallFish::CanBallFishEatFood(GameObject* theFood, int theExoticFoodTypePreffered)

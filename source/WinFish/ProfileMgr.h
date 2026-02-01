@@ -1,14 +1,16 @@
-#pragma once
+#ifndef __PROFILEMGR_H__
+#define __PROFILEMGR_H__
 
 #include "SexyAppFramework/Common.h"
-#include "DataSync.h"
 
 namespace Sexy
 {
+	class DataSync;
+
 	class UserProfile
 	{
 	public:
-		bool mUnlockedPets[GameObject::PET_END];
+		bool mUnlockedPets[24];
 		int mNumOfUnlockedPets;
 		int mTank;
 		int mLevel;
@@ -21,7 +23,7 @@ namespace Sexy
 		int mFinishedGameCount;
 		bool m0x58;
 		bool mFinishedGame;
-		bool m0x5a[GameObject::PET_END];
+		bool m0x5a[24];
 		bool mUnlockedBackgrounds[6];
 		bool m0x78[4];
 		int m0x7c;
@@ -96,3 +98,4 @@ namespace Sexy
 	};
 }
 
+#endif

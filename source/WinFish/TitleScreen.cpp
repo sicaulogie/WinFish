@@ -1,12 +1,12 @@
-#include "TitleScreen.h"
-#include "Res.h"
-#include "WinFishApp.h"
+#include <SexyAppFramework/Font.h>
+#include <SexyAppFramework/Graphics.h>
+#include <SexyAppFramework/WidgetManager.h>
+#include <SexyAppFramework/Rect.h>
+#include <SexyAppFramework/HyperlinkWidget.h>
 
-#include "SexyAppFramework/Font.h"
-#include "SexyAppFramework/Graphics.h"
-#include "SexyAppFramework/WidgetManager.h"
-#include "SexyAppFramework/Rect.h"
-#include "SexyAppFramework/HyperlinkWidget.h"
+#include "TitleScreen.h"
+#include "WinFishApp.h"
+#include "Res.h"
 
 using namespace Sexy;
 

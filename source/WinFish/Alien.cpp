@@ -1,4 +1,4 @@
-#include "SexyAppFramework/WidgetManager.h"
+#include <SexyAppFramework/WidgetManager.h>
 
 #include "Alien.h"
 #include "WinFishApp.h"
@@ -98,7 +98,7 @@ Sexy::Alien::Alien(int theX, int theY, int theAlienType)
 	{
 		mSpeedMod = 1.2;
 		mHealth = 150.0;
-		if (mApp->mGameMode != WinFishApp::GAMEMODE_VIRTUAL_TANK)
+		if (mApp->mGameMode != GAMEMODE_VIRTUAL_TANK)
 		{
 			mY = 280;
 			mYD = 280.0;
@@ -108,7 +108,7 @@ Sexy::Alien::Alien(int theX, int theY, int theAlienType)
 	{
 		mSpeedMod = 3.5;
 		mHealth = 220.0;
-		if (mApp->mGameMode != WinFishApp::GAMEMODE_VIRTUAL_TANK)
+		if (mApp->mGameMode != GAMEMODE_VIRTUAL_TANK)
 		{
 			mY = 280;
 			mYD = 280.0;
@@ -148,7 +148,7 @@ void Sexy::Alien::Update()
 
 	GameObject::UpdateCounters();
 
-	if ((mAlienType == ALIEN_DESTRUCTOR || mAlienType == ALIEN_ULYSEES) && mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK)
+	if ((mAlienType == ALIEN_DESTRUCTOR || mAlienType == ALIEN_ULYSEES) && mApp->mGameMode == GAMEMODE_VIRTUAL_TANK)
 	{
 		if (mYD >= 280.0)
 		{
@@ -403,7 +403,7 @@ void Sexy::Alien::Update()
 	UpdateAnimations();
 	if (mHealth > 0.0)
 	{
-		if (mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK && mUpdateCnt > 4320)
+		if (mApp->mGameMode == GAMEMODE_VIRTUAL_TANK && mUpdateCnt > 4320)
 		{
 			mApp->mBoard->SpawnLaserShot(mWidth / 2 - 40 + mX, mHeight / 2 - 40 + mY);
 			mApp->mBoard->PlaySample(SOUND_SFX_ID, 3, 1.0);
@@ -947,11 +947,11 @@ void Sexy::Alien::CheckCollision()
 					}
 					else
 					{
-						if (aFood->mExoticFoodType == Food::EXO_FOOD_PIZZA)
+						if (aFood->mExoticFoodType == EXO_FOOD_PIZZA)
 							mHealth -= 30.0;
-						else if(aFood->mExoticFoodType == Food::EXO_FOOD_CHICKEN)
+						else if(aFood->mExoticFoodType == EXO_FOOD_CHICKEN)
 							mHealth -= 25.0;
-						else if(aFood->mExoticFoodType == Food::EXO_FOOD_ICE_CREAM)
+						else if(aFood->mExoticFoodType == EXO_FOOD_ICE_CREAM)
 							mHealth -= 20.0;
 						else
 							mHealth -= aFood->mFoodType * 2 + 4;
@@ -1046,7 +1046,7 @@ void Sexy::Alien::DrawAlien(Graphics* g, bool mirror)
 		{
 			shouldMirror = mirror;
 			aSrcRect.mY = 2;
-			aSrcRect.mX = mHitFlashTimer;
+			aSrcRect.mX = mHitFlashTimer; // TODO Fix This Causes debug assert (must me < 10)
 		}
 		break;
 	case ALIEN_DESTRUCTOR:

@@ -1,10 +1,14 @@
-#pragma once
-#include "WinFishApp.h"
+#ifndef __STOREBUTTONWIDGET_H__
+#define __STOREBUTTONWIDGET_H__
+
 #include "SexyAppFramework/ButtonWidget.h"
 #include "SexyAppFramework/ButtonListener.h"
+
 namespace Sexy
 {
+	class WinFishApp;
 	class GameObject;
+
 	class StoreButtonWidget : public ButtonWidget
 	{
 	public:
@@ -37,3 +41,4 @@ namespace Sexy
 	};
 }
 
+#endif

@@ -1,6 +1,7 @@
+#include <SexyAppFramework/WidgetManager.h>
+
 #include "Shadow.h"
 #include "WinFishApp.h"
-#include "SexyAppFramework/WidgetManager.h"
 #include "Board.h"
 #include "Res.h"
 

@@ -1,8 +1,9 @@
-#include "SexyAppFramework/WidgetManager.h"
+#include <SexyAppFramework/WidgetManager.h>
+#include <SexyAppFramework/DialogButton.h>
 
 #include "TankScreen.h"
 #include "WinFishApp.h"
-#include "WinFishAppCommon.h"
+#include "WinFishCommon.h"
 #include "ProfileMgr.h"
 #include "Res.h"
 
@@ -23,7 +24,7 @@ Sexy::TankScreen::TankScreen(WinFishApp* theApp)
 	mStoriesButton = MakeDialogButton(4, this, "Stories", FONT_JUNGLEFEVER12OUTLINE);
 	mStoriesButton->Resize(245, 247, 150, mStoriesButton->mHeight);
 	mStoriesButton->SetColor(0, Color(255, 240, 0));
-	if (mApp->mCurrentProfile->m0x7c == 0 || mApp->mGameMode != WinFishApp::GAMEMODE_CHALLENGE)
+	if (mApp->mCurrentProfile->m0x7c == 0 || mApp->mGameMode != GAMEMODE_CHALLENGE)
 		mStoriesButton->mVisible = false;
 	m0xa8[0] = 70;
 	m0xa8[1] = 71;
@@ -59,7 +60,7 @@ void Sexy::TankScreen::AddedToManager(WidgetManager* theWidgetManager)
 	theWidgetManager->AddWidget(mMenuButton);
 	for (int i = 0; i < 4; i++)
 	{
-		if (mApp->mGameMode == WinFishApp::GAMEMODE_TIME_TRIAL)
+		if (mApp->mGameMode == GAMEMODE_TIME_TRIAL)
 		{
 			if (mApp->mCurrentProfile->mTank >= i + 2 || mApp->mCurrentProfile->mFinishedGame)
 				mTankButtons[i]->SetDisabled(false);
@@ -73,7 +74,7 @@ void Sexy::TankScreen::AddedToManager(WidgetManager* theWidgetManager)
 		}
 		else
 		{
-			if (mApp->mGameMode == WinFishApp::GAMEMODE_CHALLENGE && i > 0 && !mApp->mCurrentProfile->m0x78[i-1])
+			if (mApp->mGameMode == GAMEMODE_CHALLENGE && i > 0 && !mApp->mCurrentProfile->m0x78[i-1])
 			{
 				mTankButtons[i]->SetDisabled(true);
 				mTankButtons[i]->mComponentImage = nullptr;
@@ -121,9 +122,9 @@ void Sexy::TankScreen::Draw(Graphics* g)
 	g->SetFont(FONT_JUNGLEFEVER17OUTLINE);
 	g->SetColor(Color(255, 200, 0));
 	SexyString aStr;
-	if(mApp->mGameMode == WinFishApp::GAMEMODE_TIME_TRIAL)
+	if(mApp->mGameMode == GAMEMODE_TIME_TRIAL)
 		aStr = "Time Trial";
-	else if(mApp->mGameMode == WinFishApp::GAMEMODE_CHALLENGE)
+	else if(mApp->mGameMode == GAMEMODE_CHALLENGE)
 		aStr = "Challenge";
 	else
 		aStr = "Choose a Tank";
@@ -131,9 +132,9 @@ void Sexy::TankScreen::Draw(Graphics* g)
 	
 	g->SetColor(Color::White);
 	g->SetFont(FONT_JUNGLEFEVER10OUTLINE);
-	if (mApp->mGameMode == WinFishApp::GAMEMODE_TIME_TRIAL)
+	if (mApp->mGameMode == GAMEMODE_TIME_TRIAL)
 		aStr = "How much money can you earn before time runs out?";
-	else if(mApp->mGameMode == WinFishApp::GAMEMODE_CHALLENGE)
+	else if(mApp->mGameMode == GAMEMODE_CHALLENGE)
 		aStr = "Can you fend off the increasingly hungry aliens?";
 	else
 		aStr = "";
@@ -157,9 +158,9 @@ void Sexy::TankScreen::Draw(Graphics* g)
 			Rect aDrawStrRect = Rect(m0xa8[i * 2] + 25, m0xa8[i * 2 + 1] + 43, 170, 200);
 			g->SetFont(FONT_JUNGLEFEVER10OUTLINE);
 			g->SetColor(Color::White);
-			if (mApp->mGameMode == WinFishApp::GAMEMODE_TIME_TRIAL)
+			if (mApp->mGameMode == GAMEMODE_TIME_TRIAL)
 				WriteWordWrapped(g, aDrawStrRect, StrFormat("Complete Tank %d\nin Adventure Mode\nto Unlock this Tank", i + 1), -1, 0);
-			else if(mApp->mGameMode == WinFishApp::GAMEMODE_CHALLENGE)
+			else if(mApp->mGameMode == GAMEMODE_CHALLENGE)
 				WriteWordWrapped(g, aDrawStrRect, StrFormat("Complete Tank %d\nin Challenge Mode\nto Unlock this Tank", i + 1), -1, 0);
 		}
 	}

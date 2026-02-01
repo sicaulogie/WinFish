@@ -1,8 +1,8 @@
-#include "SexyAppFramework/WidgetManager.h"
+#include <SexyAppFramework/WidgetManager.h>
 
 #include "Missle.h"
 #include "WinFishApp.h"
-#include "WinFishAppCommon.h"
+#include "WinFishCommon.h"
 #include "Board.h"
 #include "Bilaterus.h"
 #include "BilaterusHead.h"

@@ -1,5 +1,8 @@
-#pragma once
+#ifndef __FISHBUTTONWIDGET_H__
+#define __FISHBUTTONWIDGET_H__
+
 #include "SexyAppFramework/ButtonWidget.h"
+
 namespace Sexy
 {
 	class GameObject;
@@ -26,3 +29,4 @@ namespace Sexy
 	};
 }
 
+#endif

@@ -1,6 +1,7 @@
-#pragma once
+#ifndef __OTHERTYPEPET_H__
+#define __OTHERTYPEPET_H__
+
 #include "GameObject.h"
-#include "Coin.h"
 
 namespace Sexy
 {
@@ -57,3 +58,4 @@ namespace Sexy
 	};
 }
 
+#endif

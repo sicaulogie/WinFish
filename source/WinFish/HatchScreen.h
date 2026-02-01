@@ -1,19 +1,14 @@
-#pragma once
+#ifndef __HATCHSCREEN_H__
+#define __HATCHSCREEN_H__
+
 #include "SexyAppFramework/Widget.h"
 #include "SexyAppFramework/ButtonListener.h"
-#include "WinFishApp.h"
-#include "BubbleMgr.h"
 
 namespace Sexy
 {
-	class HatchScreenOverlay : public Widget
-	{
-	public:
-		HatchScreen* mScreen;
-
-	public:
-		virtual void			Draw(Graphics* g);
-	};
+	class WinFishApp;
+	class BubbleMgr;
+	class HatchScreenOverlay;
 
 	class HatchScreen : public Widget, public ButtonListener
 	{
@@ -43,5 +38,15 @@ namespace Sexy
 		virtual void			ButtonPress(int theId);
 		virtual void			ButtonDepress(int theId);
 	};
+
+	class HatchScreenOverlay : public Widget
+	{
+	public:
+		HatchScreen* mScreen;
+
+	public:
+		virtual void			Draw(Graphics* g);
+	};
 }
 
+#endif

@@ -1,18 +1,19 @@
-#include "SexyAppFramework/SEHCatcher.h"
-#include "SexyAppFramework/SexyAppBase.h"
-#include "SexyAppFramework/WidgetManager.h"
-#include "SexyAppFramework/ResourceManager.h"
-#include "SexyAppFramework/ImageFont.h"
-#include "SexyAppFramework/DialogButton.h"
-#include "SexyAppFramework/SWTri.h"
-#include "SexyAppFramework/Checkbox.h"
-#include "SexyAppFramework/BassMusicInterface.h"
-#include "SexyAppFramework/SoundManager.h"
-#include "SexyAppFramework/Buffer.h"
-#include "SexyAppFramework/Color.h"
+#include <SexyAppFramework/SEHCatcher.h>
+#include <SexyAppFramework/SexyAppBase.h>
+#include <SexyAppFramework/WidgetManager.h>
+#include <SexyAppFramework/ResourceManager.h>
+#include <SexyAppFramework/ImageFont.h>
+#include <SexyAppFramework/DialogButton.h>
+#include <SexyAppFramework/SWTri.h>
+#include <SexyAppFramework/Checkbox.h>
+#include <SexyAppFramework/BassMusicInterface.h>
+#include <SexyAppFramework/SoundManager.h>
+#include <SexyAppFramework/Buffer.h>
+#include <SexyAppFramework/Color.h>
+#include <SexyAppFramework/ListWidget.h>
 
 #include "WinFishApp.h"
-#include "WinFishAppCommon.h"
+#include "WinFishCommon.h"
 #include "InternetManager.h"
 #include "Res.h"
 
@@ -1766,18 +1767,18 @@ void Sexy::WinFishApp::InitializeSpecialNamedFish(GameObject* theObject)
 	{
 		theObject->mSinging = true;
 	}
-	else if (stricmp(theObject->mName.c_str(), "santa") == 0 && theObject->mType == GameObject::TYPE_GUPPY)
+	else if (stricmp(theObject->mName.c_str(), "santa") == 0 && theObject->mType == TYPE_GUPPY)
 	{
 		for (GameObjectSet::iterator it = mBoard->mGameObjectSet.begin(); it != mBoard->mGameObjectSet.end(); ++it)
 		{
 			GameObject* anObj = *it;
-			if (anObj->mPreNamedTypeId == GameObject::SANTA)
+			if (anObj->mPreNamedTypeId == SANTA)
 				return;
 		}
 		Fish* aFish = (Fish*)theObject;
 		if (!aFish->mHasSpecialColors && !aFish->mRainbowFish && aFish->mPreNamedTypeId == -1)
 		{
-			aFish->mPreNamedTypeId = GameObject::SANTA;
+			aFish->mPreNamedTypeId = SANTA;
 			aFish->mHasSpecialColors = true;
 			aFish->mColors[0] = Color(0xffffff);
 			aFish->mColors[1] = Color(0xff0000);

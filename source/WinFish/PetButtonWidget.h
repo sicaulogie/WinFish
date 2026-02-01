@@ -1,11 +1,13 @@
-#pragma once
+#ifndef __PETBUTTONWIDGET_H__
+#define __PETBUTTONWIDGET_H__
 
 #include "SexyAppFramework/ButtonListener.h"
 #include "SexyAppFramework/ButtonWidget.h"
-#include "WinFishApp.h"
 
 namespace Sexy
 {
+	class WinFishApp;
+
 	class PetButtonWidget : public ButtonWidget
 	{
 	public:
@@ -26,3 +28,4 @@ namespace Sexy
 	};
 }
 
+#endif

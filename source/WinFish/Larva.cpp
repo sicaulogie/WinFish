@@ -1,8 +1,9 @@
+#include <SexyAppFramework/WidgetManager.h>
+
 #include "Larva.h"
 #include "WinFishApp.h"
 #include "Board.h"
 #include "Res.h"
-#include "SexyAppFramework/WidgetManager.h"
 
 Sexy::Larva::Larva()
 {
@@ -112,5 +113,5 @@ void Sexy::Larva::Sync(DataSync* theSync)
 
 int Sexy::Larva::GetValue()
 {
-	return mApp->mGameMode != WinFishApp::GAMEMODE_VIRTUAL_TANK ? 150 : 7;	
+	return mApp->mGameMode != GAMEMODE_VIRTUAL_TANK ? 150 : 7;	
 }

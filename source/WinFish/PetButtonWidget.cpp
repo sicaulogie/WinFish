@@ -1,7 +1,7 @@
 #include "PetButtonWidget.h"
 #include "WinFishApp.h"
-#include "Res.h"
 #include "PetsScreen.h"
+#include "Res.h"
 
 using namespace Sexy;
 

@@ -3,7 +3,6 @@
 
 #include <vector>
 #include <list>
-
 #include <windows.h>
 
 namespace Sexy

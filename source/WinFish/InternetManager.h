@@ -1,10 +1,10 @@
-#pragma once
-
-#include "SexyAppFramework/HTTPTransfer.h"
+#ifndef __INTERNETMGR_H__
+#define __INTERNETMGR_H__
 
 namespace Sexy
 {
-#define MAX_HTTP_TRANSFERS 4
+	class HTTPTransfer;
+	#define MAX_HTTP_TRANSFERS 4
 
 	class InternetManager 
 	{
@@ -39,3 +39,4 @@ namespace Sexy
 	};
 }
 
+#endif

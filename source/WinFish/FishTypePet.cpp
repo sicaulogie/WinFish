@@ -1,4 +1,4 @@
-#include "SexyAppFramework/WidgetManager.h"
+#include <SexyAppFramework/WidgetManager.h>
 
 #include "FishTypePet.h"
 #include "WinFishApp.h"
@@ -10,6 +10,7 @@
 #include "Breeder.h"
 #include "DeadFish.h"
 #include "Food.h"
+#include "BoxingGlove.h"
 #include "Res.h"
 
 const int gConst01 = 360;
@@ -36,7 +37,7 @@ Sexy::FishTypePet::FishTypePet(int theX, int theY, int thePetType, bool flag)
 	else
 		m0x238 =  360;
 
-	if (mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK)
+	if (mApp->mGameMode == GAMEMODE_VIRTUAL_TANK)
 		m0x238 = 0;
 
 	m0x23c = 0;
@@ -71,7 +72,7 @@ Sexy::FishTypePet::FishTypePet(int theX, int theY, int thePetType, bool flag)
 	}
 	else if (thePetType == PET_MERYL)
 	{
-		mCoinDropT = 4320 - (mApp->mGameMode != WinFishApp::GAMEMODE_VIRTUAL_TANK ? 0 : 2920);
+		mCoinDropT = 4320 - (mApp->mGameMode != GAMEMODE_VIRTUAL_TANK ? 0 : 2920);
 	}
 	else if (thePetType == PET_WADSWORTH)
 	{
@@ -80,7 +81,7 @@ Sexy::FishTypePet::FishTypePet(int theX, int theY, int thePetType, bool flag)
 	}
 	else if (thePetType == PET_VERT)
 	{
-		if (mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK)
+		if (mApp->mGameMode == GAMEMODE_VIRTUAL_TANK)
 			mCoinDropT = Rand() % 200 + 1080;
 		else
 			mCoinDropT = 216;
@@ -89,14 +90,14 @@ Sexy::FishTypePet::FishTypePet(int theX, int theY, int thePetType, bool flag)
 		mCoinDropT = 100;
 	else if (thePetType == PET_NOSTRADAMUS)
 	{
-		if (mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK)
+		if (mApp->mGameMode == GAMEMODE_VIRTUAL_TANK)
 			mCoinDropT = Rand() % 200 + 1080;
 		else
 			mCoinDropT = mApp->mSeed->Next() % 300 + 300;
 	}
 	else if (thePetType == PET_SHRAPNEL)
 	{
-		if (mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK)
+		if (mApp->mGameMode == GAMEMODE_VIRTUAL_TANK)
 			mCoinDropT = Rand() % 200 + 1080;
 		else
 			mCoinDropT = mApp->mSeed->Next() % 20 + 633;
@@ -120,7 +121,7 @@ Sexy::FishTypePet::FishTypePet(int theX, int theY, int thePetType, bool flag)
 	else if (thePetType == PET_GASH)
 	{
 		mCoinDropT = 1570;
-		mCoinDropTimer = mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK ? 0 : -1550;
+		mCoinDropTimer = mApp->mGameMode == GAMEMODE_VIRTUAL_TANK ? 0 : -1550;
 		if (m0x230)
 			mCoinDropTimer = 1520;
 	}
@@ -141,7 +142,7 @@ void Sexy::FishTypePet::Update()
 	GameObject::UpdateCounters();
 	Board* aBoard = mApp->mBoard;
 
-	if (mFishTypePetType == PET_BLIP && mApp->mGameMode != WinFishApp::GAMEMODE_VIRTUAL_TANK
+	if (mFishTypePetType == PET_BLIP && mApp->mGameMode != GAMEMODE_VIRTUAL_TANK
 		&& aBoard->m0x2e0 < aBoard->m0x2dc && aBoard->mTank != 5 && aBoard->mGameUpdateCnt > 200
 		&& (!m0x230 || mUpdateCnt > 720))
 	{
@@ -510,7 +511,7 @@ void Sexy::FishTypePet::DropCoin()
 	if (mFishTypePetType == PET_PREGO)
 	{
 		mCoinDropTimer++;
-		if (mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK && mCoinDropTimer == mCoinDropT - 210)
+		if (mApp->mGameMode == GAMEMODE_VIRTUAL_TANK && mCoinDropTimer == mCoinDropT - 210)
 		{
 			 mApp->mBoard->GetExoticFoodsRequiredInTank(anExoticFoodReqsInTank);
 			 mApp->mBoard->GetExoticFoodsInTank(anExoticFoodInTank);
@@ -521,7 +522,7 @@ void Sexy::FishTypePet::DropCoin()
 		{
 			mCoinDropTimer = 0;
 			Fish* aGuppy = mApp->mBoard->SpawnGuppy(mX + 7, mY + 25);
-			if (mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK)
+			if (mApp->mGameMode == GAMEMODE_VIRTUAL_TANK)
 				aGuppy->mCanBeEatenDelay = 40;
 			mApp->mBoard->PlayBirthSound(false);
 			if (mApp->mBoard->mFishList->size() > 10)
@@ -559,7 +560,7 @@ void Sexy::FishTypePet::DropCoin()
 		if (mCoinDropTimer >= mCoinDropT)
 		{
 			mCoinDropTimer = 0;
-			mApp->mBoard->DropCoin(mX + 15, mY + 10, CoinTypes::COIN_SHRAPNEL_BOMB, nullptr, -1.0, 0);
+			mApp->mBoard->DropCoin(mX + 15, mY + 10, COIN_SHRAPNEL_BOMB, nullptr, -1.0, 0);
 			mApp->mBoard->PlaySample(SOUND_UNLEASH_ID, 3, 1.0);
 		}
 	}
@@ -597,7 +598,7 @@ void Sexy::FishTypePet::DropCoin()
 			else
 			{
 				m0x240++;
-				int aModeVal = (mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK ? 4 : 2);
+				int aModeVal = (mApp->mGameMode == GAMEMODE_VIRTUAL_TANK ? 4 : 2);
 				if (m0x240 % aModeVal != 0 && !foundHungry)
 				{
 					mCoinDropTimer = 0;
@@ -680,9 +681,9 @@ bool Sexy::FishTypePet::Hungry()
 
 	if (mFishTypePetType == PET_NIMBUS)
 	{
-		if (mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK)
+		if (mApp->mGameMode == GAMEMODE_VIRTUAL_TANK)
 			DeterminePetSleepy(&m0x245);
-		if ((!mApp->mBoard->mCoinList1->empty() || (!mApp->mBoard->mFoodList->empty() && mApp->mGameMode != WinFishApp::GAMEMODE_VIRTUAL_TANK)) 
+		if ((!mApp->mBoard->mCoinList->empty() || (!mApp->mBoard->mFoodList->empty() && mApp->mGameMode != GAMEMODE_VIRTUAL_TANK)) 
 			&& !m0x245)
 		{
 			mSpeedMod = 0.5;
@@ -733,7 +734,7 @@ bool Sexy::FishTypePet::Hungry()
 		}
 
 		if ((!mApp->mBoard->AliensInTank() && mApp->mBoard->mMissleList1->empty()) || 
-			(mApp->mGameMode == WinFishApp::GAMEMODE_CHALLENGE && mApp->mBoard->m0x45c > 1 && WadsworthFishesCheck()))
+			(mApp->mGameMode == GAMEMODE_CHALLENGE && mApp->mBoard->m0x45c > 1 && WadsworthFishesCheck()))
 		{
 			if (m0x250)
 			{
@@ -1181,7 +1182,7 @@ Sexy::GameObject* Sexy::FishTypePet::FindNearestFood()
 	else if (mFishTypePetType == PET_NIMBUS)
 	{ 
 		if (mApp->mBoard->mAlienList->empty() && mApp->mBoard->mBilaterusList->empty() && 
-			mApp->mGameMode != WinFishApp::GAMEMODE_VIRTUAL_TANK)
+			mApp->mGameMode != GAMEMODE_VIRTUAL_TANK)
 		{
 			for (int i = 0; i < mApp->mBoard->mFoodList->size(); i++)
 			{
@@ -1199,9 +1200,9 @@ Sexy::GameObject* Sexy::FishTypePet::FindNearestFood()
 
 		int aPentaCnt = mApp->mBoard->mPentaList->size();
 
-		for (int i = 0; i < mApp->mBoard->mCoinList1->size(); i++)
+		for (int i = 0; i < mApp->mBoard->mCoinList->size(); i++)
 		{
-			Coin* anObj = mApp->mBoard->mCoinList1->at(i);
+			Coin* anObj = mApp->mBoard->mCoinList->at(i);
 			if (anObj->mCoinType != 17)
 			{ 
 				if ((anObj->mCoinType == 3 || anObj->mCoinType == 10) && aPentaCnt != 0)
@@ -1378,9 +1379,9 @@ void Sexy::FishTypePet::CollideWithFood()
 	{
 		bool isScrSvr = mApp->IsScreenSaver();
 		bool noPenta = mApp->mBoard->mPentaList->empty();
-		for (int i = 0; i < mApp->mBoard->mCoinList1->size(); i++)
+		for (int i = 0; i < mApp->mBoard->mCoinList->size(); i++)
 		{
-			Coin* aCoin = mApp->mBoard->mCoinList1->at(i);
+			Coin* aCoin = mApp->mBoard->mCoinList->at(i);
 
 			int aCoinX = aCoin->mX + 40;
 			int aCoinY = aCoin->mY + 40;
@@ -1397,7 +1398,7 @@ void Sexy::FishTypePet::CollideWithFood()
 			}
 		}
 
-		if (!mApp->mBoard->AliensInTank() && mApp->mGameMode != WinFishApp::GAMEMODE_VIRTUAL_TANK)
+		if (!mApp->mBoard->AliensInTank() && mApp->mGameMode != GAMEMODE_VIRTUAL_TANK)
 		{
 			for (int i = 0; i < mApp->mBoard->mFoodList->size(); i++)
 			{
@@ -1430,7 +1431,7 @@ void Sexy::FishTypePet::CollideWithFood()
 				mApp->mBoard->PlaySlurpSound(false);
 				aFood->Remove();
 				m0x240++;
-				m0x23c = mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK ? 108 : 45;
+				m0x23c = mApp->mGameMode == GAMEMODE_VIRTUAL_TANK ? 108 : 45;
 				if (m0x240 % 3 == 0 && CanDropCoin())
 				{
 					int aCoinType = 10;
@@ -1737,9 +1738,9 @@ bool Sexy::FishTypePet::HandleMouseDown(int x, int y, int theClickCount)
 
 				aFish->Die(false);
 				if (aCounter < aMaxDropCount)
-					mApp->mBoard->DropCoin(mXD + 15, mYD + 10, 5, nullptr, -1, 0);
+					mApp->mBoard->DropCoin(aFish->mX + 15, aFish->mY + 10, 5, nullptr, -1, 0);
 
-				mApp->mBoard->SpawnShot(mXD, mYD, mApp->mSeed->Next() % 3 + 3);
+				mApp->mBoard->SpawnShot(aFish->mX, aFish->mY, mApp->mSeed->Next() % 3 + 3);
 				aCounter++;
 			}
 
@@ -1762,12 +1763,12 @@ bool Sexy::FishTypePet::HandleMouseDown(int x, int y, int theClickCount)
 				aCounter++;
 			}
 
-			if (!mApp->mBoard->HasAnyFish() && mApp->mGameMode != WinFishApp::GAMEMODE_VIRTUAL_TANK)
+			if (!mApp->mBoard->HasAnyFish() && mApp->mGameMode != GAMEMODE_VIRTUAL_TANK)
 				mApp->mBoard->SpawnGuppyBought();
 			mApp->mBoard->PlaySample(SOUND_EEL1_ID, 3, 1.0);
 			if (aCounter > 0)
 				mApp->mBoard->PlayDieSound(-1);
-			if (mApp->mGameMode != WinFishApp::GAMEMODE_VIRTUAL_TANK)
+			if (mApp->mGameMode != GAMEMODE_VIRTUAL_TANK)
 				mCoinDropT += 200;
 			mCoinDropTimer = -20;
 			m0x260 = 0;
@@ -1790,7 +1791,7 @@ bool Sexy::FishTypePet::HandleMouseDown(int x, int y, int theClickCount)
 
 		if (m0x24c != nullptr)
 		{
-			if (mApp->mGameMode != WinFishApp::GAMEMODE_VIRTUAL_TANK)
+			if (mApp->mGameMode != GAMEMODE_VIRTUAL_TANK)
 			{
 				m0x260++;
 				if (m0x260 > 4)
@@ -1941,7 +1942,7 @@ void Sexy::FishTypePet::DamageAlien(Alien* theAlien)
 {
 	if (mFishTypePetType == PET_ITCHY)
 	{
-		if (theAlien->mAlienType == Alien::ALIEN_DESTRUCTOR || theAlien->mAlienType == Alien::ALIEN_GUS)
+		if (theAlien->mAlienType == ALIEN_DESTRUCTOR || theAlien->mAlienType == ALIEN_GUS)
 			theAlien->mHealth -= 0.25;
 		else
 			theAlien->mHealth -= 1.0;
@@ -1949,7 +1950,7 @@ void Sexy::FishTypePet::DamageAlien(Alien* theAlien)
 	}
 	else if (mFishTypePetType == PET_GASH)
 	{
-		if (theAlien->mAlienType == Alien::ALIEN_DESTRUCTOR || theAlien->mAlienType == Alien::ALIEN_GUS)
+		if (theAlien->mAlienType == ALIEN_DESTRUCTOR || theAlien->mAlienType == ALIEN_GUS)
 			theAlien->mHealth -= 0.5;
 		else
 			theAlien->mHealth -= 3.0;

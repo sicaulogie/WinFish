@@ -1,13 +1,13 @@
+#include <SexyAppFramework/DialogButton.h>
+#include <SexyAppFramework/WidgetManager.h>
+
 #include "RegisterDialog.h"
 #include "WinFishApp.h"
-#include "WinFishAppCommon.h"
+#include "WinFishCommon.h"
 #include "Res.h"
 
-#include "SexyAppFramework/DialogButton.h"
-#include "SexyAppFramework/WidgetManager.h"
-
 Sexy::RegisterDialog::RegisterDialog(WinFishApp* theApp) :
-	MoneyDialog(theApp, IMAGE_DIALOG, IMAGE_DIALOGBUTTON, WinFishApp::DIALOG_REGISTER, true, "Register Insaniquarium",
+	MoneyDialog(theApp, IMAGE_DIALOG, IMAGE_DIALOGBUTTON, DIALOG_REGISTER, true, "Register Insaniquarium",
 		"You must obtain a registration code online and enter it below.", "", BUTTONS_OK_CANCEL)
 {
 	mApp = theApp;

@@ -1,9 +1,9 @@
-#include "SexyAppFramework/WidgetManager.h"
-#include "SexyAppFramework/Font.h"
+#include <SexyAppFramework/WidgetManager.h>
+#include <SexyAppFramework/Font.h>
 
 #include "StoryScreen.h"
 #include "WinFishApp.h"
-#include "WinFishAppCommon.h"
+#include "WinFishCommon.h"
 #include "BubbleMgr.h"
 #include "ProfileMgr.h"
 #include "Res.h"

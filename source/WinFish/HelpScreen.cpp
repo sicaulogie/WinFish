@@ -1,14 +1,14 @@
+#include <SexyAppFramework/DialogButton.h>
+#include <SexyAppFramework/WidgetManager.h>
+#include <SexyAppFramework/Font.h>
+#include <SexyAppFramework/D3DInterface.h>
+#include <SexyAppFramework/DDInterface.h>
+
 #include "HelpScreen.h"
-#include "WinFishAppCommon.h"
+#include "WinFishCommon.h"
 #include "WinFishApp.h"
 #include "BubbleMgr.h"
 #include "Res.h"
-
-#include "SexyAppFramework/DialogButton.h"
-#include "SexyAppFramework/WidgetManager.h"
-#include "SexyAppFramework/Font.h"
-#include <SexyAppFramework/D3DInterface.h>
-#include <SexyAppFramework/DDInterface.h>
 
 using namespace Sexy;
 

@@ -1,5 +1,8 @@
-#pragma once
+#ifndef __ULTRA_H__
+#define __ULTRA_H__
+
 #include "Fish.h"
+
 namespace Sexy
 {
 	class Ultra : public Fish
@@ -27,3 +30,4 @@ namespace Sexy
 	};
 }
 
+#endif

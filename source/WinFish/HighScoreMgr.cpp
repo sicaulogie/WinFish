@@ -1,6 +1,6 @@
 #include "HighScoreMgr.h"
 #include "ProfileMgr.h"
-#include "WinFishAppCommon.h"
+#include "WinFishCommon.h"
 #include "WinFishApp.h"
 #include "DataSync.h"
 

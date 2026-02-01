@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __HIGHSCOREMGR_H__
+#define __HIGHSCOREMGR_H__
 
 #include <SexyAppFramework/Common.h>
 #include "DataSync.h"
@@ -6,7 +7,6 @@
 namespace Sexy
 {
 	class UserProfile;
-	class DataSync;
 
 	struct HighScoreEntry
 	{
@@ -53,3 +53,4 @@ namespace Sexy
 	};
 }
 
+#endif

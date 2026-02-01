@@ -1,4 +1,4 @@
-#include "SexyAppFramework/WidgetManager.h"
+#include <SexyAppFramework/WidgetManager.h>
 
 #include "Oscar.h"
 #include "WinFishApp.h"
@@ -147,7 +147,7 @@ void Sexy::Oscar::DropCoin()
 	{
 		mCoinDropTimer = 0;
 		if (RelaxModeCanDrop())
-			mApp->mBoard->DropCoin(mX + 5, mY + 10, CoinTypes::COIN_DIAMOND, nullptr, -1.0, 0);
+			mApp->mBoard->DropCoin(mX + 5, mY + 10, COIN_DIAMOND, nullptr, -1.0, 0);
 	}
 }
 

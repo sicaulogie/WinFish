@@ -1,8 +1,12 @@
-#pragma once
+#ifndef __PENTA_H__
+#define __PENTA_H__
+
 #include "GameObject.h"
-#include "Coin.h"
+
 namespace Sexy
 {
+	class Coin;
+
 	class Penta : public GameObject
 	{
 	public:
@@ -54,3 +58,4 @@ namespace Sexy
 	};
 }
 
+#endif

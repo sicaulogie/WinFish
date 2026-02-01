@@ -1,9 +1,9 @@
-#include "MoneyDialog.h"
-#include "Res.h"
-#include "WinFishAppCommon.h"
-#include "WinFishApp.h"
+#include <SexyAppFramework/DialogButton.h>
 
-#include "SexyAppFramework/DialogButton.h"
+#include "MoneyDialog.h"
+#include "WinFishCommon.h"
+#include "WinFishApp.h"
+#include "Res.h"
 
 using namespace Sexy;
 

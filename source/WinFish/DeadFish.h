@@ -1,5 +1,8 @@
-#pragma once
+#ifndef __DEADFISH_H__
+#define __DEADFISH_H__
+
 #include "GameObject.h"
+
 namespace Sexy
 {
 	class DeadFish : public GameObject
@@ -33,3 +36,4 @@ namespace Sexy
 	};
 }
 
+#endif

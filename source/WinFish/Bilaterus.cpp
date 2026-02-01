@@ -1,4 +1,4 @@
-#include "SexyAppFramework/WidgetManager.h"
+#include <SexyAppFramework/WidgetManager.h>
 
 #include "Bilaterus.h"
 #include "BilaterusHead.h"
@@ -90,7 +90,7 @@ void Bilaterus::Update()
 	if (mApp->mBoard == nullptr || mApp->mBoard->mPause)
 		return;
 
-	if (mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK && mUpdateCnt > 4320)
+	if (mApp->mGameMode == GAMEMODE_VIRTUAL_TANK && mUpdateCnt > 4320)
 	{
 		if (mActiveHead != nullptr)
 		{

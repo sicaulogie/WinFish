@@ -1,26 +1,20 @@
-#pragma once
+#ifndef __INTERLUDESCREEN_H__
+#define __INTERLUDESCREEN_H__
+
 #include "SexyAppFramework/Widget.h"
 #include "SexyAppFramework/ButtonListener.h"
-#include "WinFishApp.h"
 
 namespace Sexy
 {
+	class WinFishApp;
 	class BubbleMgr;
 	class HyperlinkWidget;
+	class InterludeScreenOverlay;
 
 	extern bool gInterludeBool01;
 	extern int gInterludeInt02;
 	extern int gInterludeInt03;
 	extern int gInterludeArray01[15];
-
-	class InterludeScreenOverlay : public Widget
-	{
-	public:
-		InterludeScreen* mScreen;
-
-	public:
-		virtual void			Draw(Graphics* g);
-	};
 
 	class InterludeScreen : public Widget, public ButtonListener
 	{
@@ -55,4 +49,15 @@ namespace Sexy
 		void					DrawAngieHalo(Graphics* g, int theX, int theY, float theAlpha, int theFrame, bool mirror);
 		void					DrawPetAngieSpawns(Graphics* g, int unk1, int thePetId, int theX, int theY, int unk5, int unk6, int unk7);
 	};
+
+	class InterludeScreenOverlay : public Widget
+	{
+	public:
+		InterludeScreen* mScreen;
+
+	public:
+		virtual void			Draw(Graphics* g);
+	};
 }
+
+#endif

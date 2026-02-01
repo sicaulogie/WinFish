@@ -1,5 +1,8 @@
-#pragma once
+#ifndef __BIFISH_H__
+#define __BIFISH_H__
+
 #include "Fish.h"
+
 namespace Sexy
 {
 	class BiFish : public Fish
@@ -32,3 +35,4 @@ namespace Sexy
 	};
 }
 
+#endif

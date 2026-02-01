@@ -1,4 +1,4 @@
-#include "SexyAppFramework/WidgetManager.h"
+#include <SexyAppFramework/WidgetManager.h>
 
 #include "BilaterusHead.h"
 #include "BilaterusBone.h"
@@ -463,19 +463,19 @@ Sexy::GameObject* Sexy::BilaterusHead::FindNearestTarget()
 
 		switch (anObj->mType)
 		{
-		case GameObject::TYPE_GUPPY:
+		case TYPE_GUPPY:
 			chase = !((Fish*)anObj)->WadsworthActive();
 			break;
-		case GameObject::TYPE_OSCAR:
-		case GameObject::TYPE_ULTRA:
-		case GameObject::TYPE_GEKKO:
-		case GameObject::TYPE_PENTA:
-		case GameObject::TYPE_GRUBBER:
-		case GameObject::TYPE_BREEDER:
+		case TYPE_OSCAR:
+		case TYPE_ULTRA:
+		case TYPE_GEKKO:
+		case TYPE_PENTA:
+		case TYPE_GRUBBER:
+		case TYPE_BREEDER:
 			chase = true;
 			break;
-		case GameObject::TYPE_OTHER_TYPE_PET:
-		case GameObject::TYPE_FISH_TYPE_PET:
+		case TYPE_OTHER_TYPE_PET:
+		case TYPE_FISH_TYPE_PET:
 			if (aBoard->mCyraxPtr) chase = true;
 			break;
 		default: 

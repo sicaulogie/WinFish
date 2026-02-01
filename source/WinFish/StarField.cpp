@@ -1,7 +1,8 @@
+#include <SexyAppFramework/DDImage.h>
+
 #include "StarField.h"
 #include "WinFishApp.h"
 #include "Board.h"
-#include "SexyAppFramework/DDImage.h"
 
 using namespace Sexy;
 

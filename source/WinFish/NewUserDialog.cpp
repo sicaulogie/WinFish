@@ -1,12 +1,14 @@
+#include <SexyAppFramework/WidgetManager.h>
+
 #include "NewUserDialog.h"
-#include "WinFishAppCommon.h"
-#include "SexyAppFramework/WidgetManager.h"
+#include "WinFishApp.h"
+#include "WinFishCommon.h"
 #include "Res.h"
 
 using namespace Sexy;
 
 Sexy::NewUserDialog::NewUserDialog(WinFishApp* theApp, bool theRename)
-	: MoneyDialog(theApp, IMAGE_DIALOG, IMAGE_DIALOGBUTTON, theRename * 2 + WinFishApp::DIALOG_NEW_USER, true, theRename ? "RENAME USER" : "NEW USER",
+	: MoneyDialog(theApp, IMAGE_DIALOG, IMAGE_DIALOGBUTTON, theRename * 2 + DIALOG_NEW_USER, true, theRename ? "RENAME USER" : "NEW USER",
 		"\nPlease enter your name.", "", BUTTONS_OK_CANCEL)
 {
 	SetButtonFont(FONT_JUNGLEFEVER12OUTLINE);

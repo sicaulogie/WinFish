@@ -1,9 +1,11 @@
-#include "SexyAppFramework/Font.h"
-#include "SexyAppFramework/WidgetManager.h"
+#include <SexyAppFramework/Font.h>
+#include <SexyAppFramework/WidgetManager.h>
+#include <SexyAppFramework/DialogButton.h>
+#include <SexyAppFramework/MTRand.h>
 
 #include "StoreScreen.h"
 #include "WinFishApp.h"
-#include "WinFishAppCommon.h"
+#include "WinFishCommon.h"
 #include "Board.h"
 #include "MyLabelWidget.h"
 #include "ProfileMgr.h"
@@ -18,6 +20,7 @@
 #include "BallFish.h"
 #include "BiFish.h"
 #include "Food.h"
+#include "StoreButtonWidget.h"
 #include "Res.h"
 
 #include <ctime>
@@ -294,7 +297,7 @@ void Sexy::StoreScreen::ButtonDepress(int theId)
 				break;
 			}
 
-			mApp->DoDialog(WinFishApp::DIALOG_INFO, true, "Not Enough Shells", StrFormat("Sorry, but you need more Shells to purchase %s.\n\nKeep playing to earn more!", aStrExtension.c_str()), "OK", Dialog::BUTTONS_FOOTER);
+			mApp->DoDialog(DIALOG_INFO, true, "Not Enough Shells", StrFormat("Sorry, but you need more Shells to purchase %s.\n\nKeep playing to earn more!", aStrExtension.c_str()), "OK", Dialog::BUTTONS_FOOTER);
 		}
 		else
 		{
@@ -328,11 +331,11 @@ void Sexy::StoreScreen::ButtonDepress(int theId)
 				if (aNextId < 0)
 				{
 					if (mApp->mCurrentProfile->mBubbulatorBought == 0)
-						mApp->DoDialog(WinFishApp::DIALOG_INFO, true, "Fishtank is Full", 
+						mApp->DoDialog(DIALOG_INFO, true, "Fishtank is Full", 
 							"You\'ll need to free up some room in your tank before you can buy another fish.  You can either buy a bubbulator or sell a fish back to us.", 
 							"OK", Dialog::BUTTONS_FOOTER);
 					else
-						mApp->DoDialog(WinFishApp::DIALOG_INFO, true, "Fishtank is Full", 
+						mApp->DoDialog(DIALOG_INFO, true, "Fishtank is Full", 
 							"You\'ll need to free up some room in your tank before you can buy another fish.", 
 							"OK", Dialog::BUTTONS_FOOTER);
 				}
@@ -469,10 +472,10 @@ void Sexy::StoreScreen::ItemsStoreSlots()
 		mStoreButtons[2]->SetProductType(PRODUCT_UPGRADE, 0, 20000);
 	else
 	{
-		bool inTank = IsSpecialFishInTank(GameObject::COOKIE);
+		bool inTank = IsSpecialFishInTank(COOKIE);
 		GameObject* aProd = nullptr;
 		if (!inTank)
-			aProd = MakeSpecialFish(GameObject::COOKIE);
+			aProd = MakeSpecialFish(COOKIE);
 		else
 		{
 			aProd = GetRandomSpecialFish(false, -1, 9);
@@ -553,14 +556,14 @@ Sexy::GameObject* Sexy::StoreScreen::GetRandomSpecialFish(bool possibleClassicFi
 	};
 
 	WeightedEntry aTable[8];
-	aTable[0].mWeight = 26; aTable[0].mType = GameObject::TYPE_PENTA;
-	aTable[1].mWeight = 25; aTable[1].mType = GameObject::TYPE_GRUBBER;
-	aTable[2].mWeight = 25; aTable[2].mType = GameObject::TYPE_GEKKO;
-	aTable[3].mWeight = 10; aTable[3].mType = GameObject::TYPE_BREEDER;
-	aTable[4].mWeight = 5;  aTable[4].mType = GameObject::TYPE_ULTRA;
-	aTable[5].mWeight = 3;  aTable[5].mType = GameObject::TYPE_BI_FISH;
-	aTable[6].mWeight = 3;  aTable[6].mType = GameObject::TYPE_BALL_FISH;
-	aTable[7].mWeight = 3;  aTable[7].mType = GameObject::TYPE_SYLVESTER_FISH;
+	aTable[0].mWeight = 26; aTable[0].mType = TYPE_PENTA;
+	aTable[1].mWeight = 25; aTable[1].mType = TYPE_GRUBBER;
+	aTable[2].mWeight = 25; aTable[2].mType = TYPE_GEKKO;
+	aTable[3].mWeight = 10; aTable[3].mType = TYPE_BREEDER;
+	aTable[4].mWeight = 5;  aTable[4].mType = TYPE_ULTRA;
+	aTable[5].mWeight = 3;  aTable[5].mType = TYPE_BI_FISH;
+	aTable[6].mWeight = 3;  aTable[6].mType = TYPE_BALL_FISH;
+	aTable[7].mWeight = 3;  aTable[7].mType = TYPE_SYLVESTER_FISH;
 
 	int aLoopCnt = 0;
 	while (aLoopCnt < 100)
@@ -582,21 +585,21 @@ Sexy::GameObject* Sexy::StoreScreen::GetRandomSpecialFish(bool possibleClassicFi
 		{
 			switch (aTable[aSelectedObj].mType)
 			{
-			case GameObject::TYPE_ULTRA:
+			case TYPE_ULTRA:
 				return new Ultra(0, 0);
-			case GameObject::TYPE_GEKKO:
+			case TYPE_GEKKO:
 				return new Gekko(0, 0);
-			case GameObject::TYPE_PENTA:
+			case TYPE_PENTA:
 				return new Penta(0, 0);
-			case GameObject::TYPE_GRUBBER:
+			case TYPE_GRUBBER:
 				return new Grubber(0, 0);
-			case GameObject::TYPE_BREEDER:
+			case TYPE_BREEDER:
 				return new Breeder(0, 0);
-			case GameObject::TYPE_SYLVESTER_FISH:
+			case TYPE_SYLVESTER_FISH:
 				return new SylvesterFish(0, 0, false);
-			case GameObject::TYPE_BALL_FISH:
+			case TYPE_BALL_FISH:
 				return new BallFish(0, 0, false);
-			case GameObject::TYPE_BI_FISH:
+			case TYPE_BI_FISH:
 			{
 				BiFish* aFish = new BiFish(0, 0, false);
 				aFish->m0x230 = mRand.Next() & 1;
@@ -627,19 +630,19 @@ bool Sexy::StoreScreen::IsSpecialFishAllowed(int unk, int theType)
 	switch (unk)
 	{
 	case 1:
-		if (theType == GameObject::TYPE_BALL_FISH) return false;
-		if (theType == GameObject::TYPE_PENTA) return false;
+		if (theType == TYPE_BALL_FISH) return false;
+		if (theType == TYPE_PENTA) return false;
 		return true;
 	case 4:
-		if (theType == GameObject::TYPE_PENTA) return false;
-		if (theType == GameObject::TYPE_GRUBBER) return false;
-		if (theType == GameObject::TYPE_BALL_FISH) return false;
+		if (theType == TYPE_PENTA) return false;
+		if (theType == TYPE_GRUBBER) return false;
+		if (theType == TYPE_BALL_FISH) return false;
 		return true;
 	case 5:
-		return (theType != GameObject::TYPE_BALL_FISH);
+		return (theType != TYPE_BALL_FISH);
 	case 6:
-		if (theType == GameObject::TYPE_PENTA) return false;
-		if (theType == GameObject::TYPE_GRUBBER) return false;
+		if (theType == TYPE_PENTA) return false;
+		if (theType == TYPE_GRUBBER) return false;
 		return true;
 	case 2:
 	case 3:
@@ -754,18 +757,18 @@ Sexy::Fish* Sexy::StoreScreen::MakeSpecialFish(int theId)
 	Fish* aFish = nullptr;
 	switch (theId)
 	{
-	case GameObject::ROCKY:
+	case ROCKY:
 	{
 		aFish = new Fish(0, 0);
 		aFish->mHasSpecialColors = true;
 		aFish->mColors[0] = Color(0x2288ff);
 		aFish->mColors[1] = Color(0xffffff);
 		aFish->mVoracious = true;
-		aFish->mExoticDietFoodType = Food::EXO_FOOD_ULTRA;
+		aFish->mExoticDietFoodType = EXO_FOOD_ULTRA;
 		aFish->mName = "Rocky";
 		break;
 	}
-	case GameObject::LUDWIG:
+	case LUDWIG:
 	{
 		aFish = new Oscar(0, 0);
 		aFish->mSinging = true;
@@ -776,22 +779,22 @@ Sexy::Fish* Sexy::StoreScreen::MakeSpecialFish(int theId)
 		aFish->mColors[2] = Color(0x9ffa);
 		break;
 	}
-	case GameObject::COOKIE:
+	case COOKIE:
 	{
 		aFish = new Gekko(0, 0);
 		aFish->mName = "Cookie";
 		aFish->mExoticDietFoodType = 6;
 		break;
 	}
-	case GameObject::JOHNNYV:
+	case JOHNNYV:
 	{
 		aFish = new Oscar(0, 0);
 		aFish->SetFishColors(mRand.Next() % 1000, true);
 		aFish->mName = "Johnny V.";
-		aFish->mExoticDietFoodType = Food::EXO_FOOD_PIZZA;
+		aFish->mExoticDietFoodType = EXO_FOOD_PIZZA;
 		break;
 	}
-	case GameObject::KILGORE:
+	case KILGORE:
 	{
 		aFish = new Ultra(0, 0);
 		aFish->mName = "Kilgore";
@@ -853,11 +856,11 @@ void Sexy::StoreScreen::SpecialId5SetUp(GameObject* theObject)
 {
 	int aRand = mRand.Next() % 3;
 	if (aRand == 0)
-		theObject->mExoticDietFoodType = Food::EXO_FOOD_PIZZA;
+		theObject->mExoticDietFoodType = EXO_FOOD_PIZZA;
 	else if (aRand == 1)
-		theObject->mExoticDietFoodType = Food::EXO_FOOD_ICE_CREAM;
+		theObject->mExoticDietFoodType = EXO_FOOD_ICE_CREAM;
 	else if (aRand == 2)
-		theObject->mExoticDietFoodType = Food::EXO_FOOD_CHICKEN;
+		theObject->mExoticDietFoodType = EXO_FOOD_CHICKEN;
 }
 
 void Sexy::StoreScreen::SpecialId6SetUp(GameObject* theObject)
@@ -866,31 +869,31 @@ void Sexy::StoreScreen::SpecialId6SetUp(GameObject* theObject)
 	{
 		int aRand = mRand.Next() % 3;
 		if (aRand == 0)
-			theObject->mExoticDietFoodType = Food::EXO_FOOD_GUPPY;
+			theObject->mExoticDietFoodType = EXO_FOOD_GUPPY;
 		else if (aRand == 1)
-			theObject->mExoticDietFoodType = Food::EXO_FOOD_OSCAR;
+			theObject->mExoticDietFoodType = EXO_FOOD_OSCAR;
 		else
-			theObject->mExoticDietFoodType = Food::EXO_FOOD_ULTRA;
+			theObject->mExoticDietFoodType = EXO_FOOD_ULTRA;
 
-		if (theObject->mType == GameObject::TYPE_ULTRA)
+		if (theObject->mType == TYPE_ULTRA)
 		{
-			if (theObject->mExoticDietFoodType == Food::EXO_FOOD_OSCAR)
+			if (theObject->mExoticDietFoodType == EXO_FOOD_OSCAR)
 				continue;
 			break;
 		}
 
-		if (theObject->mType == GameObject::TYPE_OSCAR || 
-			theObject->mType == GameObject::TYPE_GRUBBER || 
-			theObject->mType == GameObject::TYPE_BI_FISH)
+		if (theObject->mType == TYPE_OSCAR || 
+			theObject->mType == TYPE_GRUBBER || 
+			theObject->mType == TYPE_BI_FISH)
 		{
-			if (theObject->mExoticDietFoodType == Food::EXO_FOOD_GUPPY)
+			if (theObject->mExoticDietFoodType == EXO_FOOD_GUPPY)
 				continue;
 			break;
 		}
 
-		if (theObject->mType == GameObject::TYPE_SYLVESTER_FISH)
+		if (theObject->mType == TYPE_SYLVESTER_FISH)
 		{
-			theObject->mExoticDietFoodType = Food::EXO_FOOD_GUPPY;
+			theObject->mExoticDietFoodType = EXO_FOOD_GUPPY;
 			break;
 		}
 
@@ -975,13 +978,13 @@ bool Sexy::StoreScreen::IsSpecialFishValid(GameObject* theObject)
 			isValid = false;
 	}
 
-	if (isValid && (dietType == Food::EXO_FOOD_PIZZA || dietType == Food::EXO_FOOD_ICE_CREAM || dietType == Food::EXO_FOOD_CHICKEN))
+	if (isValid && (dietType == EXO_FOOD_PIZZA || dietType == EXO_FOOD_ICE_CREAM || dietType == EXO_FOOD_CHICKEN))
 	{
 		if (!IsSpecialFishAllowed(5, fishType))
 			isValid = false;
 	}
 
-	if (isValid && (dietType == Food::EXO_FOOD_ULTRA || dietType == Food::EXO_FOOD_OSCAR || dietType == Food::EXO_FOOD_GUPPY))
+	if (isValid && (dietType == EXO_FOOD_ULTRA || dietType == EXO_FOOD_OSCAR || dietType == EXO_FOOD_GUPPY))
 	{
 		if (!IsSpecialFishAllowed(6, fishType))
 			isValid = false;

@@ -1,5 +1,8 @@
-#pragma once
+#ifndef __GRUBBER_H__
+#define __GRUBBER_H__
+
 #include "GameObject.h"
+
 namespace Sexy
 {
 	class Grubber : public GameObject
@@ -54,3 +57,4 @@ namespace Sexy
 	};
 }
 
+#endif

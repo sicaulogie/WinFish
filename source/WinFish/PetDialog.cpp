@@ -1,16 +1,18 @@
-#include "SexyAppFramework/DialogButton.h"
-#include "SexyAppFramework/Font.h"
+#include <SexyAppFramework/DialogButton.h>
+#include <SexyAppFramework/Font.h>
 
 #include "PetDialog.h"
+#include "WinFishApp.h"
 #include "ProfileMgr.h"
+#include "GameObject.h"
 #include "Res.h"
 
 using namespace Sexy;
 
 Sexy::PetDialog::PetDialog(WinFishApp* theApp)
-	: MoneyDialog(theApp, IMAGE_DIALOG, IMAGE_DIALOGBUTTON, WinFishApp::DIALOG_PET_DIALOG, false, "PRESTO CHANGE-O", "", "CANCEL", Dialog::BUTTONS_FOOTER)
+	: MoneyDialog(theApp, IMAGE_DIALOG, IMAGE_DIALOGBUTTON, DIALOG_PET_DIALOG, false, "PRESTO CHANGE-O", "", "CANCEL", Dialog::BUTTONS_FOOTER)
 {
-	for (int i = 0; i < GameObject::PET_END; i++)
+	for (int i = 0; i < PET_END; i++)
 		mRects[i] = Rect(0, 0, 0, 0);
 
 	mContentInsets.mLeft = 100;
@@ -35,13 +37,13 @@ Sexy::PetDialog::PetDialog(WinFishApp* theApp)
 		j++;
 	}
 	aX -= 52;
-	for (; j < GameObject::PET_END; j++)
+	for (; j < PET_END; j++)
 	{
 		aY -= 50;
 		mRects[j] = Rect(aX, aY, 50, 50);
 	}
 
-	for (int i = 0; i < GameObject::PET_END; i++)
+	for (int i = 0; i < PET_END; i++)
 		mPetsUnlocked[i] = mApp->mCurrentProfile->IsPetUnlocked(i);
 }
 
@@ -67,7 +69,7 @@ void Sexy::PetDialog::Draw(Graphics* g)
 	int anAscent = g->GetFont()->GetAscent();
 	WriteCenteredLine(g, anAscent + 5, "PRESTO CHANGE-O");
 
-	for (int i = 0; i < GameObject::PET_END; i++)
+	for (int i = 0; i < PET_END; i++)
 	{
 		if (mPetsUnlocked[i])
 		{
@@ -144,7 +146,7 @@ int Sexy::PetDialog::MouseAtHandle(int x, int y)
 		y < mRects[theId].mY || y >= (mRects[theId].mY + mRects[theId].mHeight))
 	{
 		theId++;
-		if (theId >= GameObject::PET_END)
+		if (theId >= PET_END)
 			return -1;
 	}
 	if (!mPetsUnlocked[theId])

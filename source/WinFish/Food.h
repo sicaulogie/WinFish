@@ -1,7 +1,22 @@
-#pragma once
+#ifndef __FOOD_H__
+#define __FOOD_H__
+
 #include "GameObject.h"
+
 namespace Sexy
 {
+	enum ExoticFoodTypes
+	{
+		EXO_FOOD_SNOT = 2,
+		EXO_FOOD_PIZZA = 3,
+		EXO_FOOD_ICE_CREAM = 4,
+		EXO_FOOD_CHICKEN = 5,
+		EXO_FOOD_GUPPY = 1000 + TYPE_GUPPY,
+		EXO_FOOD_OBJECTS_START = EXO_FOOD_GUPPY,
+		EXO_FOOD_OSCAR = 1000 + TYPE_OSCAR,
+		EXO_FOOD_ULTRA = 1000 + TYPE_ULTRA,
+	};
+
 	class Food : public GameObject
 	{
 	public:
@@ -17,18 +32,6 @@ namespace Sexy
 		bool m0x190;
 		int mExoticFoodType;
 		int mCantEatTimer;
-		
-		enum ExoticFoodTypes
-		{
-			EXO_FOOD_SNOT = 2,
-			EXO_FOOD_PIZZA = 3,
-			EXO_FOOD_ICE_CREAM = 4,
-			EXO_FOOD_CHICKEN = 5,
-			EXO_FOOD_GUPPY = 1000 + TYPE_GUPPY,
-			EXO_FOOD_OBJECTS_START = EXO_FOOD_GUPPY,
-			EXO_FOOD_OSCAR = 1000 + TYPE_OSCAR,
-			EXO_FOOD_ULTRA = 1000 + TYPE_ULTRA,
-		};
 
 	public:
 		Food();
@@ -47,3 +50,5 @@ namespace Sexy
 		void					PickUp();
 	};
 }
+
+#endif

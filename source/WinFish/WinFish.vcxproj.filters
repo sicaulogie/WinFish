@@ -171,7 +171,7 @@
     <ClCompile Include="WorkerThread.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="WinFishAppCommon.cpp">
+    <ClCompile Include="WinFishCommon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BonusScreen.cpp">
@@ -392,7 +392,7 @@
     <ClInclude Include="WorkerThread.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="WinFishAppCommon.h">
+    <ClInclude Include="WinFishCommon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BonusScreen.h">

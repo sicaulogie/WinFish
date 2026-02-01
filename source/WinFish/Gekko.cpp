@@ -1,4 +1,4 @@
-#include "SexyAppFramework/WidgetManager.h"
+#include <SexyAppFramework/WidgetManager.h>
 
 #include "Gekko.h"
 #include "WinFishApp.h"
@@ -131,7 +131,7 @@ void Sexy::Gekko::DropCoin()
 		{
 			mCoinDropTimer = 0;
 			if (RelaxModeCanDrop())
-				mApp->mBoard->DropCoin(mX + 5, mY + 10, CoinTypes::COIN_PEARL, nullptr, -1.0, 0);
+				mApp->mBoard->DropCoin(mX + 5, mY + 10, COIN_PEARL, nullptr, -1.0, 0);
 		}
 	}
 }
@@ -321,9 +321,9 @@ Sexy::GameObject* Sexy::Gekko::FindNearestFood()
 			}
 		}
 	}
-	for (int i = 0; i < aBoard->mCoinList1->size(); i++)
+	for (int i = 0; i < aBoard->mCoinList->size(); i++)
 	{
-		Coin* aFood = aBoard->mCoinList1->at(i);
+		Coin* aFood = aBoard->mCoinList->at(i);
 		if (aFood->mCoinType == 18 && !aFood->m0x198)
 		{
 			int ax = (aFood->mX + 20) - aCenterX;
@@ -356,9 +356,9 @@ void Sexy::Gekko::CollideWithFood()
 			if (!aFood->mPickedUp && FoodCollided(aFood))
 				return;
 		}
-		for (int i = 0; i < aBoard->mCoinList1->size(); i++)
+		for (int i = 0; i < aBoard->mCoinList->size(); i++)
 		{
-			Coin* aFood = aBoard->mCoinList1->at(i);
+			Coin* aFood = aBoard->mCoinList->at(i);
 			if (aFood->mCoinType == 18 && !aFood->m0x198 && FoodCollided(aFood))
 				return;
 		}

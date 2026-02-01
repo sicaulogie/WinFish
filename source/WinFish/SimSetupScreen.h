@@ -1,13 +1,16 @@
-#pragma once
+#ifndef __SIMSETUPSCREEN_H__
+#define __SIMSETUPSCREEN_H__
+
 #include "SexyAppFramework/Widget.h"
 #include "SexyAppFramework/ButtonListener.h"
 #include "SexyAppFramework/CheckboxListener.h"
-#include "SexyAppFramework/DialogButton.h"
-#include "SexyAppFramework/Checkbox.h"
-#include "WinFishApp.h"
 
 namespace Sexy
 {
+	class WinFishApp;
+	class Checkbox;
+	class DialogButton;
+
 	class SimSetupScreen : public Widget, public ButtonListener, public CheckboxListener
 	{
 	public:
@@ -44,3 +47,5 @@ namespace Sexy
 		void					SellBackground(bool sell);
 	};
 }
+
+#endif

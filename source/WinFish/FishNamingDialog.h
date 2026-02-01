@@ -1,9 +1,13 @@
-#pragma once
+#ifndef __FISHNAMINGDIALOG_H__
+#define __FISHNAMINGDIALOG_H__
+
 #include "MoneyDialog.h"
 #include "SexyAppFramework/EditListener.h"
-#include "SexyAppFramework/EditWidget.h"
+
 namespace Sexy
 {
+	class EditWidget;
+
 	class FishNamingDialog : public MoneyDialog, public EditListener
 	{
 	public:
@@ -27,3 +31,4 @@ namespace Sexy
 	};
 }
 
+#endif

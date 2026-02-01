@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __STORYSCREEN_H__
+#define __STORYSCREEN_H__
+
 #include "SexyAppFramework/Widget.h"
 #include "SexyAppFramework/ButtonListener.h"
 
@@ -7,6 +9,7 @@ namespace Sexy
 	class WinFishApp;
 	class BubbleMgr;
 	class HyperlinkWidget;
+
 	class StoryScreen : public Widget, public ButtonListener
 	{
 	public:
@@ -34,3 +37,5 @@ namespace Sexy
 		void LoadTalkShow();
 	};
 }
+
+#endif

@@ -1,10 +1,11 @@
+#include <SexyAppFramework/WidgetManager.h>
+#include <SexyAppFramework/Font.h>
+
 #include "MenuButtonWidget.h"
 #include "ToolTipWidget.h"
 #include "WinFishApp.h"
 #include "Board.h"
 #include "Res.h"
-#include "SexyAppFramework/WidgetManager.h"
-#include "SexyAppFramework/Font.h"
 
 using namespace Sexy;
 

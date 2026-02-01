@@ -1,9 +1,11 @@
+#include <SexyAppFramework/DialogButton.h>
+#include <SexyAppFramework/MemoryImage.h>
+#include <SexyAppFramework/Font.h>
+
 #include "WinFishApp.h"
-#include "WinFishAppCommon.h"
-#include "SexyAppFramework/DialogButton.h"
-#include "SexyAppFramework/MemoryImage.h"
-#include "SexyAppFramework/Font.h"
+#include "WinFishCommon.h"
 #include "Res.h"
+
 #include <time.h>
 
 using namespace Sexy;
@@ -409,53 +411,53 @@ SexyString Sexy::GetPetName(int thePetId)
 {
     switch (thePetId)
     {
-    case GameObject::PET_STINKY:
+    case PET_STINKY:
         return "Stinky";
-    case GameObject::PET_NIKO:
+    case PET_NIKO:
         return "Niko";
-    case GameObject::PET_ITCHY:
+    case PET_ITCHY:
         return "Itchy";
-    case GameObject::PET_PREGO:
+    case PET_PREGO:
         return "Prego";
-    case GameObject::PET_ZORF:
+    case PET_ZORF:
         return "Zorf";
-    case GameObject::PET_CLYDE:
+    case PET_CLYDE:
         return "Clyde";
-    case GameObject::PET_VERT:
+    case PET_VERT:
         return "Vert";
-    case GameObject::PET_RUFUS:
+    case PET_RUFUS:
         return "Rufus";
-    case GameObject::PET_MERYL:
+    case PET_MERYL:
         return "Meryl";
-    case GameObject::PET_WADSWORTH:
+    case PET_WADSWORTH:
         return "Wadsworth";
-    case GameObject::PET_SEYMOUR:
+    case PET_SEYMOUR:
         return "Seymour";
-    case GameObject::PET_SHRAPNEL:
+    case PET_SHRAPNEL:
         return "Shrapnel";
-    case GameObject::PET_GUMBO:
+    case PET_GUMBO:
         return "Gumbo";
-    case GameObject::PET_BLIP:
+    case PET_BLIP:
         return "Blip";
-    case GameObject::PET_RHUBARB:
+    case PET_RHUBARB:
         return "Rhubarb";
-    case GameObject::PET_NIMBUS:
+    case PET_NIMBUS:
         return "Nimbus";
-    case GameObject::PET_AMP:
+    case PET_AMP:
         return "Amp";
-    case GameObject::PET_GASH:
+    case PET_GASH:
         return "Gash";
-    case GameObject::PET_ANGIE:
+    case PET_ANGIE:
         return "Angie";
-    case GameObject::PET_PRESTO:
+    case PET_PRESTO:
         return "Presto";
-    case GameObject::PET_BRINKLEY:
+    case PET_BRINKLEY:
         return "Brinkley";
-    case GameObject::PET_NOSTRADAMUS:
+    case PET_NOSTRADAMUS:
         return "Nostradamus";
-    case GameObject::PET_STANLEY:
+    case PET_STANLEY:
         return "Stanley";
-    case GameObject::PET_WALTER:
+    case PET_WALTER:
         return "Walter";
     default:
         return "";

@@ -1,5 +1,8 @@
-#pragma once
+#ifndef __FISHSONGMGR_H__
+#define __FISHSONGMGR_H__
+
 #include "SexyAppFramework/Common.h"
+
 namespace Sexy
 {
 	struct NoteData 
@@ -85,3 +88,5 @@ namespace Sexy
 		void				ClearSongs();
 	};
 }
+
+#endif

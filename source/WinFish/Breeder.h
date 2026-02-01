@@ -1,7 +1,11 @@
-#pragma once
-#include "Fish.h"
+#ifndef __BREEDER_H__
+#define __BREEDER_H__
+
+#include "GameObject.h"
+
 namespace Sexy
 {
+	class Food;
 	class Breeder : public GameObject
 	{
 	public:
@@ -68,3 +72,4 @@ namespace Sexy
 	};
 }
 
+#endif

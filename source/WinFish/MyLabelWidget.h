@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __MYLABELWIDGET_H__
+#define __MYLABELWIDGET_H__
 
 #include "SexyAppFramework/Widget.h"
 
@@ -16,9 +17,9 @@ namespace Sexy
 		MyLabelWidget();
 		virtual ~MyLabelWidget();
 
-
 		virtual void			Draw(Graphics* g);
 		virtual void			SetLabel(SexyString theLabel);
 	};
 }
 
+#endif

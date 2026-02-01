@@ -1,9 +1,9 @@
+#include <SexyAppFramework/WidgetManager.h>
+
 #include "Warp.h"
 #include "WinFishApp.h"
 #include "Board.h"
 #include "Res.h"
-
-#include "SexyAppFramework/WidgetManager.h"
 
 Sexy::Warp::Warp()
 {

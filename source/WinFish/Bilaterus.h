@@ -1,7 +1,7 @@
-#pragma once
+#ifndef __BILATERUS_H__
+#define __BILATERUS_H__
 
 #include "Alien.h"
-#include "BilaterusBone.h"
 
 namespace Sexy
 {
@@ -44,3 +44,4 @@ namespace Sexy
 
 
 
+#endif

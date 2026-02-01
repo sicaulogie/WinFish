@@ -1,22 +1,18 @@
-#pragma once
+#ifndef __SIMFISHSCREEN_H__
+#define __SIMFISHSCREEN_H__
+
 #include "SexyAppFramework/Widget.h"
 #include "SexyAppFramework/ButtonListener.h"
-#include "SexyAppFramework/DialogButton.h"
-#include "SexyAppFramework/MemoryImage.h"
-#include "WinFishApp.h"
-#include "FishButtonWidget.h"
-#include "BubbleMgr.h"
 
 namespace Sexy
 {
-	class SimFishScreenOverlay : public Widget
-	{
-	public:
-		SimFishScreen* mScreen;
-
-	public:
-		virtual void			Draw(Graphics* g);
-	};
+	class WinFishApp;
+	class FishButtonWidget;
+	class BubbleMgr;
+	class MemoryImage;
+	class DialogButton;
+	class SimFishScreenOverlay;
+	class GameObject;
 
 	class SimFishScreen : public Widget, public ButtonListener
 	{
@@ -63,4 +59,15 @@ namespace Sexy
 		void					RenameSelectedFish(SexyString theName);
 		void					SellSelectedObject(bool sell);
 	};
+
+	class SimFishScreenOverlay : public Widget
+	{
+	public:
+		SimFishScreen* mScreen;
+
+	public:
+		virtual void			Draw(Graphics* g);
+	};
 }
+
+#endif

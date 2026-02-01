@@ -1,10 +1,12 @@
-#pragma once
+#ifndef __UPDATECHECKDIALOG_H__
+#define __UPDATECHECKDIALOG_H__
 
-#include "SexyAppFramework/Dialog.h"
+#include <SexyAppFramework/Dialog.h>
 
 namespace Sexy
 {
 	class Image;
+
 	class UpdateCheckDialog : public Dialog, public ButtonListener
 	{
 	public:
@@ -24,3 +26,4 @@ namespace Sexy
 	};
 }
 
+#endif

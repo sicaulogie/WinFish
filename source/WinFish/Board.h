@@ -113,7 +113,7 @@ namespace Sexy
 		std::vector<DeadAlien*>*			mDeadAlienList;
 		std::vector<Fish*>*					mFishList;
 		std::vector<Oscar*>*				mOscarList;
-		std::vector<Coin*>*					mCoinList1;
+		std::vector<Coin*>*					mCoinList;
 		std::vector<Food*>*					mFoodList;
 		std::vector<OtherTypePet*>*			mOtherTypePetList;
 		std::vector<FishTypePet*>*			mFishTypePetList;
@@ -129,8 +129,8 @@ namespace Sexy
 		std::vector<Missle*>*				mMissleList1;
 		std::vector<Missle*>*				mMissleList2;
 		std::vector<Shadow*>*				mShadowList;
-		std::vector<Coin*>*					mCoinList2;
-		std::vector<Coin*>*					mCoinList3;
+		std::vector<Coin*>*					mNoteList;
+		std::vector<Coin*>*					mNikoPearlCoinList;
 		std::vector<Warp*>*					mWarpList;
 		std::vector<Bilaterus*>*			mBilaterusList;
 		std::vector<Fish*>*					mSpecialFishList;
@@ -143,7 +143,7 @@ namespace Sexy
 		BubbleMgr*							mBubbleMgr;
 		CheatCode*							mCheatCodes[8];
 		StarField*							mStarField;
-		int									mPetsInTank[GameObject::PET_END];
+		int									mPetsInTank[PET_END];
 		int									mSoundPlayedTimerArray[SOUND_END_ID - SOUND_START_ID + 1];
 		bool								mBonusRoundStarted;
 		bool								mIsBonusRound;

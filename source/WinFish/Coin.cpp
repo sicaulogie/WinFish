@@ -1,5 +1,5 @@
-#include "SexyAppFramework/WidgetManager.h"
-#include "SexyAppFramework/Font.h"
+#include <SexyAppFramework/WidgetManager.h>
+#include <SexyAppFramework/Font.h>
 
 #include "Coin.h"
 #include "WinFishApp.h"
@@ -697,7 +697,7 @@ void Sexy::Coin::Sync(DataSync* theSync)
 
 bool Sexy::Coin::IsShell()
 {
-	if (mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK || mApp->mBoard->mIsBonusRound)
+	if (mApp->mGameMode == GAMEMODE_VIRTUAL_TANK || mApp->mBoard->mIsBonusRound)
 		return true;
 	return false;
 }

@@ -1,10 +1,12 @@
-#pragma once
+#ifndef __MENUBUTTONWIDGET_H__
+#define __MENUBUTTONWIDGET_H__
 
 #include "SexyAppFramework/ButtonWidget.h"
 
 namespace Sexy
 {
 	class ToolTipWidget;
+
 	class MenuButtonWidget : public ButtonWidget
 	{
 	public:
@@ -43,3 +45,4 @@ namespace Sexy
 	};
 }
 
+#endif

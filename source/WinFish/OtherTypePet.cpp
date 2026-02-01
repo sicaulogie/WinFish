@@ -1,5 +1,5 @@
-#include "SexyAppFramework/WidgetManager.h"
-#include "SexyAppFramework/Font.h"
+#include <SexyAppFramework/WidgetManager.h>
+#include <SexyAppFramework/Font.h>
 
 #include "OtherTypePet.h"
 #include "BilaterusHead.h"
@@ -12,6 +12,7 @@
 #include "Gekko.h"
 #include "Breeder.h"
 #include "Ultra.h"
+#include "Coin.h"
 #include "Res.h"
 
 using namespace Sexy;
@@ -37,7 +38,7 @@ Sexy::OtherTypePet::OtherTypePet(int theX, int theY, int thePetType, int theBack
 	else
 		mPrestoTimer = 360;
 
-	if (mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK)
+	if (mApp->mGameMode == GAMEMODE_VIRTUAL_TANK)
 		mPrestoTimer = 0;
 
 	mXD = theX;
@@ -91,7 +92,7 @@ void Sexy::OtherTypePet::Update()
 	{
 		if (mOtherTypePetType == PET_CLYDE)
 		{
-			if (mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK)
+			if (mApp->mGameMode == GAMEMODE_VIRTUAL_TANK)
 				DeterminePetSleepy(&mSleepy);
 
 			if (mApp->mBoard->mTank == 5 || !ChaseEnemyBehavior())
@@ -176,7 +177,7 @@ void Sexy::OtherTypePet::Update()
 	}
 	else // 146 // IS stinky and isnt bg 5
 	{
-		if (mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK)
+		if (mApp->mGameMode == GAMEMODE_VIRTUAL_TANK)
 			if(DeterminePetSleepy(&mSleepy), mSleepy)
 				mPetAngryTimer = 0;
 		if (!ChaseEnemyBehavior())
@@ -623,7 +624,7 @@ void Sexy::OtherTypePet::UpdatePetSpecialAnimations()
 			mApp->mBoard->PlaySample(SOUND_NIKOCLOSE_ID, 3, 1.0);
 		else if (mPetSpecialtyTimer == 1233)
 		{
-			mApp->mBoard->DropCoin(mX + 1, mY - 2, CoinTypes::COIN_NIKOPEARL, this, -1.0, 0);
+			mApp->mBoard->DropCoin(mX + 1, mY - 2, COIN_NIKOPEARL, this, -1.0, 0);
 			m0x1c0 = false;
 			mApp->mBoard->SpawnBubble(mX + 11, mY + 5);
 			mApp->mBoard->SpawnBubble(mX + 7, mY + 3);
@@ -637,7 +638,7 @@ bool Sexy::OtherTypePet::ChaseEnemyBehavior()
 {
 	if (mOtherTypePetType == PET_STINKY || mOtherTypePetType == PET_CLYDE)
 	{
-		if (!mApp->mBoard->mCoinList1->empty())
+		if (!mApp->mBoard->mCoinList->empty())
 		{
 			if (mOtherTypePetType == PET_STINKY && mApp->mBoard->AliensInTank())
 				return false;
@@ -784,9 +785,9 @@ GameObject* Sexy::OtherTypePet::GetEntityToChase()
 	if (mOtherTypePetType == PET_STINKY || mOtherTypePetType == PET_CLYDE)
 	{
 		bool pentaInTank = !aBoard->mPentaList->empty();
-		for (int i = 0; i < aBoard->mCoinList1->size(); i++)
+		for (int i = 0; i < aBoard->mCoinList->size(); i++)
 		{
-			Coin* aCoin = aBoard->mCoinList1->at(i);
+			Coin* aCoin = aBoard->mCoinList->at(i);
 
 			if ((pentaInTank && aCoin->mCoinType != 10 && aCoin->mCoinType != 3) || !pentaInTank) // 104
 			{
@@ -1057,9 +1058,9 @@ void Sexy::OtherTypePet::CollideWithObject()
 	if (mOtherTypePetType == PET_STINKY || mOtherTypePetType == PET_CLYDE)
 	{
 		bool hasPenta = !mApp->mBoard->mPentaList->empty();
-		for (int i = 0; i < mApp->mBoard->mCoinList1->size(); i++)
+		for (int i = 0; i < mApp->mBoard->mCoinList->size(); i++)
 		{
-			Coin* aCoin = mApp->mBoard->mCoinList1->at(i);
+			Coin* aCoin = mApp->mBoard->mCoinList->at(i);
 
 			if (!hasPenta || (hasPenta && aCoin->mCoinType != 3 && aCoin->mCoinType != 10))
 			{
@@ -1103,11 +1104,11 @@ void Sexy::OtherTypePet::CollideWithObject()
 			if (mXD + 40.0 > anAlien->mX + 30 && mXD + 40.0 < anAlien->mX + 140 &&
 				mYD + 40.0 > anAlien->mY + 10 && mYD + 40.0 < anAlien->mY + 150 && !anAlien->mIsPsychosquidHealing)
 			{
-				if (anAlien->mAlienType == Alien::ALIEN_DESTRUCTOR)
+				if (anAlien->mAlienType == ALIEN_DESTRUCTOR)
 					anAlien->mHealth -= 0.25;
-				else if(anAlien->mAlienType == Alien::ALIEN_ULYSEES)
+				else if(anAlien->mAlienType == ALIEN_ULYSEES)
 					anAlien->mHealth -= 0.5;
-				else if(anAlien->mAlienType == Alien::ALIEN_GUS)
+				else if(anAlien->mAlienType == ALIEN_GUS)
 					anAlien->mHealth -= 0.5;
 				else
 					anAlien->mHealth -= 2.0;

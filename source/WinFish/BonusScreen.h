@@ -1,20 +1,15 @@
-#pragma once
+#ifndef __BONUSSCREEN_H__
+#define __BONUSSCREEN_H__
+
 #include "SexyAppFramework/Widget.h"
 #include "SexyAppFramework/ButtonListener.h"
 #include "SexyAppFramework/DialogButton.h"
-#include "WinFishApp.h"
-#include "BubbleMgr.h"
 
 namespace Sexy
 {
-	class BonusScreenOverlay : public Widget
-	{
-	public:
-		BonusScreen* mScreen;
-
-	public:
-		virtual void			Draw(Graphics* g);
-	};
+	class WinFishApp;
+	class BubbleMgr;
+	class BonusScreenOverlay;
 
 	class BonusScreen : public Widget, public ButtonListener
 	{
@@ -65,4 +60,15 @@ namespace Sexy
 		void					Init();
 		void					ConfirmPurchase();
 	};
+
+	class BonusScreenOverlay : public Widget
+	{
+	public:
+		BonusScreen* mScreen;
+
+	public:
+		virtual void			Draw(Graphics* g);
+	};
 }
+
+#endif

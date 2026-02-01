@@ -1,8 +1,9 @@
+#include <SexyAppFramework/WidgetManager.h>
+
 #include "Food.h"
 #include "Board.h"
-#include "Res.h"
 #include "WinFishApp.h"
-#include "SexyAppFramework/WidgetManager.h"
+#include "Res.h"
 
 using namespace Sexy;
 

@@ -1,9 +1,9 @@
+#include <SexyAppFramework/Font.h>
+
 #include "MessageWidget.h"
 #include "WinFishApp.h"
-#include "Res.h"
 #include "Board.h"
-
-#include "SexyAppFramework/Font.h"
+#include "Res.h"
 
 using namespace Sexy;
 

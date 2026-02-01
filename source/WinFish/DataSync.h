@@ -9,7 +9,6 @@
 #include <list>
 #include <map>
 #include <set>
-#include "GameObject.h"
 
 namespace Sexy
 {

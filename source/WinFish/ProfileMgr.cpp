@@ -1,7 +1,8 @@
+#include <SexyAppFramework/Common.h>
+
 #include "ProfileMgr.h"
 #include "WinFishApp.h"
-#include "WinFishAppCommon.h"
-#include "SexyAppFramework/Common.h"
+#include "WinFishCommon.h"
 
 using namespace Sexy;
 
@@ -401,7 +402,7 @@ void Sexy::UserProfile::Init()
     m0x78[3] = 0;
     m0x7c = 0;
     m0x80 = 0;
-    for (int i = 0; i < GameObject::PET_END; i++)
+    for (int i = 0; i < PET_END; i++)
     {
         mUnlockedPets[i] = false;
         m0x5a[i] = false;
@@ -497,7 +498,7 @@ void Sexy::UserProfile::SyncData(DataSync& theDataSync)
     theDataSync.SyncLong(mBonusItemId);
     theDataSync.SyncLong(m0xb4);
 
-    for (int i = 0; i < GameObject::PET_END; i++)
+    for (int i = 0; i < PET_END; i++)
         theDataSync.SyncBool(mUnlockedPets[i]);
     for (int i = 0; i < 6; i++)
         theDataSync.SyncBool(mUnlockedBackgrounds[i]);
@@ -545,7 +546,7 @@ void Sexy::UserProfile::SyncData(DataSync& theDataSync)
             UnlockPet(i, true);
 
         mNumOfUnlockedPets = 0;
-        for (int i = 0; i < GameObject::PET_END; i++)
+        for (int i = 0; i < PET_END; i++)
             if (mUnlockedPets[i])
                 mNumOfUnlockedPets++;
     }
@@ -605,12 +606,12 @@ SexyString Sexy::UserProfile::GetSaveGameFilePath(int theGameMode, int theUserId
     const char* aGameModeString;
     switch (theGameMode)
     {
-    case WinFishApp::GAMEMODE_ADVENTURE:    aGameModeString = gTextAdventure;       break;
-    case WinFishApp::GAMEMODE_TIME_TRIAL:   aGameModeString = gTextTimeTrial;       break;
-    case WinFishApp::GAMEMODE_SANDBOX:      aGameModeString = gTextSandbox;         break;
-    case WinFishApp::GAMEMODE_CHALLENGE:    aGameModeString = gTextChallenge;       break;
-    case WinFishApp::GAMEMODE_VIRTUAL_TANK: aGameModeString = gTextVirtualTank;     break;
-    default:                                aGameModeString = gTextAdventure;       break;
+    case GAMEMODE_ADVENTURE:        aGameModeString = gTextAdventure;       break;
+    case GAMEMODE_TIME_TRIAL:       aGameModeString = gTextTimeTrial;       break;
+    case GAMEMODE_SANDBOX:          aGameModeString = gTextSandbox;         break;
+    case GAMEMODE_CHALLENGE:        aGameModeString = gTextChallenge;       break;
+    case GAMEMODE_VIRTUAL_TANK:     aGameModeString = gTextVirtualTank;     break;
+    default:                        aGameModeString = gTextAdventure;       break;
     }
 
     char aPathBuffer[256];

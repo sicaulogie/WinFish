@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __REGISTERDIALOG_H__
+#define __REGISTERDIALOG_H__
 
 #include "MoneyDialog.h"
 #include "SexyAppFramework/EditListener.h"
@@ -8,6 +9,7 @@ namespace Sexy
 	class WinFishApp;
 	class DialogButton;
 	class EditWidget;
+
 	class RegisterDialog : public MoneyDialog, public ButtonListener, public EditListener
 	{
 	public:
@@ -32,3 +34,4 @@ namespace Sexy
 	};
 }
 
+#endif

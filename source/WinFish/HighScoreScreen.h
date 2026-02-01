@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __HIGHSCORESCREEN_H__
+#define __HIGHSCORESCREEN_H__
+
 #include "SexyAppFramework/Widget.h"
 #include "SexyAppFramework/ButtonListener.h"
 
@@ -22,7 +24,7 @@ namespace Sexy
 		DialogButton* mPersonalButton;
 		int mPage;
 
-		enum
+		enum HighScoreScreenPages
 		{
 			PAGE_ADV,
 			PAGE_TIME,
@@ -47,3 +49,5 @@ namespace Sexy
 		virtual void			ButtonDepress(int theId);
 	};
 }
+
+#endif

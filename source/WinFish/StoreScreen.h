@@ -1,22 +1,18 @@
-#pragma once
+#ifndef __STORESCREEN_H__
+#define __STORESCREEN_H__
 
-#include "WinFishApp.h"
-#include "StoreButtonWidget.h"
-#include "MyLabelWidget.h"
 #include "SexyAppFramework/Widget.h"
 #include "SexyAppFramework/ButtonListener.h"
-#include "SexyAppFramework/DialogButton.h"
 
 namespace Sexy
 {
-	class StoreScreenOverlay : public Widget
-	{
-	public:
-		StoreScreen* mScreen;
-
-	public:
-		virtual void			Draw(Graphics* g);
-	};
+	class WinFishApp;
+	class StoreButtonWidget;
+	class MyLabelWidget;
+	class DialogButton;
+	class StoreScreenOverlay;
+	class GameObject;
+	class Fish;
 
 	class StoreScreen : public Widget, public ButtonListener
 	{
@@ -84,4 +80,15 @@ namespace Sexy
 		void					SpecialId78SetUp(GameObject* theObject);
 		bool					IsSpecialFishValid(GameObject* theObject);
 	};
+
+	class StoreScreenOverlay : public Widget
+	{
+	public:
+		StoreScreen* mScreen;
+
+	public:
+		virtual void			Draw(Graphics* g);
+	};
 }
+
+#endif

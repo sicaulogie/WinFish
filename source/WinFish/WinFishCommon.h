@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __WINFISHAPPCOMMON_H__
+#define __WINFISHAPPCOMMON_H__
 
 #include "SexyAppFramework/Dialog.h"
 #include "SexyAppFramework/EditWidget.h"
@@ -45,3 +46,4 @@ namespace Sexy
 	int					GetLevelIndex(int theTank, int theLevel);
 }
 
+#endif

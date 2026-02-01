@@ -1,8 +1,7 @@
-#pragma once
+#ifndef __BILATERUSBONE_H__
+#define __BILATERUSBONE_H__
 
 #include "GameObject.h"
-#include "Alien.h"
-#include "Bilaterus.h"
 
 namespace Sexy
 {
@@ -54,3 +53,4 @@ namespace Sexy
 	};
 }
 
+#endif

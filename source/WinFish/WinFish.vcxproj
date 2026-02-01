@@ -239,7 +239,7 @@ xcopy "$(SolutionDir)fishsongs" "$(TargetDir)fishsongs\" /E /I /Y</Command>
     <ClCompile Include="StoreScreen.cpp" />
     <ClCompile Include="TitleScreen.cpp" />
     <ClCompile Include="Window.cpp" />
-    <ClCompile Include="WinFishAppCommon.cpp" />
+    <ClCompile Include="WinFishCommon.cpp" />
     <ClCompile Include="WorkerThread.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -314,7 +314,7 @@ xcopy "$(SolutionDir)fishsongs" "$(TargetDir)fishsongs\" /E /I /Y</Command>
     <ClInclude Include="Res.h" />
     <ClInclude Include="StoreScreen.h" />
     <ClInclude Include="TitleScreen.h" />
-    <ClInclude Include="WinFishAppCommon.h" />
+    <ClInclude Include="WinFishCommon.h" />
     <ClInclude Include="WorkerThread.h" />
   </ItemGroup>
   <ItemGroup>

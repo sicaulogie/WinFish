@@ -1,11 +1,12 @@
-#include "SexyAppFramework/WidgetManager.h"
-#include "SexyAppFramework/SoundManager.h"
-#include "SexyAppFramework/SoundInstance.h"
-#include "SexyAppFramework/Font.h"
+#include <SexyAppFramework/WidgetManager.h>
+#include <SexyAppFramework/SoundManager.h>
+#include <SexyAppFramework/SoundInstance.h>
+#include <SexyAppFramework/Font.h>
 
 #include "BonusScreen.h"
 #include "WinFishApp.h"
-#include "WinFishAppCommon.h"
+#include "BubbleMgr.h"
+#include "WinFishCommon.h"
 #include "Board.h"
 #include "ProfileMgr.h"
 #include "Res.h"
@@ -36,7 +37,7 @@ Sexy::BonusScreen::BonusScreen(WinFishApp* theApp)
 	mContinueButton->Resize(186, 445, 264, mContinueButton->mHeight);
 	mContinueButton->SetColor(0, Color(255, 240, 0));
 	mContinueButton->SetFont(FONT_JUNGLEFEVER12OUTLINE);
-	if (mApp->mGameMode == WinFishApp::GAMEMODE_CHALLENGE && mApp->mBoard)
+	if (mApp->mGameMode == GAMEMODE_CHALLENGE && mApp->mBoard)
 	{
 		mContinueButton->mLabel = "Click for Story Time";
 		mMenuButton->mVisible = false;
@@ -194,9 +195,9 @@ void Sexy::BonusScreen::Draw(Graphics* g)
 	g->SetColor(Color(255, 200, 0, 255));
 
 	SexyString aTitleStr = "BONUS RESULTS";
-	if (mApp->mGameMode == WinFishApp::GAMEMODE_CHALLENGE)
+	if (mApp->mGameMode == GAMEMODE_CHALLENGE)
 		aTitleStr = "CHALLENGE RESULTS";
-	else if (mApp->mGameMode == WinFishApp::GAMEMODE_TIME_TRIAL)
+	else if (mApp->mGameMode == GAMEMODE_TIME_TRIAL)
 		aTitleStr = "TIME TRIAL RESULTS";
 
 	WriteCenteredLine(g, 25, aTitleStr);
@@ -290,9 +291,9 @@ void Sexy::BonusScreen::ButtonDepress(int theId)
 	else if (theId == 0)
 	{
 		mApp->RemoveBonusScreen();
-		if (mApp->mGameMode != WinFishApp::GAMEMODE_TIME_TRIAL && mApp->mGameSelector == nullptr)
+		if (mApp->mGameMode != GAMEMODE_TIME_TRIAL && mApp->mGameSelector == nullptr)
 		{
-			if (mApp->mGameMode == WinFishApp::GAMEMODE_CHALLENGE)
+			if (mApp->mGameMode == GAMEMODE_CHALLENGE)
 				mApp->SwitchToStoryScreen(m0xb8);
 			else if (mApp->mCurrentProfile->mTank == 5 && mApp->mCurrentProfile->mLevel == 2)
 				mApp->SwitchToInterludeScreen();
@@ -306,7 +307,7 @@ void Sexy::BonusScreen::ButtonDepress(int theId)
 	{
 		if (mApp->mCurrentProfile->mShells < m0xd0)
 		{
-			mApp->DoDialog(WinFishApp::DIALOG_INFO, true, "Not Enough Shells", 
+			mApp->DoDialog(DIALOG_INFO, true, "Not Enough Shells", 
 				StrFormat("Sorry, but you need more Shells to purchase %s.  Keep playing to earn more!", 
 					mApp->mCurrentProfile->mBonusItemId < 4 ? "this Bonus Pet" : "this Bonus Upgrade"),
 				"OK", Dialog::BUTTONS_FOOTER);
@@ -578,7 +579,7 @@ void Sexy::BonusScreen::Init()
 		return;
 	}
 
-	if (mApp->mGameMode == WinFishApp::GAMEMODE_ADVENTURE)
+	if (mApp->mGameMode == GAMEMODE_ADVENTURE)
 	{
 		if (mApp->mBoard->mTank != 5)
 		{
@@ -605,7 +606,7 @@ void Sexy::BonusScreen::Init()
 			mBestScore2 = StrFormat("%d", mApp->mCurrentProfile->GetAdventureScore(5, 1));
 		}
 	}
-	else if (mApp->mGameMode == WinFishApp::GAMEMODE_TIME_TRIAL)
+	else if (mApp->mGameMode == GAMEMODE_TIME_TRIAL)
 	{
 		mBonusReward = mApp->mBoard->mMoney * 5 / 100;
 		mRewardString = StrFormat("%d%% Bonus Award", mBonusReward);
@@ -614,7 +615,7 @@ void Sexy::BonusScreen::Init()
 		mCurScore2 = CommaSeperate(mApp->mBoard->mMoney);
 		mBestScore2 = CommaSeperate(mApp->mCurrentProfile->GetTimeTrialScore(mApp->mBoard->mTank));
 	}
-	else if (mApp->mGameMode == WinFishApp::GAMEMODE_CHALLENGE)
+	else if (mApp->mGameMode == GAMEMODE_CHALLENGE)
 	{
 		switch (mApp->mBoard->mTank)
 		{
@@ -652,16 +653,16 @@ void Sexy::BonusScreen::ConfirmPurchase()
 	switch (aCurUser->mBonusItemId)
 	{
 	case 0:
-		aCurUser->UnlockPet(GameObject::PET_BRINKLEY, true);
+		aCurUser->UnlockPet(PET_BRINKLEY, true);
 		break;
 	case 1:
-		aCurUser->UnlockPet(GameObject::PET_NOSTRADAMUS, true);
+		aCurUser->UnlockPet(PET_NOSTRADAMUS, true);
 		break;
 	case 2:
-		aCurUser->UnlockPet(GameObject::PET_STANLEY, true);
+		aCurUser->UnlockPet(PET_STANLEY, true);
 		break;
 	case 3:
-		aCurUser->UnlockPet(GameObject::PET_WALTER, true);
+		aCurUser->UnlockPet(PET_WALTER, true);
 		break;
 	}
 	if (aCurUser->mBonusItemId >= 0 && aCurUser->mBonusItemId < 4)

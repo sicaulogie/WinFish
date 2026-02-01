@@ -1,7 +1,25 @@
-#pragma once
+#ifndef __ALIEN_H__
+#define __ALIEN_H__
+
 #include "GameObject.h"
+
 namespace Sexy
 {
+	enum AlienTypes
+	{
+		ALIEN_NONE,
+		ALIEN_WEAK_SYLV,
+		ALIEN_STRONG_SYLV,
+		ALIEN_BALROG,
+		ALIEN_GUS,
+		ALIEN_DESTRUCTOR,
+		ALIEN_ULYSEES,
+		ALIEN_PSYCHOSQUID,
+		ALIEN_BILATERUS,
+		ALIEN_MINI_SYLV = 20,
+		ALIEN_CYRAX
+	};
+
 	class Alien : public GameObject
 	{
 	public:
@@ -38,20 +56,6 @@ namespace Sexy
 		int mHitFlashTimer;
 		bool mIsPsychosquidHealing;
 
-		enum
-		{
-			ALIEN_NONE,
-			ALIEN_WEAK_SYLV,
-			ALIEN_STRONG_SYLV,
-			ALIEN_BALROG,
-			ALIEN_GUS,
-			ALIEN_DESTRUCTOR,
-			ALIEN_ULYSEES,
-			ALIEN_PSYCHOSQUID,
-			ALIEN_BILATERUS,
-			ALIEN_MINI_SYLV = 20,
-			ALIEN_CYRAX
-		};
 
 	public:
 		Alien();
@@ -82,3 +86,4 @@ namespace Sexy
 	};
 }
 
+#endif

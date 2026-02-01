@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __DEADALIEN_H__
+#define __DEADALIEN_H__
+
 #include "GameObject.h"
 
 namespace Sexy
@@ -34,3 +36,4 @@ namespace Sexy
 	};
 }
 
+#endif

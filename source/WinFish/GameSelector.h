@@ -1,16 +1,18 @@
-#pragma once
+#ifndef __GAMESELECTOR_H__
+#define __GAMESELECTOR_H__
 
-#include "SexyAppFramework/Widget.h"
-#include "SexyAppFramework/ButtonListener.h"
-#include "SexyAppFramework/ButtonWidget.h"
-#include "SexyAppFramework/DialogButton.h"
-#include "SexyAppFramework/HyperlinkWidget.h"
-#include "SexyAppFramework/MemoryImage.h"
+#include <SexyAppFramework/Widget.h>
+#include <SexyAppFramework/ButtonListener.h>
 #include "WinFishApp.h"
 
 namespace Sexy
 {
 	class GameSelector;
+	class MemoryImage;
+	class HyperlinkWidget;
+	class DialogButton;
+	class ButtonWidget;
+
 	class GameSelectorOverlay : public Widget
 	{
 	public:
@@ -76,3 +78,4 @@ namespace Sexy
 	};
 }
 
+#endif

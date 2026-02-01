@@ -1,6 +1,7 @@
-#pragma once
+#ifndef __BUBBLEMGR_H__
+#define __BUBBLEMGR_H__
 
-#include "SexyAppFramework/Common.h"
+#include <SexyAppFramework/Common.h>
 #include <SexyAppFramework/Graphics.h>
 
 namespace Sexy
@@ -76,3 +77,4 @@ namespace Sexy
 	};
 }
 
+#endif

@@ -1,5 +1,5 @@
-#ifndef _HELP_SCREEN__H_
-#define _HELP_SCREEN__H_
+#ifndef __HELPSCREEN_H__
+#define __HELPSCREEN_H__
 
 #include "SexyAppFramework/Widget.h"
 #include "SexyAppFramework/ButtonListener.h"

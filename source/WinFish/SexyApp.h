@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __SEXYAPP_H__
+#define __SEXYAPP_H__
 
 #include "SexyAppFramework/SexyAppBase.h"
 
@@ -77,3 +78,4 @@ namespace Sexy
     extern SexyApp* gSexyApp;
 }
 
+#endif

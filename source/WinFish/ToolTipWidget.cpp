@@ -1,7 +1,8 @@
+#include <SexyAppFramework/Font.h>
+#include <SexyAppFramework/WidgetManager.h>
+
 #include "ToolTipWidget.h"
 #include "Res.h"
-#include "SexyAppFramework/Font.h"
-#include "SexyAppFramework/WidgetManager.h"
 
 Sexy::ToolTipWidget::ToolTipWidget(SexyString theToolTip)
 	: MyLabelWidget()

@@ -1,14 +1,17 @@
-#pragma once
+#ifndef __OPTIONSDIALOG_H__
+#define __OPTIONSDIALOG_H__
 
 #include "MoneyDialog.h"
-#include "WinFishApp.h"
+#include "SexyAppFramework/ButtonListener.h"
 #include "SexyAppFramework/SliderListener.h"
 #include "SexyAppFramework/CheckboxListener.h"
-#include "SexyAppFramework/Checkbox.h"
-#include "SexyAppFramework/Slider.h"
 
 namespace Sexy
 {
+	class WinFishApp;
+	class Checkbox;
+	class Slider;
+
 	class OptionsDialog : public MoneyDialog, public ButtonListener, public SliderListener, public CheckboxListener
 	{
 	public:
@@ -50,3 +53,4 @@ namespace Sexy
 	};
 }
 
+#endif

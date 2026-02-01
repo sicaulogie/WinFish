@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __MESSAGEWIDGET_H__
+#define __MESSAGEWIDGET_H__
 
 #include "SexyAppFramework/Widget.h"
 #include "DataSync.h"
@@ -31,3 +32,4 @@ namespace Sexy
 	};
 }
 
+#endif

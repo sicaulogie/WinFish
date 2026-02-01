@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __BILATERUSHEAD_H__
+#define __BILATERUSHEAD_H__
 
 #include "Bilaterus.h"
 
@@ -64,3 +65,4 @@ namespace Sexy
 	};
 }
 
+#endif

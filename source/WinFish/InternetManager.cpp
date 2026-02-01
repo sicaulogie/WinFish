@@ -1,3 +1,5 @@
+#include <SexyAppFramework/HTTPTransfer.h>
+
 #include "InternetManager.h"
 #include "WinFishApp.h"
 

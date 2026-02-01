@@ -1,7 +1,7 @@
-#pragma once
+#ifndef __FISHTYPEPET_H__
+#define __FISHTYPEPET_H__
 
 #include "Fish.h"
-#include "BoxingGlove.h"
 
 namespace Sexy
 {
@@ -69,3 +69,4 @@ namespace Sexy
 	};
 }
 
+#endif

@@ -1,5 +1,8 @@
-#pragma once
+#ifndef __GEKKO_H__
+#define __GEKKO_H__
+
 #include "Fish.h"
+
 namespace Sexy
 {
     class Gekko : public Fish
@@ -29,3 +32,4 @@ namespace Sexy
     };
 }
 
+#endif

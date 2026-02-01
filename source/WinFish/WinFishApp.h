@@ -1,9 +1,10 @@
-#pragma once
+#ifndef __WINFISHAPP_H__
+#define __WINFISHAPP_H__
 
 #include "SexyApp.h"
-#include "SexyAppFramework/MTRand.h"
-#include "SexyAppFramework/Color.h"
-#include "SexyAppFramework/KeyCodes.h"
+#include <SexyAppFramework/MTRand.h>
+#include <SexyAppFramework/Color.h>
+#include <SexyAppFramework/KeyCodes.h>
 
 namespace Sexy
 {
@@ -72,11 +73,15 @@ namespace Sexy
 	extern int gSantaSongId;
 	extern int gSongs2Id;
 
+	///////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////
 	struct PrestoMenuData
 	{
 		MemoryImage*		mPetImages[24];
 	};
 
+	///////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////
 	struct CheatCode
 	{
 		SexyString		mCheatString;
@@ -126,6 +131,58 @@ namespace Sexy
 		}
 	};
 
+	///////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////
+	enum GameModes
+	{
+		GAMEMODE_ADVENTURE,
+		GAMEMODE_TIME_TRIAL,
+		GAMEMODE_PLACEHOLDER,
+		GAMEMODE_SANDBOX,
+		GAMEMODE_CHALLENGE,
+		GAMEMODE_VIRTUAL_TANK
+	};
+
+	///////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////
+	enum DialogIds
+	{
+		DIALOG_OPTIONS = 1,
+		DIALOG_REGISTER,
+		DIALOG_UPDATE_ASK = 5,
+		DIALOG_UPDATE_CHECK,
+		DIALOG_INVALID_CODE,
+		DIALOG_URL_INFO = 9,
+		DIALOG_QUIT_GAME = 11,
+		DIALOG_INFO = 14,
+		DIALOG_FISH_NAMING,
+		DIALOG_FIRST_LVL_GAME_OVER,
+		DIALOG_GAME_OVER,
+		DIALOG_LOST_FOCUS,
+		DIALOG_OUT_OF_MONEY_LOAN,
+		DIALOG_LEAVE_GAME = 22,
+		DIALOG_THANKS_FOR_REGISTER,
+		DIALOG_USER_DIALOG,
+		DIALOG_NEW_USER,
+		DIALOG_ARE_YOU_SURE_DELETE,
+		DIALOG_RENAME,
+		DIALOG_INFO_NEW_USER,
+		DIALOG_NAME_CONFLICT,
+		DIALOG_CONTINUE_GAME,
+		DIALOG_PET_DIALOG,
+		DIALOG_FOOD,
+		DIALOG_RESTART_GAME = 34,
+		DIALOG_CONFIRM_PURCHASE,
+		DIALOG_SELL_DIALOG,
+		DIALOG_SCREENSAVER,
+		DIALOG_TIMES_UP,
+		DIALOG_VIRTUAL,
+		DIALOG_GIVE_SHELLS,
+		DIALOG_END_ID
+	};
+
+	///////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////
 	class WinFishApp : public SexyApp
 	{
 	public:
@@ -193,54 +250,7 @@ namespace Sexy
 		OtherTypePet*					mPrestoPtr;
 		UserProfile*					mCurrentProfile;
 
-		enum GameModes
-		{
-			GAMEMODE_ADVENTURE,
-			GAMEMODE_TIME_TRIAL,
-			GAMEMODE_PLACEHOLDER,
-			GAMEMODE_SANDBOX,
-			GAMEMODE_CHALLENGE,
-			GAMEMODE_VIRTUAL_TANK
-		};
-
-		enum DialogIds
-		{
-			DIALOG_OPTIONS = 1,
-			DIALOG_REGISTER,
-			DIALOG_UPDATE_ASK = 5,
-			DIALOG_UPDATE_CHECK,
-			DIALOG_INVALID_CODE,
-			DIALOG_URL_INFO = 9,
-			DIALOG_QUIT_GAME = 11,
-			DIALOG_INFO = 14,
-			DIALOG_FISH_NAMING,
-			DIALOG_FIRST_LVL_GAME_OVER,
-			DIALOG_GAME_OVER,
-			DIALOG_LOST_FOCUS,
-			DIALOG_OUT_OF_MONEY_LOAN,
-			DIALOG_LEAVE_GAME = 22,
-			DIALOG_THANKS_FOR_REGISTER,
-			DIALOG_USER_DIALOG,
-			DIALOG_NEW_USER,
-			DIALOG_ARE_YOU_SURE_DELETE,
-			DIALOG_RENAME,
-			DIALOG_INFO_NEW_USER,
-			DIALOG_NAME_CONFLICT,
-			DIALOG_CONTINUE_GAME,
-			DIALOG_PET_DIALOG,
-			DIALOG_FOOD,
-			DIALOG_RESTART_GAME = 34,
-			DIALOG_CONFIRM_PURCHASE,
-			DIALOG_SELL_DIALOG,
-			DIALOG_SCREENSAVER,
-			DIALOG_TIMES_UP,
-			DIALOG_VIRTUAL,
-			DIALOG_GIVE_SHELLS,
-			DIALOG_END_ID
-		};
-
 	public:
-
 		WinFishApp();
 
 		virtual ~WinFishApp();
@@ -376,3 +386,5 @@ namespace Sexy
 		virtual void				WFAShowResourceError(bool doExit = false); // [106]
 	};
 }
+
+#endif

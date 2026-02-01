@@ -1,6 +1,7 @@
+#include <SexyAppFramework/Font.h>
+
 #include "MyLabelWidget.h"
 #include "Res.h"
-#include "SexyAppFramework/Font.h"
 
 using namespace Sexy;
 

@@ -1,10 +1,12 @@
-#pragma once
+#ifndef __CONTINUEDIALOG_H__
+#define __CONTINUEDIALOG_H__
 
 #include "MoneyDialog.h"
-#include "WinFishApp.h"
 
 namespace Sexy
 {
+	class WinFishApp;
+
 	class ContinueDialog : public MoneyDialog, public ButtonListener
 	{
 	public:
@@ -26,3 +28,4 @@ namespace Sexy
 	};
 }
 
+#endif

@@ -1,10 +1,12 @@
-#pragma once
+#ifndef __PETDIALOG_H__
+#define __PETDIALOG_H__
 
 #include "MoneyDialog.h"
-#include "WinFishApp.h"
 
 namespace Sexy
 {
+	class WinFishApp;
+
 	class PetDialog : public MoneyDialog, public ButtonListener
 	{
 	public:
@@ -33,3 +35,4 @@ namespace Sexy
 	};
 }
 
+#endif

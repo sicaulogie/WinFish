@@ -1,11 +1,12 @@
+#include <SexyAppFramework/WidgetManager.h>
+
 #include "ScreenSaverDialog.h"
 #include "WinFishApp.h"
-#include "WinFishAppCommon.h"
-#include "SexyAppFramework/WidgetManager.h"
+#include "WinFishCommon.h"
 #include "Res.h"
 
 Sexy::ScreenSaverDialog::ScreenSaverDialog(WinFishApp* theApp)
-	: MoneyDialog(theApp, IMAGE_DIALOG, IMAGE_DIALOGBUTTON, WinFishApp::DIALOG_SCREENSAVER, true, "Screensaver", "", "", BUTTONS_OK_CANCEL)
+	: MoneyDialog(theApp, IMAGE_DIALOG, IMAGE_DIALOGBUTTON, DIALOG_SCREENSAVER, true, "Screensaver", "", "", BUTTONS_OK_CANCEL)
 {
 	mSSEnabledCB = MakeCheckbox(0, this, mApp->mScreenSaverEnabled);
 	mSSSoundCB = MakeCheckbox(1, this, mApp->mScreenSaverSound);

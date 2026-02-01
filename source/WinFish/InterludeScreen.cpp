@@ -1,11 +1,12 @@
-#include "SexyAppFramework/HyperlinkWidget.h"
-#include "SexyAppFramework/WidgetManager.h"
-#include "SexyAppFramework/Font.h"
+#include <SexyAppFramework/HyperlinkWidget.h>
+#include <SexyAppFramework/WidgetManager.h>
+#include <SexyAppFramework/Font.h>
 
 #include "InterludeScreen.h"
 #include "WinFishApp.h"
 #include "BubbleMgr.h"
 #include "ProfileMgr.h"
+#include "GameObject.h"
 #include "Res.h"
 
 bool Sexy::gInterludeBool01 = 1;
@@ -409,7 +410,7 @@ void Sexy::InterludeScreen::Draw(Graphics* g)
 	g->DrawImageCel(IMAGE_PRESTO, 400, m0xac - 90, ivar3, 0);
 
 	m0xac += m0xb0 * 6;
-	if (!mApp->mCurrentProfile->IsPetUnlocked(GameObject::PET_BRINKLEY))
+	if (!mApp->mCurrentProfile->IsPetUnlocked(PET_BRINKLEY))
 	{
 		DrawStringHelper(g, "?", 0, 0, 1);
 		g->DrawImage(IMAGE_EGGBRINKLEY, 150, m0xac - 150);
@@ -420,7 +421,7 @@ void Sexy::InterludeScreen::Draw(Graphics* g)
 		g->DrawImageCel(IMAGE_BRINKLEY, 160, m0xac - 100, ivar3, 0);
 	}
 
-	if (!mApp->mCurrentProfile->IsPetUnlocked(GameObject::PET_NOSTRADAMUS))
+	if (!mApp->mCurrentProfile->IsPetUnlocked(PET_NOSTRADAMUS))
 	{
 		DrawStringHelper(g, "?", 0, 0, 2);
 		g->DrawImage(IMAGE_EGGNOSTRADAMUS, 390, m0xac - 150);
@@ -432,7 +433,7 @@ void Sexy::InterludeScreen::Draw(Graphics* g)
 	}
 
 	m0xac += m0xb0 * 6;
-	if (!mApp->mCurrentProfile->IsPetUnlocked(GameObject::PET_BRINKLEY))
+	if (!mApp->mCurrentProfile->IsPetUnlocked(PET_BRINKLEY))
 	{
 		DrawStringHelper(g, "?", 0, 0, 1);
 		g->DrawImage(IMAGE_EGGSTANLEY, 150, m0xac - 150);
@@ -443,7 +444,7 @@ void Sexy::InterludeScreen::Draw(Graphics* g)
 		g->DrawImageCel(IMAGE_STANLEY, 160, m0xac - 100, ivar3, 0);
 	}
 
-	if (!mApp->mCurrentProfile->IsPetUnlocked(GameObject::PET_WALTER))
+	if (!mApp->mCurrentProfile->IsPetUnlocked(PET_WALTER))
 	{
 		DrawStringHelper(g, "?", 0, 0, 2);
 		g->DrawImage(IMAGE_EGGWALTER, 390, m0xac - 150);
@@ -581,22 +582,22 @@ void Sexy::InterludeScreen::DrawPetAngieSpawns(Graphics* g, int unk1, int thePet
 	{
 		switch (thePetId)
 		{
-		case GameObject::PET_NIKO:
-		case GameObject::PET_VERT:
+		case PET_NIKO:
+		case PET_VERT:
 			aRow = unk7;
 			break;
 		default:
 			aRow = unk5;
 			break;
-		case GameObject::PET_CLYDE:
-		case GameObject::PET_SEYMOUR:
-		case GameObject::PET_SHRAPNEL:
-		case GameObject::PET_RHUBARB:
+		case PET_CLYDE:
+		case PET_SEYMOUR:
+		case PET_SHRAPNEL:
+		case PET_RHUBARB:
 			aRow = unk6;
 		}
-		if (thePetId == GameObject::PET_NIKO)
+		if (thePetId == PET_NIKO)
 			theY -= 20;
-		else if (thePetId == GameObject::PET_AMP)
+		else if (thePetId == PET_AMP)
 		{
 			theX -= 40;
 			theY += 40;

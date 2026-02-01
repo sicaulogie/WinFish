@@ -1,4 +1,4 @@
-#include "SexyAppFramework/WidgetManager.h"
+#include <SexyAppFramework/WidgetManager.h>
 
 #include "Fish.h"
 #include "WinFishApp.h"
@@ -74,7 +74,7 @@ Fish::Fish() : GameObject()
     mColors[2] = Color(0, 0, 0, 255);
     mUnusedVXWadsworthAddon = 0;
     mClip = false;
-    mType = GameObject::TYPE_GUPPY;
+    mType = TYPE_GUPPY;
     mWadsworthVXModCounter = 0;
     mUnusedTimer = 0;
     mVirtualFish = 0;
@@ -314,7 +314,7 @@ void Fish::Update()
                 {
                     FishTypePet* aPet = aBoard->mFishTypePetList->at(i);
 
-                    if (aPet->mFishTypePetType == FishTypePet::PET_GUMBO)
+                    if (aPet->mFishTypePetType == PET_GUMBO)
                     {
                         aGumbo = aPet;
                         break;
@@ -491,7 +491,7 @@ void Fish::Update()
                 }
                 else
                 {
-                    if (mType != GameObject::TYPE_ULTRA)
+                    if (mType != TYPE_ULTRA)
                     {
                         aBoard->SpawnBubble(mX + (55 - Rand() % 60), mY + (55 - Rand() % 60));
                         aSpawnX = mX + 45 - Rand() % 40;
@@ -633,7 +633,7 @@ int Sexy::Fish::SpecialReturnValue()
 
 int Sexy::Fish::GetShellPrice()
 {
-    int aVal = GameObject::GetShellPrice();
+    int aVal = GetShellPrice();
     if (mVirtualFish)
     {
         if (aVal < 0)
@@ -676,7 +676,7 @@ void Sexy::Fish::OnFoodAte(GameObject* obj)
 
     bool unkflag02 = true;
     bool doPart = true;
-    if (mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK)
+    if (mApp->mGameMode == GAMEMODE_VIRTUAL_TANK)
     {
         if (mVirtualTankId < 0 || unkflag01)
         {
@@ -696,7 +696,7 @@ void Sexy::Fish::OnFoodAte(GameObject* obj)
     { // 48
         if (unkflag01)
         {
-            if (mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK) // 50
+            if (mApp->mGameMode == GAMEMODE_VIRTUAL_TANK) // 50
             {
                 if (mHunger > 30)
                     mHunger = 30;
@@ -731,7 +731,7 @@ void Sexy::Fish::OnFoodAte(GameObject* obj)
         {
             mHunger += 700;
             if (mHunger > 1000) mHunger = 1000;
-            if (unkflag02) mFoodAte = mFoodAte + 1 + mApp->mGameMode != WinFishApp::GAMEMODE_VIRTUAL_TANK;
+            if (unkflag02) mFoodAte = mFoodAte + 1 + mApp->mGameMode != GAMEMODE_VIRTUAL_TANK;
         }
         else if (aFood->mFoodType == 3)
         {
@@ -778,7 +778,7 @@ void Sexy::Fish::OnFoodAte(GameObject* obj)
         }
         else
         {
-            if (mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK)
+            if (mApp->mGameMode == GAMEMODE_VIRTUAL_TANK)
             {
                 mHunger += 500;
                 if (mHunger > 800) mHunger = 800;
@@ -789,7 +789,7 @@ void Sexy::Fish::OnFoodAte(GameObject* obj)
                 if (mHunger > 1400) mHunger = 1400;
             }
             if (unkflag02)
-                mFoodAte = mFoodAte + 2 + mApp->mGameMode != WinFishApp::GAMEMODE_VIRTUAL_TANK;
+                mFoodAte = mFoodAte + 2 + mApp->mGameMode != GAMEMODE_VIRTUAL_TANK;
         }
     }
 
@@ -798,14 +798,14 @@ void Sexy::Fish::OnFoodAte(GameObject* obj)
         if (mSize < 2)
         {
             mSize++;
-            if (mApp->mGameMode != WinFishApp::GAMEMODE_VIRTUAL_TANK)
+            if (mApp->mGameMode != GAMEMODE_VIRTUAL_TANK)
                 FishOnGrow();
 
             mFoodAte = 0;
             mGrowthAnimationTimer = 10;
             mApp->mBoard->PlaySample(SOUND_GROW_ID, 3, 1.0);
         }
-        if (mFoodNeededToGrow * ((mApp->mGameMode != WinFishApp::GAMEMODE_VIRTUAL_TANK ? 7 : 0) + 8) <= mFoodAte
+        if (mFoodNeededToGrow * ((mApp->mGameMode != GAMEMODE_VIRTUAL_TANK ? 7 : 0) + 8) <= mFoodAte
             && mSize > SIZE_MEDIUM && mSize != SIZE_CROWNED && !mHasSpecialColors)
         {
             mSize = SIZE_CROWNED;
@@ -969,10 +969,10 @@ bool Fish::Hungry()
         if (mHunger < 500)
         {
             if (!mApp->mBoard->AliensInTank() || 
-                (!mApp->mBoard->mAlienList->empty() && mApp->mBoard->mAlienList->at(0)->mAlienType != Alien::ALIEN_GUS))
+                (!mApp->mBoard->mAlienList->empty() && mApp->mBoard->mAlienList->at(0)->mAlienType != ALIEN_GUS))
                 return HungryBehavior();
             /*if (!mApp->mBoard->mAlienList.empty())
-                if(mApp->mAlienList[0]->mAlienType != Alien::ALIEN_GUS)
+                if(mApp->mAlienList[0]->mAlienType != ALIEN_GUS)
                     return HungryBehavior();*/
         }
     }
@@ -1296,7 +1296,7 @@ void Fish::CollideWithFood()
 
 void Fish::DropCoin()
 {
-    if (mSize < GameObject::TYPE_MEDIUM_GUPPY && mVirtualTankId < 0)
+    if (mSize < TYPE_MEDIUM_GUPPY && mVirtualTankId < 0)
         return;
 
     mCoinDropTimer++;
@@ -1312,26 +1312,26 @@ void Fish::DropCoin()
             aCoinType = 7;
         else if(mPreNamedTypeId == SANTA)
         {
-            if (mSize > GameObject::TYPE_MEDIUM_GUPPY)
+            if (mSize > TYPE_MEDIUM_GUPPY)
                 aCoinType = 7;
         }
         else
         {
             aCoinType = mSize;
-            if (mSize == GameObject::TYPE_MEDIUM_GUPPY)
-                aCoinType = CoinTypes::COIN_SILVER_C;
-            else if (mSize == GameObject::TYPE_BIG_GUPPY)
-                aCoinType = CoinTypes::COIN_GOLD_C;
+            if (mSize == TYPE_MEDIUM_GUPPY)
+                aCoinType = COIN_SILVER_C;
+            else if (mSize == TYPE_BIG_GUPPY)
+                aCoinType = COIN_GOLD_C;
             if (!mVirtualFish)
             {
                 if (mSize < 1)
                     aCoinType = -999;
             }
-            else if (mSize == GameObject::TYPE_MEDIUM_GUPPY)
+            else if (mSize == TYPE_MEDIUM_GUPPY)
                 aCoinType = 4;
-            else if (mSize == GameObject::TYPE_BIG_GUPPY)
+            else if (mSize == TYPE_BIG_GUPPY)
                 aCoinType = 6;
-            else if (mSize == GameObject::TYPE_CROWNED_GUPPY)
+            else if (mSize == TYPE_CROWNED_GUPPY)
                 aCoinType = 7;
             else
                 aCoinType = 2;
@@ -1489,7 +1489,7 @@ void Fish::Init(int theX, int theY)
     mXD = theX;
     mYD = theY;
     mClip = false;
-    mType = GameObject::TYPE_GUPPY;
+    mType = TYPE_GUPPY;
     mVirtualFish = false;
     mX = theX;
     mY = theY;
@@ -1523,7 +1523,7 @@ void Fish::Init(int theX, int theY)
     }
     mFoodAte = 0;
     mHunger = Rand() % 200 + 400;
-    if (mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK)
+    if (mApp->mGameMode == GAMEMODE_VIRTUAL_TANK)
     {
         mFoodNeededToGrow = Rand() % 9 + 12;
     }
@@ -1584,7 +1584,7 @@ bool Fish::CanEatFood(Food* theFood)
         return (theFood->mExoticFoodType == 0);
     else
     {
-        if (mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK)
+        if (mApp->mGameMode == GAMEMODE_VIRTUAL_TANK)
             return true;
         if (mSize <= TYPE_BIG_GUPPY && mHunger < 108)
             return true;
@@ -1679,7 +1679,7 @@ void Sexy::Fish::FishOnGrow()
     }
     else if (mSize == 2) // 33
     {
-        if (mApp->mGameMode == WinFishApp::GAMEMODE_TIME_TRIAL)
+        if (mApp->mGameMode == GAMEMODE_TIME_TRIAL)
             aBoard->MakeAndUnlockMenuButton(SlotTypes::SLOT_EGG, true);
         if (aTank == 1)
         {

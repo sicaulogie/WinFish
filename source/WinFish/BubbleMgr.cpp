@@ -1,9 +1,10 @@
 #include "BubbleMgr.h"
 #include "WinFishApp.h"
-#include "WinFishAppCommon.h"
+#include "WinFishCommon.h"
 #include "Res.h"
 
 using namespace Sexy;
+
 const double PI = 3.141590118408203;
 
 const int BF_RED_TABLE1[30] = {

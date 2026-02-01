@@ -1,5 +1,8 @@
-#pragma once
+#ifndef __WARP_H__
+#define __WARP_H__
+
 #include "GameObject.h"
+
 namespace Sexy
 {
 	class Warp : public GameObject
@@ -18,3 +21,4 @@ namespace Sexy
 	};
 }
 
+#endif

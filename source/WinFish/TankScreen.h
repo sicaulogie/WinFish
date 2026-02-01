@@ -1,11 +1,14 @@
-#pragma once
+#ifndef __TANKSCREEN_H__
+#define __TANKSCREEN_H__
+
 #include "SexyAppFramework/Widget.h"
 #include "SexyAppFramework/ButtonListener.h"
-#include "SexyAppFramework/DialogButton.h"
-#include "WinFishApp.h"
 
 namespace Sexy
 {
+	class WinFishApp;
+	class DialogButton;
+
 	class TankScreen : public Widget, public ButtonListener
 	{
 	public:
@@ -30,3 +33,5 @@ namespace Sexy
 		void					DrawBolts(Graphics* g, int xOffset, int yOffset, bool drawRight, bool drawBottom);
 	};
 }
+
+#endif

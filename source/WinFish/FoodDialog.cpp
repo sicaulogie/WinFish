@@ -1,13 +1,14 @@
+#include <SexyAppFramework/Font.h>
+#include <SexyAppFramework/DialogButton.h>
+
 #include "FoodDialog.h"
 #include "MoneyDialog.h"
 #include "WinFishApp.h"
-#include "SexyAppFramework/Font.h"
-#include "SexyAppFramework/DialogButton.h"
 #include "Board.h"
 #include "Res.h"
 
 Sexy::FoodDialog::FoodDialog(WinFishApp* theApp)
-	: MoneyDialog(theApp, IMAGE_DIALOG, IMAGE_DIALOGBUTTON, WinFishApp::DIALOG_FOOD, false, "FOOD SELECTOR", "", "CLOSE", BUTTONS_FOOTER)
+	: MoneyDialog(theApp, IMAGE_DIALOG, IMAGE_DIALOGBUTTON, DIALOG_FOOD, false, "FOOD SELECTOR", "", "CLOSE", BUTTONS_FOOTER)
 {
 	for (int i = 0;i < 8;i++)
 		mButtons[i] = {};

@@ -1,8 +1,12 @@
-#pragma once
-#include "WinFishApp.h"
+#ifndef __FOODDIALOG_H__
+#define __FOODDIALOG_H__
+
 #include "MoneyDialog.h"
+
 namespace Sexy
 {
+	class WinFishApp;
+
 	struct FishFeedButton
 	{
 		Rect mButtonRect;
@@ -33,3 +37,4 @@ namespace Sexy
 	};
 }
 
+#endif

@@ -1,13 +1,14 @@
+#include <SexyAppFramework/WidgetManager.h>
+#include <SexyAppFramework/Font.h>
+
 #include "FishNamingDialog.h"
 #include "WinFishApp.h"
 #include "Board.h"
-#include "SexyAppFramework/WidgetManager.h"
-#include "SexyAppFramework/Font.h"
-#include "WinFishAppCommon.h"
+#include "WinFishCommon.h"
 #include "Res.h"
 
 Sexy::FishNamingDialog::FishNamingDialog(WinFishApp* theApp, const SexyString& theLine)
-	: MoneyDialog(theApp, IMAGE_DIALOG, IMAGE_DIALOGBUTTON, WinFishApp::DIALOG_FISH_NAMING, true, "Name Your Fish", theLine, "", BUTTONS_OK_CANCEL)
+	: MoneyDialog(theApp, IMAGE_DIALOG, IMAGE_DIALOGBUTTON, DIALOG_FISH_NAMING, true, "Name Your Fish", theLine, "", BUTTONS_OK_CANCEL)
 {
 	mApp2 = theApp;
 	m0x164 = 12345;

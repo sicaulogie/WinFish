@@ -1,16 +1,16 @@
-#include "SexyAppFramework/ButtonWidget.h"
-#include "SexyAppFramework/WidgetManager.h"
-#include "SexyAppFramework/SexyMatrix.h"
-#include "SexyAppFramework/trivertex.h"
-#include "SexyAppFramework/DialogButton.h"
-#include "SexyAppFramework/ImageFont.h"
-#include "SexyAppFramework/DDImage.h"
-#include "SexyAppFramework/BassMusicInterface.h"
-#include "SexyAppFramework/SoundManager.h"
-#include "SexyAppFramework/SoundInstance.h"
-#include "SexyAppFramework/Buffer.h"
+#include <SexyAppFramework/ButtonWidget.h>
+#include <SexyAppFramework/WidgetManager.h>
+#include <SexyAppFramework/SexyMatrix.h>
+#include <SexyAppFramework/trivertex.h>
+#include <SexyAppFramework/DialogButton.h>
+#include <SexyAppFramework/ImageFont.h>
+#include <SexyAppFramework/DDImage.h>
+#include <SexyAppFramework/BassMusicInterface.h>
+#include <SexyAppFramework/SoundManager.h>
+#include <SexyAppFramework/SoundInstance.h>
+#include <SexyAppFramework/Buffer.h>
 
-#include "ImageLib/ImageLib.h"
+#include <ImageLib/ImageLib.h>
 
 #include "Board.h"
 #include "WinFishApp.h"
@@ -19,7 +19,7 @@
 #include "MenuButtonWidget.h"
 #include "StarField.h"
 #include "MyLabelWidget.h"
-#include "WinFishAppCommon.h"
+#include "WinFishCommon.h"
 #include "HighScoreMgr.h"
 #include "ProfileMgr.h"
 #include "BubbleMgr.h"
@@ -115,9 +115,9 @@ Board::Board(WinFishApp* theApp)
 	mUltraList = new std::vector<Ultra*>();
 	mShotList = new std::vector<Shot*>();
 	mShadowList = new std::vector<Shadow*>();
-	mCoinList1 = new std::vector<Coin*>();
-	mCoinList2 = new std::vector<Coin*>();
-	mCoinList3 = new std::vector<Coin*>();
+	mCoinList = new std::vector<Coin*>();
+	mNoteList = new std::vector<Coin*>();
+	mNikoPearlCoinList = new std::vector<Coin*>();
 	mMissleList1 = new std::vector<Missle*>();
 	mMissleList2 = new std::vector<Missle*>();
 	mWarpList = new std::vector<Warp*>();
@@ -196,7 +196,7 @@ Board::Board(WinFishApp* theApp)
 	mMoneyLabel->mWidth = 80;
 
 	Color aMoneyLabelColor = Color(0, 0, 0);
-	if (mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK)
+	if (mApp->mGameMode == GAMEMODE_VIRTUAL_TANK)
 		aMoneyLabelColor = Color(0xfa, 0x9b, 0x96);
 	else
 		aMoneyLabelColor = Color(0xb4, 0xff, 0x5a);
@@ -246,7 +246,7 @@ Board::~Board()
 	delete mOscarList;
 	delete mUltraList;
 	delete mFoodList;
-	delete mCoinList1;
+	delete mCoinList;
 	delete mOtherTypePetList;
 	delete mFishTypePetList;
 	delete mAlienList;
@@ -260,8 +260,8 @@ Board::~Board()
 	delete mMissleList2;
 	delete mBreederList;
 	delete mShadowList;
-	delete mCoinList2;
-	delete mCoinList3;
+	delete mNoteList;
+	delete mNikoPearlCoinList;
 	delete mWarpList;
 	delete mBilaterusList;
 	delete mSpecialFishList;
@@ -320,80 +320,80 @@ bool Board::RemoveGameObjectFromLists(GameObject* theObject, bool aFlag)
 	bool unkbool = true;
 	switch (theObject->mType)
 	{
-	case GameObject::TYPE_GUPPY:
+	case TYPE_GUPPY:
 		mFishList->erase(std::remove(mFishList->begin(), mFishList->end(), (Fish*)theObject), mFishList->end());
 		break;
-	case GameObject::TYPE_OSCAR:
+	case TYPE_OSCAR:
 		mOscarList->erase(std::remove(mOscarList->begin(), mOscarList->end(), (Oscar*)theObject), mOscarList->end());
 		break;
-	case GameObject::TYPE_ULTRA:
+	case TYPE_ULTRA:
 		mUltraList->erase(std::remove(mUltraList->begin(), mUltraList->end(), (Ultra*)theObject), mUltraList->end());
 		break;
-	case GameObject::TYPE_GEKKO:
+	case TYPE_GEKKO:
 		mGekkoList->erase(std::remove(mGekkoList->begin(), mGekkoList->end(), (Gekko*)theObject), mGekkoList->end());
 		break;
-	case GameObject::TYPE_PENTA:
+	case TYPE_PENTA:
 		mPentaList->erase(std::remove(mPentaList->begin(), mPentaList->end(), (Penta*)theObject), mPentaList->end());
 		break;
-	case GameObject::TYPE_GRUBBER:
+	case TYPE_GRUBBER:
 		mGrubberList->erase(std::remove(mGrubberList->begin(), mGrubberList->end(), (Grubber*)theObject), mGrubberList->end());
 		break;
-	case GameObject::TYPE_BREEDER:
+	case TYPE_BREEDER:
 		mBreederList->erase(std::remove(mBreederList->begin(), mBreederList->end(), (Breeder*)theObject), mBreederList->end());
 		break;
-	case GameObject::TYPE_OTHER_TYPE_PET:
+	case TYPE_OTHER_TYPE_PET:
 	{
 		OtherTypePet* aPet = (OtherTypePet*)theObject;
-		if (aPet->mOtherTypePetType >= GameObject::PET_STINKY && aPet->mOtherTypePetType < GameObject::PET_END)
+		if (aPet->mOtherTypePetType >= PET_STINKY && aPet->mOtherTypePetType < PET_END)
 			mPetsInTank[aPet->mOtherTypePetType]--;
 		mOtherTypePetList->erase(std::remove(mOtherTypePetList->begin(), mOtherTypePetList->end(), (OtherTypePet*)theObject), mOtherTypePetList->end());
 		break;
 	}
-	case GameObject::TYPE_FISH_TYPE_PET:
+	case TYPE_FISH_TYPE_PET:
 	{
 		FishTypePet* aPet = (FishTypePet*)theObject;
-		if (aPet->mFishTypePetType >= GameObject::PET_STINKY && aPet->mFishTypePetType < GameObject::PET_END)
+		if (aPet->mFishTypePetType >= PET_STINKY && aPet->mFishTypePetType < PET_END)
 			mPetsInTank[aPet->mFishTypePetType]--;
 		mFishTypePetList->erase(std::remove(mFishTypePetList->begin(), mFishTypePetList->end(), (FishTypePet*)theObject), mFishTypePetList->end());
 		break;
 	}
-	case GameObject::TYPE_ALIEN:
+	case TYPE_ALIEN:
 	{
 		Alien* anAlien = (Alien*)theObject;
 		if (anAlien == mCyraxPtr) return false;
-		if(anAlien->mAlienType == Alien::ALIEN_MINI_SYLV)
+		if(anAlien->mAlienType == ALIEN_MINI_SYLV)
 			mSmallAlienList->erase(std::remove(mSmallAlienList->begin(), mSmallAlienList->end(), (Alien*)theObject), mSmallAlienList->end());
 		else
 			mAlienList->erase(std::remove(mAlienList->begin(), mAlienList->end(), (Alien*)theObject), mAlienList->end());
 		break;
 	}
-	case GameObject::TYPE_BILATERUS:
+	case TYPE_BILATERUS:
 		mBilaterusList->erase(std::remove(mBilaterusList->begin(), mBilaterusList->end(), (Bilaterus*)theObject), mBilaterusList->end());
 		break;
-	case GameObject::TYPE_COIN:
+	case TYPE_COIN:
 	{
 		Coin* aCoin = (Coin*)theObject;
 		if (aCoin->m0x1a0 > 1 || aCoin->mCoinType == 15)
-			mCoinList3->erase(std::remove(mCoinList3->begin(), mCoinList3->end(), aCoin), mCoinList3->end());
+			mNikoPearlCoinList->erase(std::remove(mNikoPearlCoinList->begin(), mNikoPearlCoinList->end(), aCoin), mNikoPearlCoinList->end());
 		if (aCoin->mCoinType == 16)
-			mCoinList2->erase(std::remove(mCoinList2->begin(), mCoinList2->end(), aCoin), mCoinList2->end());
+			mNoteList->erase(std::remove(mNoteList->begin(), mNoteList->end(), aCoin), mNoteList->end());
 		else
-			mCoinList1->erase(std::remove(mCoinList1->begin(), mCoinList1->end(), aCoin), mCoinList1->end());
+			mCoinList->erase(std::remove(mCoinList->begin(), mCoinList->end(), aCoin), mCoinList->end());
 		break;
 	}
-	case GameObject::TYPE_DEAD_ALIEN:
+	case TYPE_DEAD_ALIEN:
 		mDeadAlienList->erase(std::remove(mDeadAlienList->begin(), mDeadAlienList->end(), (DeadAlien*)theObject), mDeadAlienList->end());
 		break;
-	case GameObject::TYPE_DEAD_FISH:
+	case TYPE_DEAD_FISH:
 		mDeadFishList->erase(std::remove(mDeadFishList->begin(), mDeadFishList->end(), (DeadFish*)theObject), mDeadFishList->end());
 		break;
-	case GameObject::TYPE_FOOD:
+	case TYPE_FOOD:
 		mFoodList->erase(std::remove(mFoodList->begin(), mFoodList->end(), (Food*)theObject), mFoodList->end());
 		break;
-	case GameObject::TYPE_LARVA:
+	case TYPE_LARVA:
 		mLarvaList->erase(std::remove(mLarvaList->begin(), mLarvaList->end(), (Larva*)theObject), mLarvaList->end());
 		break;
-	case GameObject::TYPE_MISSLE:
+	case TYPE_MISSLE:
 	{
 		Missle* aMis = (Missle*)theObject;
 		if (!aMis->IsTargetless())
@@ -408,25 +408,25 @@ bool Board::RemoveGameObjectFromLists(GameObject* theObject, bool aFlag)
 		}
 		break;
 	}
-	case GameObject::TYPE_SHADOW:
+	case TYPE_SHADOW:
 		mShadowList->erase(std::remove(mShadowList->begin(), mShadowList->end(), (Shadow*)theObject), mShadowList->end());
 		unkbool = false;
 		break;
-	case GameObject::TYPE_SHOT:
+	case TYPE_SHOT:
 		mShotList->erase(std::remove(mShotList->begin(), mShotList->end(), (Shot*)theObject), mShotList->end());
 		unkbool = false;
 		break;
-	case GameObject::TYPE_WARP:
+	case TYPE_WARP:
 		mWarpList->erase(std::remove(mWarpList->begin(), mWarpList->end(), (Warp*)theObject), mWarpList->end());
 		unkbool = false;
 		break;
-	case GameObject::TYPE_SYLVESTER_FISH:
+	case TYPE_SYLVESTER_FISH:
 		mSpecialFishList->erase(std::remove(mSpecialFishList->begin(), mSpecialFishList->end(), (SylvesterFish*)theObject), mSpecialFishList->end());
 		break;
-	case GameObject::TYPE_BALL_FISH:
+	case TYPE_BALL_FISH:
 		mSpecialFishList->erase(std::remove(mSpecialFishList->begin(), mSpecialFishList->end(), (BallFish*)theObject), mSpecialFishList->end());
 		break;
-	case GameObject::TYPE_BI_FISH:		
+	case TYPE_BI_FISH:		
 		mSpecialFishList->erase(std::remove(mSpecialFishList->begin(), mSpecialFishList->end(), (BiFish*)theObject), mSpecialFishList->end());
 		break;
 	}
@@ -490,13 +490,13 @@ void Sexy::Board::SpawnVirtualTankFood(int theFoodType)
 		aFood = SpawnUltraAsFood();
 		break;
 	case 5:
-		aFood = SpawnExoticFood(Food::EXO_FOOD_CHICKEN);
+		aFood = SpawnExoticFood(EXO_FOOD_CHICKEN);
 		break;
 	case 6:
-		aFood = SpawnExoticFood(Food::EXO_FOOD_PIZZA);
+		aFood = SpawnExoticFood(EXO_FOOD_PIZZA);
 		break;
 	case 7:
-		aFood = SpawnExoticFood(Food::EXO_FOOD_ICE_CREAM);
+		aFood = SpawnExoticFood(EXO_FOOD_ICE_CREAM);
 		break;
 	default:
 		return;
@@ -560,7 +560,7 @@ GameObject* Sexy::Board::SpawnExoticFood(int theType)
 
 void Sexy::Board::CyraxSpawnMiniAlien(int theX, int theY)
 {
-	Alien* aMiniAlien = new Alien(theX + 40, theY + 40, Alien::ALIEN_MINI_SYLV);
+	Alien* aMiniAlien = new Alien(theX + 40, theY + 40, ALIEN_MINI_SYLV);
 	AddGameObject(aMiniAlien);
 	mWidgetManager->AddWidget(aMiniAlien);
 	MakeShadowForGameObject(aMiniAlien);
@@ -640,7 +640,7 @@ void Board::Update()
 	
 	mApp->mPlaytimeCounter++;
 
-	if (mApp->mGameMode == WinFishApp::GAMEMODE_CHALLENGE && m0x2e0 < m0x2dc && mGameUpdateCnt > 10800) // 105
+	if (mApp->mGameMode == GAMEMODE_CHALLENGE && m0x2e0 < m0x2dc && mGameUpdateCnt > 10800) // 105
 	{
 		mApp->PlaySample(SOUND_BUTTONCLICK);
 		for (int i = 0; i < SLOT_END; i++) MakeAndUnlockMenuButton(i, true);
@@ -649,7 +649,7 @@ void Board::Update()
 	if (m0x2a7) // 113
 	{
 		m0x2a7 = false;
-		if (mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK)
+		if (mApp->mGameMode == GAMEMODE_VIRTUAL_TANK)
 			WidgetSetupVT();
 		Unk14(m0x2a6);
 	}
@@ -697,7 +697,7 @@ void Board::Update()
 		}
 	}
 
-	if (mApp->mGameMode == WinFishApp::GAMEMODE_TIME_TRIAL) //176 for highscores
+	if (mApp->mGameMode == GAMEMODE_TIME_TRIAL) //176 for highscores
 	{
 		m0x3b0 = (Unk01() - m0x3b8) / 1000;
 		if (m0x3bc - m0x3b0 < 0)
@@ -710,7 +710,7 @@ void Board::Update()
 		}
 	}
 
-	if (mApp->mGameMode == WinFishApp::GAMEMODE_CHALLENGE) //190
+	if (mApp->mGameMode == GAMEMODE_CHALLENGE) //190
 		m0x3b0 = (Unk01()-m0x3b8)/1000;
 
 	if (mIsBonusRound)
@@ -725,7 +725,7 @@ void Board::Update()
 			m0x3b0 = (Unk01() - m0x3b8) / 1000;
 			if (m0x3bc - m0x3b0 < 0)
 			{
-				if (mCoinList1->empty() && m0x3f8++ > 100)
+				if (mCoinList->empty() && m0x3f8++ > 100)
 				{
 					mApp->mCurrentProfile->NextLevel();
 					if (mLevel < 6)
@@ -741,7 +741,7 @@ void Board::Update()
 		}
 	}
 
-	if (mApp->mGameMode == WinFishApp::GAMEMODE_CHALLENGE && (mSlotUnlocked[0] || mSlotUnlocked[1])) // 223
+	if (mApp->mGameMode == GAMEMODE_CHALLENGE && (mSlotUnlocked[0] || mSlotUnlocked[1])) // 223
 	{
 		int aUnk01 = 0;
 		if (mTank == 1)
@@ -797,7 +797,7 @@ void Board::Update()
 		}
 	}
 
-	if (mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK && mApp->mCurrentProfile->mShells == 0 && mGameUpdateCnt == 150) // 286
+	if (mApp->mGameMode == GAMEMODE_VIRTUAL_TANK && mApp->mCurrentProfile->mShells == 0 && mGameUpdateCnt == 150) // 286
 		ShowText("Here you\'ll be able to build your own custom fish tank!", false, 44);
 
 	if (m0x4ec)
@@ -868,7 +868,7 @@ void Board::Update()
 			mTankLightingSpeeds[i] = 640;
 	}
 
-	if (mApp->mGameMode == WinFishApp::GAMEMODE_SANDBOX && m0x2e0 < m0x2dc && mTank != 5) // 424
+	if (mApp->mGameMode == GAMEMODE_SANDBOX && m0x2e0 < m0x2dc && mTank != 5) // 424
 	{
 		for (int i = 0; i < SLOT_END; i++)
 			MakeAndUnlockMenuButton(i, true);
@@ -898,7 +898,7 @@ void Board::Update()
 		m0x2c4--;
 
 
-	if (mPause || (mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK && !mAlienAttractorShown))
+	if (mPause || (mApp->mGameMode == GAMEMODE_VIRTUAL_TANK && !mAlienAttractorShown))
 	{
 		if (mLevel == 1 && mTank == 1 && m0x4e6)
 		{
@@ -921,10 +921,10 @@ void Board::Update()
 			if (mAlienAttractorShown && mAlienTimer == 33)
 				PlaySample(SOUND_UNLEASH_ID, 3, 1.0);
 		}
-		if (mAlienTimer == 30 && mPetsInTank[GameObject::PET_NOSTRADAMUS] != 0 && mTank != 5)
+		if (mAlienTimer == 30 && mPetsInTank[PET_NOSTRADAMUS] != 0 && mTank != 5)
 			NostradamusSneezeEffect();
 
-		if (mApp->mGameMode == WinFishApp::GAMEMODE_CHALLENGE && mAlienTimer == 2999)
+		if (mApp->mGameMode == GAMEMODE_CHALLENGE && mAlienTimer == 2999)
 		{ // 480
 			int aDifIncreaseProb = 1;
 			if (mTank == 1)
@@ -946,21 +946,21 @@ void Board::Update()
 		{ // 516
 			if (mAlienTimer == 276)
 			{
-				if (!mApp->mRelaxMode && mApp->mGameMode != WinFishApp::GAMEMODE_VIRTUAL_TANK)
+				if (!mApp->mRelaxMode && mApp->mGameMode != GAMEMODE_VIRTUAL_TANK)
 				{
 					if (!m0x4b0[3] && IsTankAndLevelNB(1, 2))
 					{
-						mApp->DoDialogUnkF(WinFishApp::DIALOG_INFO, true, "DANGER!", "A vicious alien is about to enter your tank! Defeat it with your laser weapon by clicking on it!", "Click to Continue", Dialog::BUTTONS_FOOTER);
+						mApp->DoDialogUnkF(DIALOG_INFO, true, "DANGER!", "A vicious alien is about to enter your tank! Defeat it with your laser weapon by clicking on it!", "Click to Continue", Dialog::BUTTONS_FOOTER);
 						m0x4b0[3] = true;
 					}
 					else if (!m0x4b0[4] && IsTankAndLevelNB(1, 2))
 					{
-						mApp->DoDialogUnkF(WinFishApp::DIALOG_INFO, true, "BATTLE TIP", "Shoot the alien\'s head to push it downwards! Shoot its tail to deflect it upwards!", "Click to Continue", Dialog::BUTTONS_FOOTER);
+						mApp->DoDialogUnkF(DIALOG_INFO, true, "BATTLE TIP", "Shoot the alien\'s head to push it downwards! Shoot its tail to deflect it upwards!", "Click to Continue", Dialog::BUTTONS_FOOTER);
 						m0x4b0[4] = true;
 					}
 					else if (!m0x4b0[17] && IsTankAndLevelNB(2, 3))
 					{
-						mApp->DoDialogUnkF(WinFishApp::DIALOG_INFO, true, "WARNING!", "A new breed of alien is fast approaching!  Lasers can\'t hurt this baddie, so find another way to defeat it!", "Click to Continue", Dialog::BUTTONS_FOOTER);
+						mApp->DoDialogUnkF(DIALOG_INFO, true, "WARNING!", "A new breed of alien is fast approaching!  Lasers can\'t hurt this baddie, so find another way to defeat it!", "Click to Continue", Dialog::BUTTONS_FOOTER);
 						m0x4b0[17] = true;
 					}
 				}
@@ -972,19 +972,19 @@ void Board::Update()
 					mMessageWidget->mMessage = "FOURTEEN ALIEN SIGNATURES DETECTED";
 				else
 				{
-					if (mAlienExpect == Alien::ALIEN_GUS)
+					if (mAlienExpect == ALIEN_GUS)
 						mMessageWidget->mMessage = "ALIEN SIGNATURE TYPE-G DETECTED";
-					else if (mAlienExpect == Alien::ALIEN_DESTRUCTOR)
+					else if (mAlienExpect == ALIEN_DESTRUCTOR)
 						mMessageWidget->mMessage = "ALIEN SIGNATURE TYPE-D DETECTED";
-					else if (mAlienExpect == Alien::ALIEN_ULYSEES)
+					else if (mAlienExpect == ALIEN_ULYSEES)
 						mMessageWidget->mMessage = "ALIEN SIGNATURE TYPE-U DETECTED";
-					else if (mAlienExpect == Alien::ALIEN_PSYCHOSQUID)
+					else if (mAlienExpect == ALIEN_PSYCHOSQUID)
 						mMessageWidget->mMessage = "ALIEN SIGNATURE TYPE-P DETECTED";
-					else if (mAlienExpect == Alien::ALIEN_BILATERUS)
+					else if (mAlienExpect == ALIEN_BILATERUS)
 						mMessageWidget->mMessage = "ALIEN SIGNATURE TYPE-II DETECTED";
 					else if (mAlienExpect == 9 || mAlienExpect == 10 || mAlienExpect == 11 || mAlienExpect == 12)
 						mMessageWidget->mMessage = "MULTIPLE ALIEN SIGNATURES DETECTED";
-					else if (mAlienExpect == Alien::ALIEN_CYRAX)
+					else if (mAlienExpect == ALIEN_CYRAX)
 						mMessageWidget->mMessage = StrFormat("%s OF DOOM APPROACHING", GetCyraxEndGameString(mApp->mCurrentProfile->mCyraxNum + 1).c_str());
 					else
 						mMessageWidget->mMessage = "ENEMY APPROACHING";
@@ -995,7 +995,7 @@ void Board::Update()
 				mMessageWidget->mColor2 = Color(100, 20, 20, 255);
 				mApp->SomeMusicFunc(true);
 				PlaySample(SOUND_AWOOGA_ID, 3, 1.0);
-				if (mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK)
+				if (mApp->mGameMode == GAMEMODE_VIRTUAL_TANK)
 					DetermineAlienSpawnCoordsVT();
 				else
 				{
@@ -1011,7 +1011,7 @@ void Board::Update()
 				m0x4ed = false;
 				m0x4ec = false;
 				SpawnAlien(mAlienExpect, mCrosshair1X, mCrosshair1Y, true);
-				if (mApp->mGameMode == WinFishApp::GAMEMODE_CHALLENGE)
+				if (mApp->mGameMode == GAMEMODE_CHALLENGE)
 				{
 					int aDifIncreaseProb = 1;
 					if (mTank == 1)
@@ -1037,18 +1037,18 @@ void Board::Update()
 
 				if (!mApp->mRelaxMode) // 754
 				{
-					if (mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK)
+					if (mApp->mGameMode == GAMEMODE_VIRTUAL_TANK)
 						SetAlienExpectVT();
 					else
 					{
 						if (mTank == 1 && mLevel == 5)
-							mAlienExpect = ((mApp->mSeed->Next() % 2 != 0) ? Alien::ALIEN_BALROG : 9);
+							mAlienExpect = ((mApp->mSeed->Next() % 2 != 0) ? ALIEN_BALROG : 9);
 						else if (mTank == 2 && mLevel == 5)
 						{
 							if(mAlienExpect == 9)
-								mAlienExpect = ((mApp->mSeed->Next() % 2 != 0) ? Alien::ALIEN_GUS : Alien::ALIEN_DESTRUCTOR);
+								mAlienExpect = ((mApp->mSeed->Next() % 2 != 0) ? ALIEN_GUS : ALIEN_DESTRUCTOR);
 							if (mApp->mSeed->Next() % 10 == 0)
-								mAlienExpect = (mAlienExpect != Alien::ALIEN_DESTRUCTOR) + Alien::ALIEN_GUS;
+								mAlienExpect = (mAlienExpect != ALIEN_DESTRUCTOR) + ALIEN_GUS;
 							else if (mApp->mSeed->Next() % 20 == 0)
 								mAlienExpect = 9;
 						}
@@ -1057,22 +1057,22 @@ void Board::Update()
 							if (mLevel == 2)
 							{
 								if(mApp->mSeed->Next() % 10 == 0)
-									mAlienExpect = (mAlienExpect != Alien::ALIEN_DESTRUCTOR) + Alien::ALIEN_GUS;
+									mAlienExpect = (mAlienExpect != ALIEN_DESTRUCTOR) + ALIEN_GUS;
 							}
 							else if(mLevel == 5)
 							{
-								mAlienExpect = (mApp->mSeed->Next() % 2 != 0 ? Alien::ALIEN_PSYCHOSQUID : Alien::ALIEN_ULYSEES);
+								mAlienExpect = (mApp->mSeed->Next() % 2 != 0 ? ALIEN_PSYCHOSQUID : ALIEN_ULYSEES);
 							}
 						}
 						else if (mTank == 4)
 						{
 							if (mLevel == 3)
 							{
-								mAlienExpect = (mApp->mSeed->Next() % 2 != 0 ? Alien::ALIEN_GUS : 10);
+								mAlienExpect = (mApp->mSeed->Next() % 2 != 0 ? ALIEN_GUS : 10);
 							}
 							else if (mLevel == 4)
 							{
-								mAlienExpect = (mApp->mSeed->Next() % 2 != 0 ? Alien::ALIEN_BILATERUS : 11);
+								mAlienExpect = (mApp->mSeed->Next() % 2 != 0 ? ALIEN_BILATERUS : 11);
 							}
 							else if (mLevel == 5)
 							{
@@ -1080,8 +1080,8 @@ void Board::Update()
 								if (anAlienChance < 2)
 									mAlienExpect = 10;
 								else
-									mAlienExpect = (anAlienChance > 3 ? Alien::ALIEN_BILATERUS : 11);
-								if (mApp->mGameMode == WinFishApp::GAMEMODE_CHALLENGE && m0x45c > 4 && mAlienExpect == Alien::ALIEN_BILATERUS)
+									mAlienExpect = (anAlienChance > 3 ? ALIEN_BILATERUS : 11);
+								if (mApp->mGameMode == GAMEMODE_CHALLENGE && m0x45c > 4 && mAlienExpect == ALIEN_BILATERUS)
 									mAlienExpect = 12;
 							}
 						}
@@ -1108,7 +1108,7 @@ void Board::Update()
 		}
 	}
 	
-	if (!mIsBonusRound && mApp->mGameMode != WinFishApp::GAMEMODE_VIRTUAL_TANK)
+	if (!mIsBonusRound && mApp->mGameMode != GAMEMODE_VIRTUAL_TANK)
 	{
 		if (!HasAnyFish() && mTank != 5)
 		{
@@ -1117,11 +1117,11 @@ void Board::Update()
 			{
 				mShouldSave = false;
 				Unk04();
-				mApp->DoDialogUnkF(WinFishApp::DIALOG_GAME_OVER, true, "GAME OVER", "Oops!  All of your fish have died!", "Click to Continue", Dialog::BUTTONS_FOOTER);
+				mApp->DoDialogUnkF(DIALOG_GAME_OVER, true, "GAME OVER", "Oops!  All of your fish have died!", "Click to Continue", Dialog::BUTTONS_FOOTER);
 			}
 			else
 			{
-				mApp->DoDialogUnkF(WinFishApp::DIALOG_FIRST_LVL_GAME_OVER, true, "YOUR LAST FISH HAS DIED!", "Normally this would end your game, but this time we\'ll give you another fish to keep playing! Make sure you keep it well fed!", "Click to Continue", Dialog::BUTTONS_FOOTER);
+				mApp->DoDialogUnkF(DIALOG_FIRST_LVL_GAME_OVER, true, "YOUR LAST FISH HAS DIED!", "Normally this would end your game, but this time we\'ll give you another fish to keep playing! Make sure you keep it well fed!", "Click to Continue", Dialog::BUTTONS_FOOTER);
 			}
 		}
 		if(mTank == 5)
@@ -1132,23 +1132,23 @@ void Board::Update()
 				mShouldSave = false;
 				if (mCyraxPtr != nullptr && mCyraxPtr->mMaxHealth - mCyraxPtr->mHealth > 1000.0)
 					mApp->mCurrentProfile->mFinishedGameCount++;
-				mApp->DoDialogUnkF(WinFishApp::DIALOG_GAME_OVER, true, "GAME OVER", "Oops!  All of your pets have died!", "Click to Continue", Dialog::BUTTONS_FOOTER);
+				mApp->DoDialogUnkF(DIALOG_GAME_OVER, true, "GAME OVER", "Oops!  All of your pets have died!", "Click to Continue", Dialog::BUTTONS_FOOTER);
 
 			}
 		}
 	}
 
-	if (mApp->mGameMode != WinFishApp::GAMEMODE_VIRTUAL_TANK)
+	if (mApp->mGameMode != GAMEMODE_VIRTUAL_TANK)
 	{
-		if (mApp->mGameMode == WinFishApp::GAMEMODE_ADVENTURE && IsTankAndLevelNB(1, 1) && mGameUpdateCnt == 150)
+		if (mApp->mGameMode == GAMEMODE_ADVENTURE && IsTankAndLevelNB(1, 1) && mGameUpdateCnt == 150)
 			ShowText("Here are your first fish! Take good care of them!", false, 1);
-		else if(mApp->mGameMode == WinFishApp::GAMEMODE_ADVENTURE && IsTankAndLevelNB(1,2) && mGameUpdateCnt == 150)
+		else if(mApp->mGameMode == GAMEMODE_ADVENTURE && IsTankAndLevelNB(1,2) && mGameUpdateCnt == 150)
 			ShowText("On this level you will meet your 1st alien opponent!", false, 20);
-		else if(mApp->mGameMode == WinFishApp::GAMEMODE_TIME_TRIAL && mGameUpdateCnt == 150)
+		else if(mApp->mGameMode == GAMEMODE_TIME_TRIAL && mGameUpdateCnt == 150)
 			ShowText("How much money can you earn before time runs out?", false, 53);
-		else if(mApp->mGameMode == WinFishApp::GAMEMODE_CHALLENGE && mGameUpdateCnt == 150)
+		else if(mApp->mGameMode == GAMEMODE_CHALLENGE && mGameUpdateCnt == 150)
 			ShowText("Can you fend off the increasingly hungry aliens?", false, 51);
-		else if(mApp->mGameMode == WinFishApp::GAMEMODE_SANDBOX && mGameUpdateCnt == 150)
+		else if(mApp->mGameMode == GAMEMODE_SANDBOX && mGameUpdateCnt == 150)
 			ShowText("Make sure caps-lock is off and GO TO TOWN!!", false, 48);
 	}
 
@@ -1170,7 +1170,7 @@ void Board::Draw(Graphics* g)
 {
 	DrawTankBackground(g);
 
-	if (mApp->mGameMode != WinFishApp::GAMEMODE_VIRTUAL_TANK)
+	if (mApp->mGameMode != GAMEMODE_VIRTUAL_TANK)
 		g->DrawImage(IMAGE_MENUBAR, 0, 0);
 	else if(!mApp->IsScreenSaver())
 		g->DrawImage(IMAGE_TROPHYBAR, 0, 0);
@@ -1202,7 +1202,7 @@ void Board::Draw(Graphics* g)
 				g->DrawString("Click here to", 485, 95);
 				g->DrawString("end the level!", 480, 107);
 			}
-			else if (mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK && !mHasVirtualTankFish && !mApp->IsScreenSaver() && !mApp->GetDialog(39))
+			else if (mApp->mGameMode == GAMEMODE_VIRTUAL_TANK && !mHasVirtualTankFish && !mApp->IsScreenSaver() && !mApp->GetDialog(39))
 			{
 				g->DrawImage(IMAGE_HELPARROW, 100, 70);
 				g->DrawString("Click here to", 125, 95);
@@ -1217,7 +1217,7 @@ void Board::Draw(Graphics* g)
 		}
 	} // 132
 
-	if (mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK)
+	if (mApp->mGameMode == GAMEMODE_VIRTUAL_TANK)
 		return;
 
 	g->SetFont(FONT_CONTINUUMBOLD12);
@@ -1234,11 +1234,11 @@ void Board::Draw(Graphics* g)
 
 	if (!mApp->mRelaxMode)
 	{
-		if (mApp->mGameMode == WinFishApp::GAMEMODE_CHALLENGE)
+		if (mApp->mGameMode == GAMEMODE_CHALLENGE)
 			g->DrawString("Challenge", 15, 470);
-		else if(mApp->mGameMode == WinFishApp::GAMEMODE_TIME_TRIAL)
+		else if(mApp->mGameMode == GAMEMODE_TIME_TRIAL)
 			g->DrawString("Time Trial", 15, 470);
-		else if(mApp->mGameMode == WinFishApp::GAMEMODE_SANDBOX)
+		else if(mApp->mGameMode == GAMEMODE_SANDBOX)
 			g->DrawString("Sandbox", 15, 470);
 		else if(!mIsBonusRound || mApp->mCurrentProfile->mFinishedGame && mTank != 5)
 			g->DrawString(StrFormat("Tank %d-%d", mTank, mLevel), 15, 470);
@@ -1250,7 +1250,7 @@ void Board::Draw(Graphics* g)
 		g->DrawString("Relax", 15, 470);
 	}
 
-	if (mApp->mGameMode == WinFishApp::GAMEMODE_TIME_TRIAL)
+	if (mApp->mGameMode == GAMEMODE_TIME_TRIAL)
 	{
 		int aTime = m0x3bc - m0x3b0;
 		int aMins = aTime / 60;
@@ -1270,7 +1270,7 @@ void Board::Draw(Graphics* g)
 		{
 			if (!mIsBonusRound)
 			{
-				if (mApp->mGameMode != WinFishApp::GAMEMODE_VIRTUAL_TANK)
+				if (mApp->mGameMode != GAMEMODE_VIRTUAL_TANK)
 				{
 					g->DrawString(StrFormat("Time: %d:%02d", (Unk01() - m0x3b8) / 60000, (Unk01() - m0x3b8) / 1000 % 60), 540, 470);
 				}
@@ -1280,7 +1280,7 @@ void Board::Draw(Graphics* g)
 			DrawBonusRound(g);
 	} // 276
 
-	if (mAlienTimer < 1 || mAlienTimer > 225 || mPetsInTank[13] == 0 || mTank == 5 || mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK)
+	if (mAlienTimer < 1 || mAlienTimer > 225 || mPetsInTank[13] == 0 || mTank == 5 || mApp->mGameMode == GAMEMODE_VIRTUAL_TANK)
 		return;
 	g->SetDrawMode(Graphics::DRAWMODE_ADDITIVE);
 	mCrosshair1Y = 280;
@@ -1306,11 +1306,11 @@ void Board::DrawOverlay(Graphics* g, int thePriority)
 
 void Sexy::Board::KeyChar(SexyChar theChar)
 {
-	if (mApp->mGameMode == WinFishApp::GAMEMODE_SANDBOX)
+	if (mApp->mGameMode == GAMEMODE_SANDBOX)
 	{
 		bool gusInTank = false;
 		if (!mAlienList->empty())
-			if (mAlienList->at(0)->mAlienType == Alien::ALIEN_GUS)
+			if (mAlienList->at(0)->mAlienType == ALIEN_GUS)
 				gusInTank = true;
 
 		if (theChar == '1')
@@ -1333,103 +1333,103 @@ void Sexy::Board::KeyChar(SexyChar theChar)
 		{
 			if (!gusInTank)
 			{
-				mAlienExpect = Alien::ALIEN_STRONG_SYLV;
-				SpawnAlien(Alien::ALIEN_STRONG_SYLV, true);
+				mAlienExpect = ALIEN_STRONG_SYLV;
+				SpawnAlien(ALIEN_STRONG_SYLV, true);
 			}
 		}
 		else if (theChar == 'x')
 		{
 			if (!gusInTank)
 			{
-				mAlienExpect = Alien::ALIEN_BALROG;
-				SpawnAlien(Alien::ALIEN_BALROG, true);
+				mAlienExpect = ALIEN_BALROG;
+				SpawnAlien(ALIEN_BALROG, true);
 			}
 		}
 		else if (theChar == 'c')
 		{
-			mAlienExpect = Alien::ALIEN_GUS;
-			SpawnAlien(Alien::ALIEN_GUS, true);
+			mAlienExpect = ALIEN_GUS;
+			SpawnAlien(ALIEN_GUS, true);
 		}
 		else if (theChar == 'v')
 		{
 			if (!gusInTank)
 			{
-				mAlienExpect = Alien::ALIEN_DESTRUCTOR;
-				SpawnAlien(Alien::ALIEN_DESTRUCTOR, true);
+				mAlienExpect = ALIEN_DESTRUCTOR;
+				SpawnAlien(ALIEN_DESTRUCTOR, true);
 			}
 		}
 		else if (theChar == 'b')
 		{
 			if (!gusInTank)
 			{
-				mAlienExpect = Alien::ALIEN_ULYSEES;
-				SpawnAlien(Alien::ALIEN_ULYSEES, true);
+				mAlienExpect = ALIEN_ULYSEES;
+				SpawnAlien(ALIEN_ULYSEES, true);
 			}
 		}
 		else if (theChar == 'n')
 		{
 			if (!gusInTank)
 			{
-				mAlienExpect = Alien::ALIEN_PSYCHOSQUID;
-				SpawnAlien(Alien::ALIEN_PSYCHOSQUID, true);
+				mAlienExpect = ALIEN_PSYCHOSQUID;
+				SpawnAlien(ALIEN_PSYCHOSQUID, true);
 			}
 		}
 		else if (theChar == 'm')
 		{
 			if (!gusInTank)
 			{
-				mAlienExpect = Alien::ALIEN_BILATERUS;
-				SpawnAlien(Alien::ALIEN_BILATERUS, true);
+				mAlienExpect = ALIEN_BILATERUS;
+				SpawnAlien(ALIEN_BILATERUS, true);
 			}
 		}
 		else if (theChar == 'q')
-			SpawnPet(GameObject::PET_STINKY, -1, -1, false, false);
+			SpawnPet(PET_STINKY, -1, -1, false, false);
 		else if (theChar == 'w')
-			SpawnPet(GameObject::PET_NIKO, -1, -1, false, false);
+			SpawnPet(PET_NIKO, -1, -1, false, false);
 		else if (theChar == 'e')
-			SpawnPet(GameObject::PET_ITCHY, -1, -1, false, false);
+			SpawnPet(PET_ITCHY, -1, -1, false, false);
 		else if (theChar == 'r')
-			SpawnPet(GameObject::PET_PREGO, -1, -1, false, false);
+			SpawnPet(PET_PREGO, -1, -1, false, false);
 		else if (theChar == 't')
-			SpawnPet(GameObject::PET_ZORF, -1, -1, false, false);
+			SpawnPet(PET_ZORF, -1, -1, false, false);
 		else if (theChar == 'y')
-			SpawnPet(GameObject::PET_CLYDE, -1, -1, false, false);
+			SpawnPet(PET_CLYDE, -1, -1, false, false);
 		else if (theChar == 'u')
-			SpawnPet(GameObject::PET_VERT, -1, -1, false, false);
+			SpawnPet(PET_VERT, -1, -1, false, false);
 		else if (theChar == 'i')
-			SpawnPet(GameObject::PET_RUFUS, -1, -1, false, false);
+			SpawnPet(PET_RUFUS, -1, -1, false, false);
 		else if (theChar == 'o')
-			SpawnPet(GameObject::PET_MERYL, -1, -1, false, false);
+			SpawnPet(PET_MERYL, -1, -1, false, false);
 		else if (theChar == 'p')
-			SpawnPet(GameObject::PET_WADSWORTH, -1, -1, false, false);
+			SpawnPet(PET_WADSWORTH, -1, -1, false, false);
 		else if (theChar == 'a')
-			SpawnPet(GameObject::PET_SEYMOUR, -1, -1, false, false);
+			SpawnPet(PET_SEYMOUR, -1, -1, false, false);
 		else if (theChar == 's')
-			SpawnPet(GameObject::PET_SHRAPNEL, -1, -1, false, false);
+			SpawnPet(PET_SHRAPNEL, -1, -1, false, false);
 		else if (theChar == 'd')
-			SpawnPet(GameObject::PET_GUMBO, -1, -1, false, false);
+			SpawnPet(PET_GUMBO, -1, -1, false, false);
 		else if (theChar == 'f')
-			SpawnPet(GameObject::PET_BLIP, -1, -1, false, false);
+			SpawnPet(PET_BLIP, -1, -1, false, false);
 		else if (theChar == 'g')
-			SpawnPet(GameObject::PET_RHUBARB, -1, -1, false, false);
+			SpawnPet(PET_RHUBARB, -1, -1, false, false);
 		else if (theChar == 'h')
-			SpawnPet(GameObject::PET_NIMBUS, -1, -1, false, false);
+			SpawnPet(PET_NIMBUS, -1, -1, false, false);
 		else if (theChar == 'j')
-			SpawnPet(GameObject::PET_AMP, -1, -1, false, false);
+			SpawnPet(PET_AMP, -1, -1, false, false);
 		else if (theChar == 'k')
-			SpawnPet(GameObject::PET_GASH, -1, -1, false, false);
+			SpawnPet(PET_GASH, -1, -1, false, false);
 		else if (theChar == 'l')
-			SpawnPet(GameObject::PET_ANGIE, -1, -1, false, false);
+			SpawnPet(PET_ANGIE, -1, -1, false, false);
 		else if (theChar == ';')
-			SpawnPet(GameObject::PET_PRESTO, -1, -1, false, false);
+			SpawnPet(PET_PRESTO, -1, -1, false, false);
 		else if (theChar == 'A')
-			SpawnPet(GameObject::PET_BRINKLEY, -1, -1, false, false);
+			SpawnPet(PET_BRINKLEY, -1, -1, false, false);
 		else if (theChar == 'S')
-			SpawnPet(GameObject::PET_NOSTRADAMUS, -1, -1, false, false);
+			SpawnPet(PET_NOSTRADAMUS, -1, -1, false, false);
 		else if (theChar == 'D')
-			SpawnPet(GameObject::PET_WALTER, -1, -1, false, false);
+			SpawnPet(PET_WALTER, -1, -1, false, false);
 		else if (theChar == 'F')
-			SpawnPet(GameObject::PET_STANLEY, -1, -1, false, false);
+			SpawnPet(PET_STANLEY, -1, -1, false, false);
 		else if (theChar == '+' || theChar == '-')
 		{
 			ChangeBackground(theChar == '+' ? mCurrentBackgroundId + 1 : mCurrentBackgroundId - 1);
@@ -1531,7 +1531,7 @@ void Board::MouseDown(int x, int y, int theClickCount)
 
 		if (aliensExist)
 		{
-			if (mAlienList->at(0)->mAlienType == Alien::ALIEN_GUS && mCyraxPtr == nullptr)
+			if (mAlienList->at(0)->mAlienType == ALIEN_GUS && mCyraxPtr == nullptr)
 			{
 				if (x >= 31 && x <= 586 && y >= 61 && y <= 379)
 				{
@@ -1585,7 +1585,7 @@ void Board::MouseDown(int x, int y, int theClickCount)
 		else
 		{
 			if (x > 30 && x < 587 && y > 60 && y < 400 && 
-				mDropFoodDelay <= 0 && (mTank != 5 || mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK) &&
+				mDropFoodDelay <= 0 && (mTank != 5 || mApp->mGameMode == GAMEMODE_VIRTUAL_TANK) &&
 				mBilaterusList->empty() && mCyraxPtr == nullptr && mMissleList1->empty())
 			{
 				if (m0x440 || Buy(m0x4ac, true))
@@ -1612,7 +1612,7 @@ void Board::MouseUp(int x, int y, int theClickCount)
 void Sexy::Board::ButtonPress(int theId)
 {
 	mApp->PlaySample(SOUND_BUTTONCLICK);
-	if (mApp->mGameMode != WinFishApp::GAMEMODE_VIRTUAL_TANK && theId < SLOT_END)
+	if (mApp->mGameMode != GAMEMODE_VIRTUAL_TANK && theId < SLOT_END)
 	{
 		HandleBuySlotPressed(theId);
 		return;
@@ -1710,82 +1710,82 @@ void Board::AddGameObject(GameObject* theObject)
 	bool someFlag = true;
 	switch (theObject->mType)
 	{
-	case GameObject::TYPE_GUPPY:
+	case TYPE_GUPPY:
 		mFishList->push_back((Fish*) theObject);
 		break;
-	case GameObject::TYPE_OSCAR:
+	case TYPE_OSCAR:
 		mOscarList->push_back((Oscar*)theObject);
 		break;
-	case GameObject::TYPE_ULTRA:
+	case TYPE_ULTRA:
 		mUltraList->push_back((Ultra*)theObject);
 		break;
-	case GameObject::TYPE_GEKKO:
+	case TYPE_GEKKO:
 		mGekkoList->push_back((Gekko*)theObject);
 		break;
-	case GameObject::TYPE_PENTA:
+	case TYPE_PENTA:
 		mPentaList->push_back((Penta*)theObject);
 		break;
-	case GameObject::TYPE_GRUBBER:
+	case TYPE_GRUBBER:
 		mGrubberList->push_back((Grubber*)theObject);
 		break;
-	case GameObject::TYPE_BREEDER:
+	case TYPE_BREEDER:
 		mBreederList->push_back((Breeder*)theObject);
 		break;
-	case GameObject::TYPE_OTHER_TYPE_PET:
+	case TYPE_OTHER_TYPE_PET:
 	{
 		OtherTypePet* aPet = (OtherTypePet*)theObject;
-		if (aPet->mOtherTypePetType >= GameObject::PET_STINKY && aPet->mOtherTypePetType < GameObject::PET_END)
+		if (aPet->mOtherTypePetType >= PET_STINKY && aPet->mOtherTypePetType < PET_END)
 			mPetsInTank[aPet->mOtherTypePetType]++;
 		mOtherTypePetList->push_back(aPet);
 		break;
 	}
-	case GameObject::TYPE_FISH_TYPE_PET:
+	case TYPE_FISH_TYPE_PET:
 	{
 		FishTypePet* aPet = (FishTypePet*)theObject;
-		if (aPet->mFishTypePetType >= GameObject::PET_STINKY && aPet->mFishTypePetType < GameObject::PET_END)
+		if (aPet->mFishTypePetType >= PET_STINKY && aPet->mFishTypePetType < PET_END)
 			mPetsInTank[aPet->mFishTypePetType]++;
 		mFishTypePetList->push_back(aPet);
 		break;
 	}
-	case GameObject::TYPE_ALIEN:
+	case TYPE_ALIEN:
 	{
 		Alien* anAlien = (Alien*)theObject;
-		if (anAlien->mAlienType == Alien::ALIEN_MINI_SYLV)
+		if (anAlien->mAlienType == ALIEN_MINI_SYLV)
 			mSmallAlienList->push_back(anAlien);
 		else
 			mAlienList->push_back(anAlien);
 		break;
 	}
-	case GameObject::TYPE_BILATERUS:
+	case TYPE_BILATERUS:
 		mBilaterusList->push_back((Bilaterus*) theObject);
 		break;
-	case GameObject::TYPE_COIN:
+	case TYPE_COIN:
 	{
 		Coin* aCoin = (Coin*)theObject;
-		if (aCoin->m0x1a0 < 2 && aCoin->mCoinType != 15)
+		if (aCoin->m0x1a0 < 2 && aCoin->mCoinType != COIN_NIKOPEARL)
 		{
-			if (aCoin->mCoinType == 16)
-				mCoinList2->push_back(aCoin);
+			if (aCoin->mCoinType == COIN_NOTE)
+				mNoteList->push_back(aCoin);
 			else
-				mCoinList1->push_back(aCoin);
+				mCoinList->push_back(aCoin);
 		}
 		else
-			mCoinList3->push_back(aCoin);
+			mNikoPearlCoinList->push_back(aCoin);
 		break;
 	}
-	case GameObject::TYPE_DEAD_ALIEN:
+	case TYPE_DEAD_ALIEN:
 		mDeadAlienList->push_back((DeadAlien*)theObject);
 		break;
-	case GameObject::TYPE_DEAD_FISH:
+	case TYPE_DEAD_FISH:
 		mDeadFishList->push_back((DeadFish*)theObject);
 		break;
-	case GameObject::TYPE_FOOD:
+	case TYPE_FOOD:
 		mFoodList->push_back((Food*)theObject);
 		break;
-	case GameObject::TYPE_LARVA:
+	case TYPE_LARVA:
 		mLarvaList->push_back((Larva*)theObject);
 		break;
-	case GameObject::TYPE_MISSLE:
+	case TYPE_MISSLE:
 	{
 		Missle* aMis = (Missle*)theObject;
 		someFlag = false;
@@ -1795,25 +1795,25 @@ void Board::AddGameObject(GameObject* theObject)
 			mMissleList2->push_back((Missle*)theObject);
 		break;
 	}
-	case GameObject::TYPE_SHADOW:
+	case TYPE_SHADOW:
 		mShadowList->push_back((Shadow*)theObject);
 		someFlag = false;
 		break;
-	case GameObject::TYPE_SHOT:
+	case TYPE_SHOT:
 		mShotList->push_back((Shot*)theObject);
 		someFlag = false;
 		break;
-	case GameObject::TYPE_WARP:
+	case TYPE_WARP:
 		mWarpList->push_back((Warp*)theObject);
 		someFlag = false;
 		break;
-	case GameObject::TYPE_SYLVESTER_FISH:
+	case TYPE_SYLVESTER_FISH:
 		mSpecialFishList->push_back((SylvesterFish*)theObject);
 		break;
-	case GameObject::TYPE_BALL_FISH:
+	case TYPE_BALL_FISH:
 		mSpecialFishList->push_back((BallFish*)theObject);
 		break;
-	case GameObject::TYPE_BI_FISH:
+	case TYPE_BI_FISH:
 		mSpecialFishList->push_back((BiFish*)theObject);
 		break;
 	}
@@ -1829,57 +1829,57 @@ void Board::MakeShadowForGameObject(GameObject* theObject)
 	{
 		switch (theObject->mType)
 		{
-		case GameObject::TYPE_GUPPY:
-		case GameObject::TYPE_OSCAR:
-		case GameObject::TYPE_GEKKO:
-		case GameObject::TYPE_BREEDER:
-		case GameObject::TYPE_DEAD_FISH:
-		case GameObject::TYPE_BALL_FISH:
-		case GameObject::TYPE_BI_FISH:
+		case TYPE_GUPPY:
+		case TYPE_OSCAR:
+		case TYPE_GEKKO:
+		case TYPE_BREEDER:
+		case TYPE_DEAD_FISH:
+		case TYPE_BALL_FISH:
+		case TYPE_BI_FISH:
 			SpawnShadow(0, theObject);
 			break;
-		case GameObject::TYPE_ULTRA:
+		case TYPE_ULTRA:
 			SpawnShadow(2, theObject);
 			break;
-		case GameObject::TYPE_PENTA:
-		case GameObject::TYPE_GRUBBER:
+		case TYPE_PENTA:
+		case TYPE_GRUBBER:
 			SpawnShadow(1, theObject);
 			break;
-		case GameObject::TYPE_OTHER_TYPE_PET:
+		case TYPE_OTHER_TYPE_PET:
 		{
 			OtherTypePet* aPet = (OtherTypePet*)theObject;
-			if(aPet->mOtherTypePetType == GameObject::PET_CLYDE)
+			if(aPet->mOtherTypePetType == PET_CLYDE)
 				SpawnShadow(0, theObject);
-			else if(aPet->mOtherTypePetType != GameObject::PET_NIKO)
+			else if(aPet->mOtherTypePetType != PET_NIKO)
 				SpawnShadow(1, theObject);
 			break;
 		}
-		case GameObject::TYPE_FISH_TYPE_PET:
+		case TYPE_FISH_TYPE_PET:
 		{
 			FishTypePet* aPet = (FishTypePet*)theObject;
-			if(aPet->mFishTypePetType == GameObject::PET_AMP)
+			if(aPet->mFishTypePetType == PET_AMP)
 				SpawnShadow(2, theObject);
 			else
-				SpawnShadow(aPet->mFishTypePetType == GameObject::PET_BRINKLEY, theObject);
+				SpawnShadow(aPet->mFishTypePetType == PET_BRINKLEY, theObject);
 			break;
 		}
-		case GameObject::TYPE_ALIEN:
+		case TYPE_ALIEN:
 		{
 			Alien* anAlien = (Alien*)theObject;
-			SpawnShadow(anAlien->mAlienType == Alien::ALIEN_MINI_SYLV ? 0 : 2, theObject);
+			SpawnShadow(anAlien->mAlienType == ALIEN_MINI_SYLV ? 0 : 2, theObject);
 			break;
 		}
-		case GameObject::TYPE_BILATERUS:
-		case GameObject::TYPE_COIN:
-		case GameObject::TYPE_DEAD_ALIEN:
-		case GameObject::TYPE_FOOD:
-		case GameObject::TYPE_LARVA:
-		case GameObject::TYPE_MISSLE:
-		case GameObject::TYPE_SHADOW:
-		case GameObject::TYPE_SHOT:
-		case GameObject::TYPE_WARP:
+		case TYPE_BILATERUS:
+		case TYPE_COIN:
+		case TYPE_DEAD_ALIEN:
+		case TYPE_FOOD:
+		case TYPE_LARVA:
+		case TYPE_MISSLE:
+		case TYPE_SHADOW:
+		case TYPE_SHOT:
+		case TYPE_WARP:
 			break;
-		case GameObject::TYPE_SYLVESTER_FISH:
+		case TYPE_SYLVESTER_FISH:
 		{
 			SylvesterFish* aFish = (SylvesterFish*)theObject;
 			SpawnShadow(aFish->mSize == 1 ? 0 : 2, theObject);
@@ -1920,9 +1920,9 @@ void Board::SortGameObjects()
 			mWidgetManager->BringToFront(anObj);
 	}
 
-	for (int i = 0; i < mCoinList2->size(); i++) // 138
+	for (int i = 0; i < mNoteList->size(); i++) // 138
 	{
-		GameObject* anObj = mCoinList2->at(i);
+		GameObject* anObj = mNoteList->at(i);
 		if(anObj && (!anObj->mInvisible || (anObj->mInvisible && anObj->mInvisibleTimer != 0)))
 			mWidgetManager->BringToFront(anObj);
 	}
@@ -2101,25 +2101,25 @@ void Board::SortGameObjects()
 			mWidgetManager->BringToFront(anObj);
 	}
 
-	for (int i = 0; i < mCoinList1->size(); i++) // 1036
+	for (int i = 0; i < mCoinList->size(); i++) // 1036
 	{
-		GameObject* anObj = mCoinList1->at(i);
+		GameObject* anObj = mCoinList->at(i);
 		if (anObj && (!anObj->mInvisible || (anObj->mInvisible && anObj->mInvisibleTimer != 0)))
 			mWidgetManager->BringToFront(anObj);
 	}
 
 	if (mLastCoinTypeClicked > -1)
-		for (int i = 0; i < mCoinList1->size(); i++) // 1076
+		for (int i = 0; i < mCoinList->size(); i++) // 1076
 		{
-			Coin* anObj = mCoinList1->at(i);
+			Coin* anObj = mCoinList->at(i);
 			if (anObj && mLastCoinTypeClicked == anObj->mCoinType)
 				mWidgetManager->BringToFront(anObj);
 		}
 
-	for (int i = 0; i < mCoinList3->size(); i++) // 1103
+	for (int i = 0; i < mNikoPearlCoinList->size(); i++) // 1103
 	{
-		Coin* anObj = mCoinList3->at(i);
-		if (anObj && mLastCoinTypeClicked == anObj->mCoinType)
+		Coin* anObj = mNikoPearlCoinList->at(i);
+		if (anObj && (!anObj->mInvisible || (anObj->mInvisible && anObj->mInvisibleTimer != 0)))
 			mWidgetManager->BringToFront(anObj);
 	}
 
@@ -2156,7 +2156,7 @@ void Sexy::Board::PauseGame(bool shouldPause)
 			Unk13();
 			DetermineAlienSpawnCoordsVT();
 			UpdateNikoPosition();
-			if (mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK)
+			if (mApp->mGameMode == GAMEMODE_VIRTUAL_TANK)
 				UpdateHasVirtualTankFish();
 			mFishSongMgr->PausedGameDelaySong();
 			mPause = false;
@@ -2175,16 +2175,16 @@ void Sexy::Board::StartGame()
 		aRandVal--;
 	}
 	UserProfile* aCurProf = mApp->mCurrentProfile;
-	if ((!aCurProf->mFinishedGame || (mApp->mGameMode != WinFishApp::GAMEMODE_TIME_TRIAL &&
-		mApp->mGameMode != WinFishApp::GAMEMODE_CHALLENGE)) && aCurProf->mNumOfUnlockedPets < 4)
+	if ((!aCurProf->mFinishedGame || (mApp->mGameMode != GAMEMODE_TIME_TRIAL &&
+		mApp->mGameMode != GAMEMODE_CHALLENGE)) && aCurProf->mNumOfUnlockedPets < 4)
 	{
-		for (int i = GameObject::PET_STINKY; i < GameObject::PET_PRESTO; i++)
+		for (int i = PET_STINKY; i < PET_PRESTO; i++)
 			if (aCurProf->IsPetUnlocked(i))
 				SpawnPet(i, -1, -1, false, false);
 	}
 	else
 	{
-		for (int i = GameObject::PET_STINKY; i < GameObject::PET_END; i++)
+		for (int i = PET_STINKY; i < PET_END; i++)
 			if (aCurProf->m0x5a[i])
 				SpawnPet(i, -1, -1, false, false);
 	}
@@ -2200,10 +2200,10 @@ void Sexy::Board::StartGame()
 		else if(mTank == 5)
 		{
 			mAlienTimer = 300;
-			for (int i = GameObject::PET_STINKY; i < GameObject::PET_GASH; i++)
+			for (int i = PET_STINKY; i < PET_GASH; i++)
 				SpawnPet(i, -1, -1, false, false);
 
-			SpawnPet(GameObject::PET_GASH, -1, -1, false, false);
+			SpawnPet(PET_GASH, -1, -1, false, false);
 		}
 		else
 		{
@@ -2226,7 +2226,7 @@ void Sexy::Board::StartGame()
 			SpawnGuppy(mApp->mSeed->Next() % 520 + 20, mApp->mSeed->Next() % 265 + 105);
 	}
 
-	if (mApp->mGameMode == WinFishApp::GAMEMODE_TIME_TRIAL)
+	if (mApp->mGameMode == GAMEMODE_TIME_TRIAL)
 	{
 		if (mTank == 1)
 			m0x3bc = 300;
@@ -2236,7 +2236,7 @@ void Sexy::Board::StartGame()
 	bool aGameFin = mApp->mCurrentProfile->mFinishedGame;
 	SexyString aMsg = "";
 	int anId = -1;
-	if (mApp->mGameMode == WinFishApp::GAMEMODE_ADVENTURE)
+	if (mApp->mGameMode == GAMEMODE_ADVENTURE)
 	{
 		if (mLevel == 1 && mTank == 1)
 		{
@@ -2262,17 +2262,17 @@ void Sexy::Board::StartGame()
 			aMsg = "Welcome to the second tank! Now things get tricky!";
 		}
 	}
-	else if (mApp->mGameMode == WinFishApp::GAMEMODE_TIME_TRIAL)
+	else if (mApp->mGameMode == GAMEMODE_TIME_TRIAL)
 	{
 		anId = 52;
 		aMsg = "Welcome to Time Trial mode!";
 	}
-	else if (mApp->mGameMode == WinFishApp::GAMEMODE_SANDBOX)
+	else if (mApp->mGameMode == GAMEMODE_SANDBOX)
 	{
 		anId = 47;
 		aMsg = "You\'ve discovered the top-secret SANDBOX mode!";
 	}
-	else if (mApp->mGameMode == WinFishApp::GAMEMODE_CHALLENGE)
+	else if (mApp->mGameMode == GAMEMODE_CHALLENGE)
 	{
 		anId = 50;
 		aMsg = "Welcome to Challenge mode!";
@@ -2295,7 +2295,7 @@ void Sexy::Board::SaveCurrentGame()
 {
 	SexyString aFileStr = mApp->mCurrentProfile->GetSaveGameFilePath(mApp->mGameMode, mApp->mCurrentProfile->mId);
 
-	if (!(mApp->mBoard->mShouldSave && mApp->mGameMode != WinFishApp::GAMEMODE_SANDBOX))
+	if (!(mApp->mBoard->mShouldSave && mApp->mGameMode != GAMEMODE_SANDBOX))
 		mApp->EraseFile(aFileStr);
 	else
 	{
@@ -2329,7 +2329,7 @@ bool Sexy::Board::SyncGameData(DataSync& theSync)
 	theSync.SyncLong(mTank);
 	theSync.SyncLong(mLevel);
 
-	if (mApp->mGameMode == WinFishApp::GAMEMODE_ADVENTURE && theSync.mReader != nullptr
+	if (mApp->mGameMode == GAMEMODE_ADVENTURE && theSync.mReader != nullptr
 		&& (mTank != mApp->mCurrentProfile->mTank || mLevel != mApp->mCurrentProfile->mLevel))
 		return false;
 
@@ -2357,7 +2357,7 @@ bool Sexy::Board::SyncGameData(DataSync& theSync)
 		for (GameObjectSet::iterator it = mGameObjectSet.begin(); it != mGameObjectSet.end(); ++it)
 		{
 			GameObject* anObj = *it;
-			if (anObj->mType != GameObject::TYPE_SHADOW)
+			if (anObj->mType != TYPE_SHADOW)
 			{
 				aNumOfObjects++;
 				anObj->Sync(&theSync);
@@ -2537,73 +2537,73 @@ GameObject* Sexy::Board::CreateGameObject(int theType)
 {
 	switch (theType)
 	{
-	case GameObject::TYPE_GUPPY:
+	case TYPE_GUPPY:
 		return new Fish();
 		break;
-	case GameObject::TYPE_OSCAR:
+	case TYPE_OSCAR:
 		return new Oscar();
 		break;
-	case GameObject::TYPE_ULTRA:
+	case TYPE_ULTRA:
 		return new Ultra();
 		break;
-	case GameObject::TYPE_GEKKO:
+	case TYPE_GEKKO:
 		return new Gekko();
 		break;
-	case GameObject::TYPE_PENTA:
+	case TYPE_PENTA:
 		return new Penta();
 		break;
-	case GameObject::TYPE_GRUBBER:
+	case TYPE_GRUBBER:
 		return new Grubber();
 		break;
-	case GameObject::TYPE_BREEDER:
+	case TYPE_BREEDER:
 		return new Breeder();
 		break;
-	case GameObject::TYPE_OTHER_TYPE_PET:
+	case TYPE_OTHER_TYPE_PET:
 		return new OtherTypePet();
 		break;
-	case GameObject::TYPE_FISH_TYPE_PET:
+	case TYPE_FISH_TYPE_PET:
 		return new FishTypePet();
 		break;
-	case GameObject::TYPE_ALIEN:
+	case TYPE_ALIEN:
 		return new Alien();
 		break;
-	case GameObject::TYPE_BILATERUS:
+	case TYPE_BILATERUS:
 		return new Bilaterus();
 		break;
-	case GameObject::TYPE_COIN:
+	case TYPE_COIN:
 		return new Coin();
 		break;
-	case GameObject::TYPE_DEAD_ALIEN:
+	case TYPE_DEAD_ALIEN:
 		return new DeadAlien();
 		break;
-	case GameObject::TYPE_DEAD_FISH:
+	case TYPE_DEAD_FISH:
 		return new DeadFish();
 		break;
-	case GameObject::TYPE_FOOD:
+	case TYPE_FOOD:
 		return new Food();
 		break;
-	case GameObject::TYPE_LARVA:
+	case TYPE_LARVA:
 		return new Larva();
 		break;
-	case GameObject::TYPE_MISSLE:
+	case TYPE_MISSLE:
 		return new Missle();
 		break;
-	case GameObject::TYPE_SHADOW:
+	case TYPE_SHADOW:
 		return new Shadow();
 		break;
-	case GameObject::TYPE_SHOT:
+	case TYPE_SHOT:
 		return new Shot();
 		break;
-	case GameObject::TYPE_WARP:
+	case TYPE_WARP:
 		return new Warp();
 		break;
-	case GameObject::TYPE_SYLVESTER_FISH:
+	case TYPE_SYLVESTER_FISH:
 		return new SylvesterFish();
 		break;
-	case GameObject::TYPE_BALL_FISH:
+	case TYPE_BALL_FISH:
 		return new BallFish();
 		break;
-	case GameObject::TYPE_BI_FISH:
+	case TYPE_BI_FISH:
 		return new BiFish();
 		break;
 	}
@@ -2630,7 +2630,7 @@ bool Sexy::Board::LoadGame(SexyString theSavePath)
 			int aVal = aDR.ReadLong();
 			aSync.SyncPointers();
 
-			if(mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK)
+			if(mApp->mGameMode == GAMEMODE_VIRTUAL_TANK)
 			{
 				__time64_t currentTime = _time64(nullptr);
 				__time64_t timeOfSave = aVal;
@@ -2656,7 +2656,7 @@ bool Sexy::Board::LoadGame(SexyString theSavePath)
 					aNewVal = 5000;
 				gUnkInt07 = aNewVal;
 			}
-			if (mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK)
+			if (mApp->mGameMode == GAMEMODE_VIRTUAL_TANK)
 			{
 				MakeVirtualTankButtons();
 				WidgetSetupVT();
@@ -2683,7 +2683,7 @@ void Sexy::Board::InitLevel()
 		mSlotUnlocked[i] = false;
 	}
 
-	if (mApp->mGameMode == WinFishApp::GAMEMODE_ADVENTURE)
+	if (mApp->mGameMode == GAMEMODE_ADVENTURE)
 	{
 		mTank = mApp->mCurrentProfile->mTank;
 		mLevel = mApp->mCurrentProfile->mLevel;
@@ -2694,7 +2694,7 @@ void Sexy::Board::InitLevel()
 		mLevel = 5;
 	}
 
-	if (mApp->mGameMode == WinFishApp::GAMEMODE_SANDBOX)
+	if (mApp->mGameMode == GAMEMODE_SANDBOX)
 		mMoney = 999999;
 	else
 		mMoney = 200;
@@ -2757,7 +2757,7 @@ void Sexy::Board::InitLevel()
 		m0x344[i] = mSlotPrices[i];
 	}
 
-	if (mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK)
+	if (mApp->mGameMode == GAMEMODE_VIRTUAL_TANK)
 		MakeVirtualTankButtons();
 	mWidgetManager->MarkAllDirty();
 }
@@ -2819,7 +2819,7 @@ void Sexy::Board::StartMusic()
 		{
 			if (mAlienTimer < 2 || mAlienTimer > 275)
 			{
-				if (mApp->mGameMode != WinFishApp::GAMEMODE_VIRTUAL_TANK)
+				if (mApp->mGameMode != GAMEMODE_VIRTUAL_TANK)
 				{
 					mApp->StartGameMusic();
 					return;
@@ -2828,7 +2828,7 @@ void Sexy::Board::StartMusic()
 				return;
 			}
 			mApp->StopMusic();
-			if (mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK && !mAlienAttractorShown)
+			if (mApp->mGameMode == GAMEMODE_VIRTUAL_TANK && !mAlienAttractorShown)
 				return;
 			mApp->SomeMusicFunc(false);
 			return;
@@ -2924,7 +2924,7 @@ void Sexy::Board::Unk06(Graphics* g, Image* theImage, int theX, int theY, float 
 
 void Sexy::Board::Unk07(int unk)
 {
-	if (mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK)
+	if (mApp->mGameMode == GAMEMODE_VIRTUAL_TANK)
 	{
 		if (!mApp->IsScreenSaver())
 			mApp->mCurrentProfile->AddShells(unk);
@@ -3064,16 +3064,16 @@ bool Sexy::Board::Unk09(Coin* theCoin)
 int Sexy::Board::Unk10()
 {
 	int aValue = 0;
-	for (int i = 0; i < mCoinList1->size(); i++)
+	for (int i = 0; i < mCoinList->size(); i++)
 	{
-		Coin* aCoin = mCoinList1->at(i);
+		Coin* aCoin = mCoinList->at(i);
 		if (aCoin->m0x198)
 			aValue += aCoin->GetValue();
 	}
 
-	for (int i = 0; i < mCoinList3->size(); i++)
+	for (int i = 0; i < mNikoPearlCoinList->size(); i++)
 	{
-		Coin* aCoin = mCoinList3->at(i);
+		Coin* aCoin = mNikoPearlCoinList->at(i);
 		if (aCoin->m0x198)
 			aValue += aCoin->GetValue();
 	}
@@ -3149,9 +3149,9 @@ void Sexy::Board::Unk14(bool unk)
 		for (int i = 0; i < mFishTypePetList->size(); i++)
 		{
 			FishTypePet* aPet = mFishTypePetList->at(i);
-			if(aPet->mFishTypePetType == GameObject::PET_AMP && aPet->mCoinDropT <= aPet->mCoinDropTimer)
+			if(aPet->mFishTypePetType == PET_AMP && aPet->mCoinDropT <= aPet->mCoinDropTimer)
 				aPet->mMouseVisible = unk;
-			else if(aPet->mFishTypePetType == GameObject::PET_WALTER)
+			else if(aPet->mFishTypePetType == PET_WALTER)
 				aPet->mMouseVisible = unk;
 		}
 	}
@@ -3164,8 +3164,8 @@ void Sexy::Board::Unk15()
 	for (GameObjectSet::iterator it = mGameObjectSet.begin(); it != mGameObjectSet.end(); ++it)
 	{
 		GameObject* anObj = *it;
-		if (anObj->mType != GameObject::TYPE_SHADOW && 
-			(anObj->mType != GameObject::TYPE_COIN || ((Coin*)anObj)->m0x190 == 0) && 
+		if (anObj->mType != TYPE_SHADOW && 
+			(anObj->mType != TYPE_COIN || ((Coin*)anObj)->m0x190 == 0) && 
 			anObj->mVirtualTankId < 0)
 			aSet.insert(anObj);
 	}
@@ -3179,7 +3179,7 @@ void Sexy::Board::Unk15()
 
 void Sexy::Board::DetermineAlienSpawnCoordsVT()
 {
-	if (mApp->mGameMode != WinFishApp::GAMEMODE_VIRTUAL_TANK)
+	if (mApp->mGameMode != GAMEMODE_VIRTUAL_TANK)
 		return;
 
 	int aX, aY;
@@ -3226,7 +3226,7 @@ void Sexy::Board::HandleBuyEgg()
 	if (!aBtn)
 		return;
 
-	if (mApp->mGameMode == WinFishApp::GAMEMODE_SANDBOX)
+	if (mApp->mGameMode == GAMEMODE_SANDBOX)
 	{
 		mApp->LeaveGameBoard();
 		return;
@@ -3235,12 +3235,12 @@ void Sexy::Board::HandleBuyEgg()
 	if (!Buy(mSlotPrices[SLOT_EGG], true))
 		return;
 
-	if (mApp->mGameMode == WinFishApp::GAMEMODE_TIME_TRIAL)
+	if (mApp->mGameMode == GAMEMODE_TIME_TRIAL)
 	{
 		std::vector<int> anAvailablePets;
-		for (int i = 0; i < GameObject::PET_END; i++)
+		for (int i = 0; i < PET_END; i++)
 		{
-			if (mPetsInTank[i] == 0 && i != GameObject::PET_PRESTO && mApp->mCurrentProfile->IsPetUnlocked(i))
+			if (mPetsInTank[i] == 0 && i != PET_PRESTO && mApp->mCurrentProfile->IsPetUnlocked(i))
 				anAvailablePets.push_back(i);
 		}
 
@@ -3249,7 +3249,7 @@ void Sexy::Board::HandleBuyEgg()
 			int aRandPetIdx = Rand() % anAvailablePets.size();
 			SpawnPet(anAvailablePets[aRandPetIdx], -1, -1, false, false);
 			m0x498++;
-			UpdateSlotPrice(SLOT_EGG, mSlotPrices[SLOT_EGG]);
+			UpdateSlotPrice(SLOT_EGG, mSlotPrices[SLOT_EGG]*2);
 		}
 
 		if (anAvailablePets.size() <= 1)
@@ -3272,7 +3272,7 @@ void Sexy::Board::HandleBuyEgg()
 
 	m0x43c++;
 
-	if (mApp->mGameMode == WinFishApp::GAMEMODE_CHALLENGE)
+	if (mApp->mGameMode == GAMEMODE_CHALLENGE)
 	{
 		m0x454 = 500;
 		for (int i = 0; i < SLOT_END; i++)
@@ -3294,7 +3294,7 @@ void Sexy::Board::HandleBuyEgg()
 	mShouldSave = false;
 	Unk04();
 
-	if (mApp->mGameMode == WinFishApp::GAMEMODE_CHALLENGE)
+	if (mApp->mGameMode == GAMEMODE_CHALLENGE)
 	{
 		if (mTank > 0 && mTank < 5)
 			mApp->mCurrentProfile->m0x78[mTank-1] = true;
@@ -3344,17 +3344,17 @@ void Sexy::Board::HandleBuyEgg()
 		aPetId = 999;
 	else if(mTank == 5)
 	{
-		aPetId = GameObject::PET_PRESTO;
+		aPetId = PET_PRESTO;
 		mApp->mCurrentProfile->UnlockPet(aPetId, true);
 	}
 	else
 	{
 		aPetId = mTank * 5 - 6 + mLevel;
-		if(aPetId >= GameObject::PET_STINKY && aPetId < GameObject::PET_END)
+		if(aPetId >= PET_STINKY && aPetId < PET_END)
 			mApp->mCurrentProfile->UnlockPet(aPetId, true);
 	}
 
-	if (aPetId == GameObject::PET_PRESTO)
+	if (aPetId == PET_PRESTO)
 		mApp->mCurrentProfile->AddShells(5000);
 
 	mApp->SwitchToHatchScreen(aPetId);
@@ -3451,7 +3451,7 @@ void Sexy::Board::NostradamusSneezeEffect()
 	for (int i = 0; i < mFishTypePetList->size(); i++)
 	{
 		FishTypePet* aPet = mFishTypePetList->at(i);
-		if (aPet->mFishTypePetType == GameObject::PET_NOSTRADAMUS)
+		if (aPet->mFishTypePetType == PET_NOSTRADAMUS)
 		{
 			aNostradamusCnt++;
 			for (int i = 0; i < 5; i++)
@@ -3562,23 +3562,23 @@ void Sexy::Board::PlayDieSound(int theObjType)
 	int aPitch = 0;
 	switch (theObjType)
 	{
-	case GameObject::TYPE_OSCAR:
-	case GameObject::TYPE_GRUBBER:
+	case TYPE_OSCAR:
+	case TYPE_GRUBBER:
 		aPitch = -6;
 		break;
-	case GameObject::TYPE_ULTRA:
+	case TYPE_ULTRA:
 		aPitch = -12;
 		break;
-	case GameObject::TYPE_GEKKO:
-	case GameObject::TYPE_SYLVESTER_FISH:
-	case GameObject::TYPE_BALL_FISH:
-	case GameObject::TYPE_BI_FISH:
+	case TYPE_GEKKO:
+	case TYPE_SYLVESTER_FISH:
+	case TYPE_BALL_FISH:
+	case TYPE_BI_FISH:
 		aPitch = -3;
 		break;
-	case GameObject::TYPE_PENTA:
+	case TYPE_PENTA:
 		aPitch = 4;
 		break;
-	case GameObject::TYPE_BREEDER:
+	case TYPE_BREEDER:
 		aPitch = 5;
 		break;
 	}
@@ -3674,12 +3674,12 @@ void Sexy::Board::ResetLevel(WidgetManager* theWidgetManager)
 	}
 	mDeadAlienList->clear();
 
-	for (int i = 0; i < mCoinList1->size(); i++)
+	for (int i = 0; i < mCoinList->size(); i++)
 	{
-		theWidgetManager->RemoveWidget(mCoinList1->at(i));
-		mApp->SafeDeleteWidget(mCoinList1->at(i));
+		theWidgetManager->RemoveWidget(mCoinList->at(i));
+		mApp->SafeDeleteWidget(mCoinList->at(i));
 	}
-	mCoinList1->clear();
+	mCoinList->clear();
 
 	for (int i = 0; i < mOscarList->size(); i++)
 	{
@@ -3744,19 +3744,19 @@ void Sexy::Board::ResetLevel(WidgetManager* theWidgetManager)
 	}
 	mShadowList->clear();
 
-	for (int i = 0; i < mCoinList2->size(); i++)
+	for (int i = 0; i < mNoteList->size(); i++)
 	{
-		theWidgetManager->RemoveWidget(mCoinList2->at(i));
-		mApp->SafeDeleteWidget(mCoinList2->at(i));
+		theWidgetManager->RemoveWidget(mNoteList->at(i));
+		mApp->SafeDeleteWidget(mNoteList->at(i));
 	}
-	mCoinList2->clear();
+	mNoteList->clear();
 
-	for (int i = 0; i < mCoinList3->size(); i++)
+	for (int i = 0; i < mNikoPearlCoinList->size(); i++)
 	{
-		theWidgetManager->RemoveWidget(mCoinList3->at(i));
-		mApp->SafeDeleteWidget(mCoinList3->at(i));
+		theWidgetManager->RemoveWidget(mNikoPearlCoinList->at(i));
+		mApp->SafeDeleteWidget(mNikoPearlCoinList->at(i));
 	}
-	mCoinList3->clear();
+	mNikoPearlCoinList->clear();
 
 	for (int i = 0; i < mWarpList->size(); i++)
 	{
@@ -3860,7 +3860,7 @@ void Sexy::Board::DeterminePricesAndSlots()
 			switch (mLevel)
 			{
 			case 1:
-				mAlienExpect = Alien::ALIEN_NONE;
+				mAlienExpect = ALIEN_NONE;
 				mSlotPrices[SLOT_EGG] = 150;
 				mSlotNumber[SLOT_FOODLVL] = -1;
 				mSlotNumber[SLOT_FOODLIMIT] = -1;
@@ -3868,22 +3868,22 @@ void Sexy::Board::DeterminePricesAndSlots()
 				mSlotNumber[SLOT_WEAPON] = -1;
 				break;
 			case 2:
-				mAlienExpect = Alien::ALIEN_WEAK_SYLV;
+				mAlienExpect = ALIEN_WEAK_SYLV;
 				mSlotPrices[SLOT_EGG] = 500;
 				mAlienTimer = 1750;
 				mSlotNumber[SLOT_OSCAR] = -1;
 				mSlotNumber[SLOT_WEAPON] = -1;
 				break;
 			case 3:
-				mAlienExpect = Alien::ALIEN_STRONG_SYLV;
+				mAlienExpect = ALIEN_STRONG_SYLV;
 				mSlotPrices[SLOT_EGG] = 2000;
 				break;
 			case 4:	
-				mAlienExpect = Alien::ALIEN_BALROG;
+				mAlienExpect = ALIEN_BALROG;
 				mSlotPrices[SLOT_EGG] = 3000;
 				break;
 			case 5:	
-				mAlienExpect = Alien::ALIEN_BALROG;
+				mAlienExpect = ALIEN_BALROG;
 				mSlotPrices[SLOT_EGG] = 5000;
 				break;
 			}
@@ -3906,25 +3906,25 @@ void Sexy::Board::DeterminePricesAndSlots()
 			switch (mLevel)
 			{
 			case 1:
-				mAlienExpect = Alien::ALIEN_STRONG_SYLV;
+				mAlienExpect = ALIEN_STRONG_SYLV;
 				mSlotPrices[SLOT_EGG] = 750;
 				mSlotNumber[SLOT_WEAPON] = -1;
 				mSlotNumber[SLOT_STARCATCHER] = -1;
 				break;
 			case 2:
-				mAlienExpect = Alien::ALIEN_BALROG;
+				mAlienExpect = ALIEN_BALROG;
 				mSlotPrices[SLOT_EGG] = 3000;
 				break;
 			case 3:
-				mAlienExpect = Alien::ALIEN_GUS;
+				mAlienExpect = ALIEN_GUS;
 				mSlotPrices[SLOT_EGG] = 5000;
 				break;
 			case 4:
-				mAlienExpect = Alien::ALIEN_DESTRUCTOR;
+				mAlienExpect = ALIEN_DESTRUCTOR;
 				mSlotPrices[SLOT_EGG] = 7500;
 				break;
 			case 5:
-				mAlienExpect = mApp->mSeed->Next() % 2 + Alien::ALIEN_GUS;
+				mAlienExpect = mApp->mSeed->Next() % 2 + ALIEN_GUS;
 				mSlotPrices[SLOT_EGG] = 10000;
 				break;
 			}
@@ -3947,25 +3947,25 @@ void Sexy::Board::DeterminePricesAndSlots()
 			switch (mLevel)
 			{
 			case 1:
-				mAlienExpect = Alien::ALIEN_BALROG;
+				mAlienExpect = ALIEN_BALROG;
 				mSlotPrices[SLOT_EGG] = 1000;
 				mSlotNumber[SLOT_WEAPON] = -1;
 				mSlotNumber[SLOT_GEKKO] = -1;
 				break;
 			case 2:
-				mAlienExpect = Alien::ALIEN_GUS + mApp->mSeed->Next() % 2;
+				mAlienExpect = ALIEN_GUS + mApp->mSeed->Next() % 2;
 				mSlotPrices[SLOT_EGG] = 5000;
 				break;
 			case 3:
-				mAlienExpect = Alien::ALIEN_PSYCHOSQUID;
+				mAlienExpect = ALIEN_PSYCHOSQUID;
 				mSlotPrices[SLOT_EGG] = 7500;
 				break;
 			case 4:
-				mAlienExpect = Alien::ALIEN_ULYSEES;
+				mAlienExpect = ALIEN_ULYSEES;
 				mSlotPrices[SLOT_EGG] = 10000;
 				break;
 			case 5:
-				mAlienExpect = Alien::Alien::ALIEN_ULYSEES + mApp->mSeed->Next() % 2;
+				mAlienExpect = ALIEN_ULYSEES + mApp->mSeed->Next() % 2;
 				mSlotPrices[SLOT_EGG] = 15000;
 				break;
 			}
@@ -3988,7 +3988,7 @@ void Sexy::Board::DeterminePricesAndSlots()
 			switch (mLevel)
 			{
 			case 1:
-				mAlienExpect = Alien::ALIEN_BALROG;
+				mAlienExpect = ALIEN_BALROG;
 				mSlotPrices[SLOT_EGG] = 3000;
 				mSlotNumber[SLOT_WEAPON] = -1;
 				mSlotNumber[SLOT_ULTRA] = -1;
@@ -3998,7 +3998,7 @@ void Sexy::Board::DeterminePricesAndSlots()
 				mSlotPrices[SLOT_EGG] = 25000;
 				break;
 			case 3:
-				mAlienExpect = Alien::ALIEN_GUS;
+				mAlienExpect = ALIEN_GUS;
 				mSlotPrices[SLOT_EGG] = 50000;
 				break;
 			case 4:
@@ -4016,7 +4016,7 @@ void Sexy::Board::DeterminePricesAndSlots()
 			mSlotNumber[SLOT_EGG] = 6;
 			mSlotPrices[SLOT_EGG] = 0;
 			m0x43c = 3;
-			mAlienExpect = Alien::ALIEN_CYRAX;
+			mAlienExpect = ALIEN_CYRAX;
 		}
 	}
 	else // Is relax mode
@@ -4059,7 +4059,7 @@ void Sexy::Board::DeterminePricesAndSlots()
 		RelaxModeConfig();
 	}
 
-	if (mApp->mGameMode == WinFishApp::GAMEMODE_CHALLENGE)
+	if (mApp->mGameMode == GAMEMODE_CHALLENGE)
 	{
 		if (mTank == 2)
 			mSlotPrices[SLOT_EGG] = 5000;
@@ -4068,11 +4068,11 @@ void Sexy::Board::DeterminePricesAndSlots()
 		else if (mTank == 4)
 			mSlotPrices[SLOT_EGG] = 25000;
 	}
-	else if (mApp->mGameMode == WinFishApp::GAMEMODE_TIME_TRIAL)
+	else if (mApp->mGameMode == GAMEMODE_TIME_TRIAL)
 	{
 		mSlotPrices[SLOT_EGG] = 100;
 	}
-	else if (mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK)
+	else if (mApp->mGameMode == GAMEMODE_VIRTUAL_TANK)
 	{
 		ChangeBackground(mApp->mCurrentProfile->m0x8c + 1);
 		return;
@@ -4237,23 +4237,23 @@ void Sexy::Board::RelaxModeConfig()
 {
 	if (mTank == 1)
 	{
-		mAlienExpect = ((Rand() % 2 == 0) ? Alien::ALIEN_STRONG_SYLV : Alien::ALIEN_BALROG);
+		mAlienExpect = ((Rand() % 2 == 0) ? ALIEN_STRONG_SYLV : ALIEN_BALROG);
 	}
 	else if (mTank == 2)
 	{
-		int aPossibleAliens[] = { Alien::ALIEN_STRONG_SYLV, Alien::ALIEN_BALROG, Alien::ALIEN_GUS, Alien::ALIEN_DESTRUCTOR};
+		int aPossibleAliens[] = { ALIEN_STRONG_SYLV, ALIEN_BALROG, ALIEN_GUS, ALIEN_DESTRUCTOR};
 		mAlienExpect = aPossibleAliens[Rand() % 4];
 	}
 	else if (mTank == 3)
 	{
-		int aPossibleAliens[] = {  Alien::ALIEN_BALROG, Alien::ALIEN_GUS, Alien::ALIEN_DESTRUCTOR, \
-			Alien::ALIEN_PSYCHOSQUID, Alien::ALIEN_ULYSEES};
+		int aPossibleAliens[] = {  ALIEN_BALROG, ALIEN_GUS, ALIEN_DESTRUCTOR, \
+			ALIEN_PSYCHOSQUID, ALIEN_ULYSEES};
 		mAlienExpect = aPossibleAliens[Rand() % 5];
 	}
 	else if (mTank == 4)
 	{
-		int aPossibleAliens[] = { Alien::ALIEN_BALROG, Alien::ALIEN_GUS, Alien::ALIEN_DESTRUCTOR, \
-			Alien::ALIEN_PSYCHOSQUID, Alien::ALIEN_ULYSEES, Alien::ALIEN_BILATERUS };
+		int aPossibleAliens[] = { ALIEN_BALROG, ALIEN_GUS, ALIEN_DESTRUCTOR, \
+			ALIEN_PSYCHOSQUID, ALIEN_ULYSEES, ALIEN_BILATERUS };
 		mAlienExpect = aPossibleAliens[Rand() % 6];
 	}
 }
@@ -4365,7 +4365,7 @@ void Sexy::Board::SetAlienExpectVT()
 
 void Sexy::Board::WidgetSetupVT()
 {
-	if (mApp->mGameMode != WinFishApp::GAMEMODE_VIRTUAL_TANK)
+	if (mApp->mGameMode != GAMEMODE_VIRTUAL_TANK)
 		return;
 
 	m0x3e4 = 8;
@@ -4562,9 +4562,9 @@ MenuButtonWidget* Sexy::Board::MakeAndUnlockMenuButton(int theBtnId, bool flag)
 		aToolTipStr = "upgrade weapon";
 		break;
 	case 11:
-		if (mApp->mGameMode == WinFishApp::GAMEMODE_TIME_TRIAL)
+		if (mApp->mGameMode == GAMEMODE_TIME_TRIAL)
 			aToolTipStr = "buy random pet";
-		else if (mApp->mGameMode == WinFishApp::GAMEMODE_SANDBOX)
+		else if (mApp->mGameMode == GAMEMODE_SANDBOX)
 			aToolTipStr = "end level";
 		else
 			aToolTipStr = "buy egg piece";
@@ -4702,7 +4702,7 @@ void Sexy::Board::MenuButtonSetupNoVT(int theBtnId, bool flag)
 		dontConfigure = true;
 		break;
 	case 11:
-		if (mApp->mGameMode == WinFishApp::GAMEMODE_TIME_TRIAL)
+		if (mApp->mGameMode == GAMEMODE_TIME_TRIAL)
 		{
 			aBtn->Configure(IMAGE_EGGPIECES, 7, 3, 0, 2);
 			aBtn->m0x15c = "?";
@@ -4719,7 +4719,7 @@ void Sexy::Board::MenuButtonSetupNoVT(int theBtnId, bool flag)
 			break;
 		}
 		aSlotImg = IMAGE_EGGPIECES;
-		if (mApp->mGameMode == WinFishApp::GAMEMODE_SANDBOX)
+		if (mApp->mGameMode == GAMEMODE_SANDBOX)
 		{
 			aSlotImgCol = 2;
 			aSlotImgRow = 0;
@@ -4838,13 +4838,13 @@ void Sexy::Board::UpdateMoneyLabelText()
 	if (!mMoneyLabel)
 		return;
 
-	SexyString aStr = StrFormat("%d", mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK ? mApp->mCurrentProfile->mShells : mMoney);
+	SexyString aStr = StrFormat("%d", mApp->mGameMode == GAMEMODE_VIRTUAL_TANK ? mApp->mCurrentProfile->mShells : mMoney);
 	mMoneyLabel->SetLabel(aStr);
 }
 
 bool Sexy::Board::Buy(int theCost, bool playBuzzer)
 {
-	if (mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK)
+	if (mApp->mGameMode == GAMEMODE_VIRTUAL_TANK)
 		return true;
 
 	if (mApp->mRelaxMode && mMoney < 5)
@@ -4864,7 +4864,7 @@ bool Sexy::Board::Buy(int theCost, bool playBuzzer)
 				m0x450 = 70;
 
 			if (mMoney == 0 && IsFirstLevel())
-				mApp->DoDialogUnkF(WinFishApp::DIALOG_OUT_OF_MONEY_LOAN, true, "OUT OF MONEY!", "You\'ve run out of money!  Because you\'re new, we\'ll float you a loan, but be careful next time!", "Click to Continue", Dialog::BUTTONS_FOOTER);
+				mApp->DoDialogUnkF(DIALOG_OUT_OF_MONEY_LOAN, true, "OUT OF MONEY!", "You\'ve run out of money!  Because you\'re new, we\'ll float you a loan, but be careful next time!", "Click to Continue", Dialog::BUTTONS_FOOTER);
 
 			return false;
 		}
@@ -4890,7 +4890,7 @@ void Sexy::Board::DropFood(int theX, int theY, int unk1, bool unk2, int theFoodC
 		}
 		if (gFoodLimit + aCnt <= mFoodList->size())
 		{
-			if (mApp->mGameMode != WinFishApp::GAMEMODE_VIRTUAL_TANK)
+			if (mApp->mGameMode != GAMEMODE_VIRTUAL_TANK)
 			{
 				if (!m0x440 && !AliensInTank())
 						mMoney += m0x4ac;
@@ -4966,7 +4966,7 @@ void Sexy::Board::CheckMouseDown(int theX, int theY)
 	if (isSomething)
 		return;
 	mApp->PlaySample(SOUND_TAPGLASS);
-	if (mApp->mGameMode != WinFishApp::GAMEMODE_VIRTUAL_TANK)
+	if (mApp->mGameMode != GAMEMODE_VIRTUAL_TANK)
 		return;
 
 	for (int i = 0; i < mFishList->size(); i++)
@@ -5013,7 +5013,7 @@ void Sexy::Board::ResetMessageWidget(int unk)
 
 void Sexy::Board::MakeNote(int theX, int theY, int unk, const SexyString& theText)
 {
-	Coin* aCoin = new Coin(theX, theY, CoinTypes::COIN_NOTE, nullptr, -1.0);
+	Coin* aCoin = new Coin(theX, theY, COIN_NOTE, nullptr, -1.0);
 	aCoin->m0x1a0 = unk;
 	aCoin->m0x1a4 = theText;
 	AddGameObject(aCoin);
@@ -5084,7 +5084,7 @@ void Sexy::Board::StopFishSong(int theSongId)
 
 void Sexy::Board::DoVirtualTankDialog()
 {
-	if (!mApp->IsScreenSaver() && mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK)
+	if (!mApp->IsScreenSaver() && mApp->mGameMode == GAMEMODE_VIRTUAL_TANK)
 	{
 		UpdateHasVirtualTankFish();
 		if (!mHasVirtualTankFish)
@@ -5104,20 +5104,20 @@ void Sexy::Board::GetExoticFoodsRequiredInTank(int* theInfoArray)
 			int anExDiet = anObj->mExoticDietFoodType;
 			if (anExDiet == 0)
 				anObj->CountRequiredFood(theInfoArray);
-			else if (anExDiet < Food::EXO_FOOD_OBJECTS_START)
+			else if (anExDiet < EXO_FOOD_OBJECTS_START)
 			{
-				if (anExDiet == Food::EXO_FOOD_PIZZA)
+				if (anExDiet == EXO_FOOD_PIZZA)
 					theInfoArray[6]++;
-				else if (anExDiet == Food::EXO_FOOD_ICE_CREAM)
+				else if (anExDiet == EXO_FOOD_ICE_CREAM)
 					theInfoArray[7]++;
-				else if (anExDiet == Food::EXO_FOOD_CHICKEN)
+				else if (anExDiet == EXO_FOOD_CHICKEN)
 					theInfoArray[5]++;
 			}
-			else if (anExDiet == Food::EXO_FOOD_GUPPY)
+			else if (anExDiet == EXO_FOOD_GUPPY)
 				theInfoArray[0]++;
-			else if (anExDiet == Food::EXO_FOOD_OSCAR)
+			else if (anExDiet == EXO_FOOD_OSCAR)
 				theInfoArray[3]++;
-			else if(anExDiet == Food::EXO_FOOD_ULTRA)
+			else if(anExDiet == EXO_FOOD_ULTRA)
 				theInfoArray[4]++;
 		}
 	}
@@ -5128,7 +5128,7 @@ void Sexy::Board::GetExoticFoodsInTank(int* theInfoArray)
 	for (int i = 0; i < mFishList->size(); i++)
 	{
 		Fish* anObj = mFishList->at(i);
-		if (anObj->mVirtualTankId < 0 && anObj->mSize == GameObject::TYPE_GUPPY)
+		if (anObj->mVirtualTankId < 0 && anObj->mSize == TYPE_GUPPY)
 			theInfoArray[0]++;
 	}
 	for (int i = 0; i < mOscarList->size(); i++)
@@ -5143,9 +5143,9 @@ void Sexy::Board::GetExoticFoodsInTank(int* theInfoArray)
 		if (anObj->mVirtualTankId < 0)
 			theInfoArray[4]++;
 	}
-	for (int i = 0; i < mCoinList1->size(); i++)
+	for (int i = 0; i < mCoinList->size(); i++)
 	{
-		Coin* anObj = mCoinList1->at(i);
+		Coin* anObj = mCoinList->at(i);
 		if (anObj->mCoinType == 3)
 			theInfoArray[1]++;
 	}
@@ -5177,7 +5177,7 @@ GameObject* Sexy::Board::GetGameObjectByVirtualId(int theId)
 
 void Sexy::Board::HideObject(GameObject* theObj, bool hide)
 {
-	if (theObj->mType == GameObject::TYPE_BREEDER)
+	if (theObj->mType == TYPE_BREEDER)
 	{
 		GameObject* anObj = GetGameObjectByVirtualId(100 + theObj->mVirtualTankId);
 		if (anObj)
@@ -5245,7 +5245,7 @@ GameObject* Sexy::Board::SpawnStarGuppyBought()
 	mWidgetManager->AddWidget(aFish);
 	if (mMaxFishCountEver < mFishList->size())
 		mMaxFishCountEver = mFishList->size();
-	aFish->mSize = GameObject::SIZE_STAR;
+	aFish->mSize = SIZE_STAR;
 	MakeShadowForGameObject(aFish);
 	SortGameObjects();
 	return aFish;
@@ -5349,7 +5349,7 @@ GameObject* Sexy::Board::SpawnGrubberBought()
 
 GameObject* Sexy::Board::SpawnPet(int thePetType, int theX, int theY, bool flag1, bool flag2)
 {
-	if (thePetType == GameObject::PET_PRESTO)
+	if (thePetType == PET_PRESTO)
 		flag1 = true;
 	if (theX == -1)
 	{
@@ -5357,14 +5357,14 @@ GameObject* Sexy::Board::SpawnPet(int thePetType, int theX, int theY, bool flag1
 		theY = mApp->mSeed->Next() % 520 + 20;
 	}
 	GameObject* aPet = nullptr;
-	if (thePetType == GameObject::PET_STINKY || thePetType == GameObject::PET_NIKO ||
-		thePetType == GameObject::PET_RUFUS || thePetType == GameObject::PET_CLYDE || thePetType == GameObject::PET_RHUBARB)
+	if (thePetType == PET_STINKY || thePetType == PET_NIKO ||
+		thePetType == PET_RUFUS || thePetType == PET_CLYDE || thePetType == PET_RHUBARB)
 		aPet = new OtherTypePet(theX, theY, thePetType, mCurrentBackgroundId, flag1);
 	else
 		aPet = new FishTypePet(theX, theY, thePetType, flag1);
-	if (mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK && !flag2)
+	if (mApp->mGameMode == GAMEMODE_VIRTUAL_TANK && !flag2)
 	{
-		aPet->mVirtualTankId = flag1 ? GameObject::PET_PRESTO : thePetType + 1000;
+		aPet->mVirtualTankId = flag1 ? PET_PRESTO : thePetType + 1000;
 	}
 	AddGameObject(aPet);
 	mWidgetManager->AddWidget(aPet);
@@ -5391,25 +5391,25 @@ void Sexy::Board::SpawnAlien(int theType, int theX, int theY, bool unk)
 {
 	if (theType == 9)
 	{
-		SpawnAlien(Alien::ALIEN_WEAK_SYLV, theX, theY, unk);
-		SpawnAlien(Alien::ALIEN_BALROG, mCrosshair2X, mCrosshair2Y, unk);
+		SpawnAlien(ALIEN_WEAK_SYLV, theX, theY, unk);
+		SpawnAlien(ALIEN_BALROG, mCrosshair2X, mCrosshair2Y, unk);
 	}
 	else if (theType == 10)
 	{
-		SpawnAlien(Alien::ALIEN_PSYCHOSQUID, theX, theY, unk);
-		SpawnAlien(Alien::ALIEN_BALROG, mCrosshair2X, mCrosshair2Y, unk);
+		SpawnAlien(ALIEN_PSYCHOSQUID, theX, theY, unk);
+		SpawnAlien(ALIEN_BALROG, mCrosshair2X, mCrosshair2Y, unk);
 	}
 	else if (theType == 11)
 	{
-		SpawnAlien(Alien::ALIEN_DESTRUCTOR, theX, theY, unk);
-		SpawnAlien(Alien::ALIEN_ULYSEES, mCrosshair2X, mCrosshair2Y, unk);
+		SpawnAlien(ALIEN_DESTRUCTOR, theX, theY, unk);
+		SpawnAlien(ALIEN_ULYSEES, mCrosshair2X, mCrosshair2Y, unk);
 	}
 	else if (theType == 12)
 	{
-		SpawnAlien(Alien::ALIEN_BALROG, theX, theY, unk);
-		SpawnAlien(Alien::ALIEN_BILATERUS, mCrosshair2X, mCrosshair2Y, unk);
+		SpawnAlien(ALIEN_BALROG, theX, theY, unk);
+		SpawnAlien(ALIEN_BILATERUS, mCrosshair2X, mCrosshair2Y, unk);
 	}
-	else if (theType == Alien::ALIEN_BILATERUS)
+	else if (theType == ALIEN_BILATERUS)
 	{
 		Bilaterus* aBil = new Bilaterus(theX, theY);
 		aBil->SpawnWarp();
@@ -5417,10 +5417,10 @@ void Sexy::Board::SpawnAlien(int theType, int theX, int theY, bool unk)
 		MakeShadowForGameObject(aBil);
 		AddGameObject(aBil);
 	}
-	else if (theType == Alien::ALIEN_CYRAX)
+	else if (theType == ALIEN_CYRAX)
 	{
 		mShouldSave = true;
-		Alien* anAlien = new Alien(theX, theY, Alien::ALIEN_CYRAX);
+		Alien* anAlien = new Alien(theX, theY, ALIEN_CYRAX);
 		anAlien->SpawnWarp();
 		mCyraxPtr = anAlien;
 		mWidgetManager->AddWidget(anAlien);
@@ -5439,17 +5439,17 @@ void Sexy::Board::SpawnAlien(int theType, int theX, int theY, bool unk)
 	SortGameObjects();
 	if (unk)
 	{
-		if (theType == Alien::ALIEN_GUS)
+		if (theType == ALIEN_GUS)
 			mApp->PlaySample(SOUND_GUFFAW);
-		else if(theType == Alien::ALIEN_DESTRUCTOR)
+		else if(theType == ALIEN_DESTRUCTOR)
 			mApp->PlaySample(SOUND_INTERFER);
-		else if(theType == Alien::ALIEN_ULYSEES)
+		else if(theType == ALIEN_ULYSEES)
 			mApp->PlaySample(SOUND_ROAR2);
-		else if(theType == Alien::ALIEN_PSYCHOSQUID)
+		else if(theType == ALIEN_PSYCHOSQUID)
 			mApp->PlaySample(SOUND_ROAR3);
-		else if(theType == Alien::ALIEN_CYRAX)
+		else if(theType == ALIEN_CYRAX)
 			mApp->PlaySample(SOUND_EVILLAFF);
-		else if(theType == Alien::ALIEN_WEAK_SYLV || theType == Alien::ALIEN_STRONG_SYLV || theType == Alien::ALIEN_BALROG)
+		else if(theType == ALIEN_WEAK_SYLV || theType == ALIEN_STRONG_SYLV || theType == ALIEN_BALROG)
 			mApp->PlaySample(SOUND_ROAR3);
 	}
 	return;

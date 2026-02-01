@@ -1,13 +1,16 @@
-#include "SexyAppFramework/WidgetManager.h"
-#include "SexyAppFramework/Font.h"
+#include <SexyAppFramework/WidgetManager.h>
+#include <SexyAppFramework/Font.h>
+#include <SexyAppFramework/DialogButton.h>
 
 #include "SimFishScreen.h"
 #include "WinFishApp.h"
-#include "WinFishAppCommon.h"
+#include "WinFishCommon.h"
 #include "Board.h"
 #include "ProfileMgr.h"
+#include "BubbleMgr.h"
 #include "Fish.h"
 #include "Food.h"
+#include "FishButtonWidget.h"
 #include "Res.h"
 
 #include <time.h>
@@ -996,7 +999,7 @@ void Sexy::SimFishScreen::DrawOverlay(Graphics* g)
 			}
 			g->SetColor(aCol1);
 			SexyString aPurchaseDateStr = "Purchase Date";
-			if (anObj->mType == GameObject::TYPE_GUPPY && ((Fish*)anObj)->mVirtualFish)
+			if (anObj->mType == TYPE_GUPPY && ((Fish*)anObj)->mVirtualFish)
 				aPurchaseDateStr = "Date of Birth";
 			WriteCenteredLine(g, aCurHght, aPurchaseDateStr);
 
@@ -1022,7 +1025,7 @@ void Sexy::SimFishScreen::DrawOverlay(Graphics* g)
 			SexyString aHometownStr = "";
 			if (gUnkInt09 >= 0 && gUnkInt09 <= 374)
 				aHometownStr = StrFormat("%s", HOMETOWNS[gUnkInt09].c_str());
-			else if (anObj->mPreNamedTypeId >= GameObject::ROCKY && anObj->mPreNamedTypeId <= GameObject::SANTA)
+			else if (anObj->mPreNamedTypeId >= ROCKY && anObj->mPreNamedTypeId <= SANTA)
 				aHometownStr = StrFormat("%s", SPECIALHOMETOWNS[anObj->mPreNamedTypeId].c_str());
 			else if(anObj->mHometownIdx >= 0 && anObj->mHometownIdx <= 374)
 				aHometownStr = StrFormat("%s", HOMETOWNS[anObj->mHometownIdx].c_str());
@@ -1068,7 +1071,7 @@ void Sexy::SimFishScreen::DrawOverlay(Graphics* g)
 
 			g->SetColor(aCol3);
 			SexyString aPriceStr = StrFormat("%d Shells", anObj->mShellPrice);
-			if (anObj->mType == GameObject::TYPE_GUPPY && ((Fish*)anObj)->mVirtualFish)
+			if (anObj->mType == TYPE_GUPPY && ((Fish*)anObj)->mVirtualFish)
 				aPriceStr = "N/A";
 			WriteCenteredLine(g, 190 + aFntHght, aPriceStr);
 
@@ -1130,7 +1133,7 @@ void Sexy::SimFishScreen::ButtonDepress(int theId)
 			m0x118 = true;
 			m0x114 = 0;
 			SexyString aStr = "Are you sure you want to sell your fish?";
-			if (mSelectedFishButton->mObject->mType == GameObject::TYPE_BREEDER)
+			if (mSelectedFishButton->mObject->mType == TYPE_BREEDER)
 			{
 				GameObject* anObj = mApp->mBoard->GetGameObjectByVirtualId(mSelectedFishButton->mObject->mVirtualTankId + 100);
 				if (anObj)
@@ -1157,7 +1160,7 @@ void Sexy::SimFishScreen::ButtonDepress(int theId)
 			m0x11a = true;
 			mApp->DoFishNamingDialog("Please choose a name for your fish", 
 				mSelectedFishButton->mObject->mName, 
-				mSelectedFishButton->mObject->mType == GameObject::TYPE_BREEDER);
+				mSelectedFishButton->mObject->mType == TYPE_BREEDER);
 		}
 	}
 	else if (theId == 105 || theId == 106)
@@ -1195,17 +1198,17 @@ SexyString Sexy::SimFishScreen::GetAdditionalNotes(GameObject* theObject)
 {
 	switch (theObject->mPreNamedTypeId)
 	{
-	case GameObject::ROCKY:
+	case ROCKY:
 		return "By doctor\'s orders, is on a special low-carb high-Ultravore diet.";
-	case GameObject::LUDWIG:
+	case LUDWIG:
 		return "Likes monster truck rallies, Thai kick-boxing, and Beethoven.";
-	case GameObject::COOKIE:
+	case COOKIE:
 		return "A fishy philanthropist who likes to feed food to famished fish? That\'s Fish-tastic!";
-	case GameObject::JOHNNYV:
+	case JOHNNYV:
 		return "Has been trying to stop eating fast food and pizza.";
-	case GameObject::KILGORE:
+	case KILGORE:
 		return "Likes to intimidate other fish by playing the music of Wagner.";
-	case GameObject::SANTA:
+	case SANTA:
 		return "Likes giving lots of toys to all the good girls and boys.";
 	default:
 	{
@@ -1237,19 +1240,19 @@ SexyString Sexy::SimFishScreen::GetLastSpecialLike(GameObject* theObject)
 		case 4:
 			return "swimming backwards";
 		case 5:
-			if (theObject->mExoticDietFoodType == Food::EXO_FOOD_PIZZA)
+			if (theObject->mExoticDietFoodType == EXO_FOOD_PIZZA)
 				return "pizza";
-			else if (theObject->mExoticDietFoodType == Food::EXO_FOOD_ICE_CREAM)
+			else if (theObject->mExoticDietFoodType == EXO_FOOD_ICE_CREAM)
 				return "ice cream";
-			else if (theObject->mExoticDietFoodType == Food::EXO_FOOD_CHICKEN)
+			else if (theObject->mExoticDietFoodType == EXO_FOOD_CHICKEN)
 				return "chicken";
 			break;
 		case 6:
-			if (theObject->mExoticDietFoodType == Food::EXO_FOOD_GUPPY)
+			if (theObject->mExoticDietFoodType == EXO_FOOD_GUPPY)
 				return "eating guppies";
-			else if (theObject->mExoticDietFoodType == Food::EXO_FOOD_OSCAR)
+			else if (theObject->mExoticDietFoodType == EXO_FOOD_OSCAR)
 				return "eating carnivores";
-			else if (theObject->mExoticDietFoodType == Food::EXO_FOOD_ULTRA)
+			else if (theObject->mExoticDietFoodType == EXO_FOOD_ULTRA)
 				return "eating ultravores";
 			break;
 		default:
@@ -1326,7 +1329,7 @@ void Sexy::SimFishScreen::SellSelectedObject(bool sell)
 		mApp->mCurrentProfile->AddShells(aVal);
 		mSelectedFishButton->mObject->RemoveHelper02(false);
 		GameObject* anObj = nullptr;
-		if (mSelectedFishButton->mObject->mType == GameObject::TYPE_BREEDER)
+		if (mSelectedFishButton->mObject->mType == TYPE_BREEDER)
 		{
 			anObj = mApp->mBoard->GetGameObjectByVirtualId(100 + mSelectedFishButton->mObject->mVirtualTankId);
 			if (anObj)

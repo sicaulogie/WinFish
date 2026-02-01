@@ -1,12 +1,14 @@
+#include <SexyAppFramework/DialogButton.h>
+
 #include "VirtualDialog.h"
-#include "Res.h"
 #include "WinFishApp.h"
-#include "SexyAppFramework/DialogButton.h"
+#include "BubbleMgr.h"
+#include "Res.h"
 
 using namespace Sexy;
 
 Sexy::VirtualDialog::VirtualDialog(WinFishApp* theApp)
-	: MoneyDialog(theApp, IMAGE_DIALOG, IMAGE_DIALOGBUTTON, WinFishApp::DIALOG_VIRTUAL, true, "WELCOME TO VIRTUAL TANK!", "", "OK", BUTTONS_FOOTER)
+	: MoneyDialog(theApp, IMAGE_DIALOG, IMAGE_DIALOGBUTTON, DIALOG_VIRTUAL, true, "WELCOME TO VIRTUAL TANK!", "", "OK", BUTTONS_FOOTER)
 {
 	mFishBoxRect = Rect(30, 85, 490, 220);
 	mWidth = 550;

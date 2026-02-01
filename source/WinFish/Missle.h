@@ -1,5 +1,8 @@
-#pragma once
+#ifndef __MISSLE_H__
+#define __MISSLE_H__
+
 #include "GameObject.h"
+
 namespace Sexy
 {
 	class Missle : public GameObject
@@ -55,3 +58,4 @@ namespace Sexy
 	};
 }
 
+#endif

@@ -5,7 +5,7 @@
 
 #include "GameObject.h"
 #include "WinFishApp.h"
-#include "WinFishAppCommon.h"
+#include "WinFishCommon.h"
 #include "Board.h"
 #include "Food.h"
 #include "Fish.h"
@@ -242,7 +242,7 @@ void GameObject::UpdateCounters()
 
 bool Sexy::GameObject::CoinDropTimerPassed(int theCurrentTime, int theToPassTime)
 {
-	if (mApp->mGameMode != WinFishApp::GAMEMODE_VIRTUAL_TANK)
+	if (mApp->mGameMode != GAMEMODE_VIRTUAL_TANK)
 		return theToPassTime <= theCurrentTime;
 
 	if (mVirtualTankId <= -1)
@@ -353,7 +353,7 @@ bool GameObject::ShouldDie()
 int GameObject::ExoticFoodCollision(int theCenterX, int theCenterY)
 {
 	if (mExoticDietFoodType > 999)
-		return CarnivorousExoticFoodCollision(theCenterX, theCenterY, mExoticDietFoodType - Food::EXO_FOOD_OBJECTS_START);
+		return CarnivorousExoticFoodCollision(theCenterX, theCenterY, mExoticDietFoodType - EXO_FOOD_OBJECTS_START);
 
 	int aFoodTypeToEat = mExoticDietFoodType;	
 	if (mExoticDietFoodType == 6)
@@ -576,7 +576,7 @@ bool Sexy::GameObject::IsHungryVisible()
 GameObject* Sexy::GameObject::FindNearestExoticFood(int theX, int theY)
 {
 	if (mExoticDietFoodType > 999)
-		return FindNearestExoticFoodOther(theX, theY, mExoticDietFoodType - Food::EXO_FOOD_OBJECTS_START);
+		return FindNearestExoticFoodOther(theX, theY, mExoticDietFoodType - EXO_FOOD_OBJECTS_START);
 
 	int aDist = 100000000;
 	Food* aRet = nullptr;
@@ -930,7 +930,7 @@ int Sexy::GameObject::GetAttribute()
 		anAttrib = 5;
 		numOfAttrib++;
 	}
-	if (mExoticDietFoodType == Food::EXO_FOOD_GUPPY || mExoticDietFoodType == Food::EXO_FOOD_OSCAR || mExoticDietFoodType == Food::EXO_FOOD_ULTRA)
+	if (mExoticDietFoodType == EXO_FOOD_GUPPY || mExoticDietFoodType == EXO_FOOD_OSCAR || mExoticDietFoodType == EXO_FOOD_ULTRA)
 	{
 		anAttrib = 6;
 		numOfAttrib++;
@@ -1077,7 +1077,7 @@ void Sexy::GameObject::SomeBoughtFunc()
 
 bool Sexy::GameObject::CanDropCoin()
 {
-	if (mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK)
+	if (mApp->mGameMode == GAMEMODE_VIRTUAL_TANK)
 	{
 		if (mApp->mBoard->m0x500)
 		{
@@ -1091,7 +1091,7 @@ bool Sexy::GameObject::CanDropCoin()
 
 int Sexy::GameObject::DetermineCoinDropT(int supposedTime)
 {
-	if (mApp->mGameMode == WinFishApp::GAMEMODE_VIRTUAL_TANK)
+	if (mApp->mGameMode == GAMEMODE_VIRTUAL_TANK)
 		return Rand() % 200 + 4320;
 	return supposedTime;
 }

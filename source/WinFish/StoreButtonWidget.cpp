@@ -1,9 +1,10 @@
+#include <SexyAppFramework/Font.h>
+
 #include "StoreButtonWidget.h"
 #include "WinFishApp.h"
-#include "SexyAppFramework/Font.h"
 #include "StoreScreen.h"
-#include "Res.h"
 #include "GameObject.h"
+#include "Res.h"
 
 Sexy::StoreButtonWidget::StoreButtonWidget(int theId, ButtonListener* theButtonListener, Image* theButtonImage)
 	: ButtonWidget(theId, theButtonListener)

@@ -1,8 +1,8 @@
-#include "SexyAppFramework/WidgetManager.h"
+#include <SexyAppFramework/WidgetManager.h>
 
 #include "DeadAlien.h"
 #include "WinFishApp.h"
-#include "WinFishAppCommon.h"
+#include "WinFishCommon.h"
 #include "Board.h"
 #include "Alien.h"
 #include "Res.h"
@@ -87,7 +87,7 @@ void Sexy::DeadAlien::Update()
 	if (mXD < -10.0)
 		mXD = -10.0;
 
-	if ((mAlienType == Alien::ALIEN_DESTRUCTOR || mAlienType == Alien::ALIEN_ULYSEES) && mYD > 280.0)
+	if ((mAlienType == ALIEN_DESTRUCTOR || mAlienType == ALIEN_ULYSEES) && mYD > 280.0)
 		mYD = 280.0;
 
 	mXD += mVX;
@@ -101,17 +101,17 @@ void Sexy::DeadAlien::Draw(Graphics* g)
 	g->SetColorizeImages(true);
 	g->SetColor(Color(255, 255, 255, mOpacity * 255));
 	int anImgId = 0;
-	if (mAlienType == Alien::ALIEN_WEAK_SYLV || mAlienType == Alien::ALIEN_STRONG_SYLV)
+	if (mAlienType == ALIEN_WEAK_SYLV || mAlienType == ALIEN_STRONG_SYLV)
 		anImgId = IMAGE_SYLV_ID;
-	else if(mAlienType == Alien::ALIEN_BALROG)
+	else if(mAlienType == ALIEN_BALROG)
 		anImgId = IMAGE_BALROG_ID;
-	else if(mAlienType == Alien::ALIEN_DESTRUCTOR)
+	else if(mAlienType == ALIEN_DESTRUCTOR)
 		anImgId = IMAGE_DESTRUCTOR_ID;
-	else if(mAlienType == Alien::ALIEN_ULYSEES)
+	else if(mAlienType == ALIEN_ULYSEES)
 		anImgId = IMAGE_ULYSSES_ID;
-	else if(mAlienType == Alien::ALIEN_PSYCHOSQUID)
+	else if(mAlienType == ALIEN_PSYCHOSQUID)
 		anImgId = IMAGE_PSYCHOSQUID_ID;
-	else if(mAlienType == Alien::ALIEN_CYRAX)
+	else if(mAlienType == ALIEN_CYRAX)
 		anImgId = IMAGE_BOSS_ID;
 
 	Rect aSrcRect(mDeathAnimationIdx * 160, 0, 160, 160);

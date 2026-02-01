@@ -1,11 +1,14 @@
-#pragma once
+#ifndef __BETASUPPORT_H__
+#define __BETASUPPORT_H__
 
-#include "SexyAppFramework/SexyAppBase.h"
-#include "SexyAppFramework/HTTPTransfer.h"
+#include <SexyAppFramework/HTTPTransfer.h>
+#include <windows.h>
+#include <SexyAppFramework/SexyAppBase.h>
 
 namespace Sexy
 {
 	class WinFishApp;
+
 	class BetaSupport
 	{
 	public:
@@ -37,3 +40,4 @@ namespace Sexy
 	};
 }
 
+#endif
