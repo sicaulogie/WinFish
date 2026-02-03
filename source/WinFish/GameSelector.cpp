@@ -80,7 +80,7 @@ Sexy::GameSelector::GameSelector(WinFishApp* theApp)
 
 	mNotYouButton = NULL;
 
-	if (!mApp->m0x883 && !mApp->IsSongPlaying(2, 0))
+	if (!mApp->mGameNotPlayed && !mApp->IsSongPlaying(2, 0))
 	{
 		mApp->StopMusic();
 		mApp->PlayMusic(2, 0);

@@ -15,11 +15,11 @@ namespace Sexy
 		SexyString mMessage;
 		Color mColor1;
 		Color mColor2;
-		int m0xc8;
+		int mUnusedInt;
 		Font* mFont;
-		int m0xd0;
-		bool m0xd4;
-		int m0xd8;
+		int mMessageTimer;
+		bool mIsBlinking;
+		int mMessageId;
 
 	public:
 		MessageWidget(WinFishApp* theApp, SexyString theMessage);

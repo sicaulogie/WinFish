@@ -142,14 +142,14 @@ namespace Sexy
 		int					mSongId;
 		int					mCanBeEatenDelay;
 		int					mPreNamedTypeId;
-		int					m0x128;
+		int					mStoreInvisibilityTimer;
 		int					mStoreAnimationTimer;
 		int					mStoreAnimationIndex;
-		long long			m0x138;
-		long long			m0x140;
+		long long			mBoughtTimeDaySecs;
+		long long			mLastMentalStateUpdateTime;
 		int					mTimesFedToday;
 		int					mMentalState;
-		int					m0x150;
+		int					mRandomHappiestMentalId;
 
 	public:
 		GameObject();
@@ -207,7 +207,7 @@ namespace Sexy
 		int						GetShellCost();
 		void					SetStoreColor(Graphics* g, Color& theColor);
 		void					ResetSpecialProperties();
-		void					SomeBoughtFunc();
+		void					BoughtSetup();
 		bool					CanDropCoin();
 		int						DetermineCoinDropT(int supposedTime);
 		void					CopyBreederDataVT(Breeder* theBreeder);

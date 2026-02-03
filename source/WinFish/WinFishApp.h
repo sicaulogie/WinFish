@@ -231,7 +231,7 @@ namespace Sexy
 		bool							mRelaxMode;
 		bool							m0x881;
 		bool							m0x882;
-		bool							m0x883;
+		bool							mGameNotPlayed;
 		bool							m0x884;
 		int								mTankGameModeChoose;
 		int								mCurrentSongId;

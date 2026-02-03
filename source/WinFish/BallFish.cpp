@@ -81,7 +81,7 @@ void Sexy::BallFish::UpdateStoreAnimation()
 {
 	mStoreAnimationTimer++;
 	if (mInvisible)
-		m0x128++;
+		mStoreInvisibilityTimer++;
 	mStoreAnimationIndex = (mStoreAnimationTimer / 4) % 10;
 }
 

@@ -221,7 +221,7 @@ namespace Sexy
 		int									m0x4a4;
 		int									m0x4a8;
 		int									m0x4ac;
-		bool								m0x4b0[54];
+		bool								mMessageShown[54];
 		bool								m0x4e6;
 		int									m0x4e8;
 		bool								m0x4ec;

@@ -251,7 +251,7 @@ WinFishApp::WinFishApp()
 	m0x8a9 = false;
 	m0x8aa = false;
 	m0x8ab = false;
-	m0x883 = true;
+	mGameNotPlayed = true;
 	mFrameTime = 28;
 	mGameMode = 0;
 	mAutoEnable3D = true;
@@ -2079,7 +2079,7 @@ void Sexy::WinFishApp::DoNewUserDialog()
 
 void Sexy::WinFishApp::StartGame()
 {
-	m0x883 = false;
+	mGameNotPlayed = false;
 	if (mGameMode == GAMEMODE_VIRTUAL_TANK)
 	{
 		if (LoadBoardGame())
@@ -2113,7 +2113,7 @@ bool Sexy::WinFishApp::LoadBoardGame()
 		RemoveBoard();
 	else
 	{
-		m0x883 = false;
+		mGameNotPlayed = false;
 		if (mGameMode != GAMEMODE_VIRTUAL_TANK)
 			DoContinueDialog();
 	}

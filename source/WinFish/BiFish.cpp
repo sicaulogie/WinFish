@@ -65,7 +65,7 @@ void Sexy::BiFish::UpdateStoreAnimation()
 {
 	mStoreAnimationTimer++;
 	if (mInvisible)
-		m0x128++;
+		mStoreInvisibilityTimer++;
 	if (mStoreAnimationTimer >= 20)
 		mStoreAnimationTimer = 0;
 	if (m0x230 == 0)

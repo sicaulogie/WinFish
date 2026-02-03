@@ -470,9 +470,9 @@ void Sexy::Oscar::RemoveFromGame(bool aRemoveShadow)
 	mApp->mBoard->m0x468++;
 	if (mApp->mBoard->IsTankAndLevelNB(1, 3))
 	{
-		if (mApp->mBoard->m0x4b0[28])
+		if (mApp->mBoard->mMessageShown[28])
 			mApp->mBoard->ShowText("Try feeding small guppies to your carnivores!", false, 29);
-		if (mApp->mBoard->m0x4b0[27])
+		if (mApp->mBoard->mMessageShown[27])
 			mApp->mBoard->ShowText("Hint: Carnivores won\'t eat fish food!", false, 28);
 		mApp->mBoard->ShowText("Warning! Your carnivore has died!", false, 27);
 	}

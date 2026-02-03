@@ -267,7 +267,7 @@ SexyString Sexy::GetMentalStateString(GameObject* theObject)
         "Totally Stoked",
         "Fish-tastic!" 
         };
-        return aPossibleStrs[theObject->m0x150 % 5];
+        return aPossibleStrs[theObject->mRandomHappiestMentalId % 5];
     }
     default:
         return "Unknown";

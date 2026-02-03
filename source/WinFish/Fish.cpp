@@ -749,11 +749,11 @@ void Sexy::Fish::OnFoodAte(GameObject* obj)
 
                 if (mApp->mBoard->mTank == 2 && mApp->mBoard->mLevel < 3 && !mApp->mCurrentProfile->mFinishedGame)
                 {
-                    if (mApp->mBoard->m0x4b0[32])
+                    if (mApp->mBoard->mMessageShown[32])
                         mApp->mBoard->ShowText("Hint: Feed star potions to BIG guppies!", false, 33);
-                    if (mApp->mBoard->m0x4b0[31])
+                    if (mApp->mBoard->mMessageShown[31])
                         mApp->mBoard->ShowText("Hint: Star potions are for big guppies only!", false, 32);
-                    if (mApp->mBoard->m0x4b0[30])
+                    if (mApp->mBoard->mMessageShown[30])
                         mApp->mBoard->ShowText("Hint: Only certain fish can handle star potions!", false, 31);
 
                     mApp->mBoard->ShowText("Warning! Use star potions carefully!", false, 30);
@@ -821,7 +821,7 @@ void Sexy::Fish::UpdateStoreAnimation()
     mUpdateCnt++;
     mStoreAnimationTimer++;
     if (mInvisible)
-        m0x128++;
+        mStoreInvisibilityTimer++;
     if (mRainbowFish)
         UpdateRainbow();
 
@@ -942,15 +942,15 @@ bool Fish::Hungry()
     {
         if (mHunger == -1 && mBeginner)
         {
-            if (mApp->mBoard->m0x4b0[23])
+            if (mApp->mBoard->mMessageShown[23])
                 mApp->mBoard->ShowText("Fish are hungry! Click to drop food!", true, 24);
-            if (mApp->mBoard->m0x4b0[8])
+            if (mApp->mBoard->mMessageShown[8])
                 mApp->mBoard->ShowText("Fish are hungry! Click to drop food!", true, 23);
 
             mApp->mBoard->ShowText("Fish are hungry! Click to drop food!", true, 8);
             return false;
         }
-        if (mHunger == -200 && mBeginner && !mApp->mBoard->m0x4b0[21])
+        if (mHunger == -200 && mBeginner && !mApp->mBoard->mMessageShown[21])
         {
             mApp->mBoard->ShowText("Fish are REALLY hungry! Click to feed!", true, 21);
             mApp->mBoard->PlaySample(SOUND_AWOOGA_ID, 3, 1.0);
@@ -1343,9 +1343,9 @@ void Fish::DropCoin()
 
     if (mApp->mBoard->IsFirstLevel())
     {
-        if (mApp->mBoard->m0x4b0[25])
+        if (mApp->mBoard->mMessageShown[25])
             mApp->mBoard->ShowText("Click on coins for extra money!", true, 26);
-        else if(mApp->mBoard->m0x4b0[5])
+        else if(mApp->mBoard->mMessageShown[5])
             mApp->mBoard->ShowText("Click on coins for extra money!", true, 25);
         else
             mApp->mBoard->ShowText("Click on coins for extra money!", true, 5);
@@ -1668,8 +1668,8 @@ void Sexy::Fish::FishOnGrow()
             aBoard->MakeAndUnlockMenuButton(SlotTypes::SLOT_GUPPY, true);
             if (aTank == 1 && aLevel == 1 && !aFinishedGame)
             {
-                aBoard->m0x4b0[2] = true;
-                if (aBoard->mMessageWidget->m0xd0 < 1)
+                aBoard->mMessageShown[2] = true;
+                if (aBoard->mMessageWidget->mMessageTimer < 1)
                 {
                     aBoard->ShowText("Your fish has grown! Good work!", false, 9);
                     return;
@@ -1688,9 +1688,9 @@ void Sexy::Fish::FishOnGrow()
                 if (!aBoard->mSlotUnlocked[SlotTypes::SLOT_EGG])
                 {
                     aBoard->MakeAndUnlockMenuButton(SlotTypes::SLOT_EGG, true);
-                    aBoard->m0x4b0[2] = false;
-                    aBoard->m0x4b0[40] = true;
-                    if (!aFinishedGame && aBoard->mMessageWidget->m0xd0 < 1)
+                    aBoard->mMessageShown[2] = false;
+                    aBoard->mMessageShown[40] = true;
+                    if (!aFinishedGame && aBoard->mMessageWidget->mMessageTimer < 1)
                     {
                         aBoard->ShowText("Buy 3 egg pieces to complete level!", false, 7);
                         return;
@@ -1701,7 +1701,7 @@ void Sexy::Fish::FishOnGrow()
             {
                 if (!aBoard->mSlotUnlocked[SlotTypes::SLOT_FOODLVL])
                 {
-                    aBoard->m0x4b0[15] = true;
+                    aBoard->mMessageShown[15] = true;
                     if (!aFinishedGame)
                         aBoard->ShowText("Upgrade Food Quality to make food more nourishing!", false, 11);
                     aBoard->MakeAndUnlockMenuButton(SlotTypes::SLOT_FOODLVL, true);

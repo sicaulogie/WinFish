@@ -9,7 +9,7 @@ using namespace Sexy;
 
 Sexy::MessageWidget::MessageWidget(WinFishApp* theApp, SexyString theMessage)
 {
-	m0xc8 = 0;
+	mUnusedInt = 0;
 	mColor1 = Color(0xb4, 0xfa, 0x5a, 0xff);
 	mColor2 = Color(0, 0x4b, 0, 0xff);
 	mApp = theApp;
@@ -19,10 +19,10 @@ Sexy::MessageWidget::MessageWidget(WinFishApp* theApp, SexyString theMessage)
 	mY = 445;
 	mWidth = 460;
 	mHeight = mFont->GetHeight() + 6;
-	m0xd0 = 185;
+	mMessageTimer = 185;
 	mMouseVisible = false;
-	m0xd8 = -1;
-	m0xd4 = false;
+	mMessageId = -1;
+	mIsBlinking = false;
 }
 
 Sexy::MessageWidget::~MessageWidget()
@@ -32,13 +32,13 @@ Sexy::MessageWidget::~MessageWidget()
 void Sexy::MessageWidget::Update()
 {
 	Board* aBoard = mApp->mBoard;
-	if (aBoard && !aBoard->mPause && m0xd0 > 0)
-		m0xd0--;
+	if (aBoard && !aBoard->mPause && mMessageTimer > 0)
+		mMessageTimer--;
 }
 
 void Sexy::MessageWidget::Draw(Graphics* g)
 {
-	if (m0xd0 <= 0)
+	if (mMessageTimer <= 0)
 		return;
 
 	int aFontHeight = mFont->GetHeight();
@@ -50,9 +50,9 @@ void Sexy::MessageWidget::Draw(Graphics* g)
 	int aStrWidth = mFont->StringWidth(mMessage);
 	int aX = (mWidth - aStrWidth) / 2 + 2;
 
-	int aTimer = m0xd0 % 32;
+	int aTimer = mMessageTimer % 32;
 
-	if (aTimer < 27 || m0xd4 == 0)
+	if (aTimer < 27 || !mIsBlinking)
 	{
 		g->SetColor(mColor2);
 		g->SetFont(mFont);
@@ -68,8 +68,8 @@ void Sexy::MessageWidget::Sync(DataSync& theSync)
 	theSync.SyncString(mMessage);
 	theSync.SyncColor(mColor1);
 	theSync.SyncColor(mColor2);
-	theSync.SyncLong(m0xc8);
-	theSync.SyncLong(m0xd0);
-	theSync.SyncBool(m0xd4);
-	theSync.SyncLong(m0xd8);
+	theSync.SyncLong(mUnusedInt);
+	theSync.SyncLong(mMessageTimer);
+	theSync.SyncBool(mIsBlinking);
+	theSync.SyncLong(mMessageId);
 }

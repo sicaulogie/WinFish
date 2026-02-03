@@ -370,7 +370,7 @@ Sexy::GameObject* Sexy::StoreScreen::ConfirmPurchase()
 		if (aProd)
 		{
 			aProd->mTimeBought = time(NULL);
-			aProd->SomeBoughtFunc();
+			aProd->BoughtSetup();
 			mStoreButtonLast->Bought();
 			return aProd;
 		}

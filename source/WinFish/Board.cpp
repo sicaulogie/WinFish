@@ -134,7 +134,7 @@ Board::Board(WinFishApp* theApp)
 	mBubbleMgr->SetBubbleConfig(0, 0);
 	gZombieMode = mApp->mCurrentProfile->mCheatCodeFlags >> 4 & 1;
 	mCyraxPtr = nullptr;
-	memset(m0x4b0, 0, sizeof(m0x4b0));
+	memset(mMessageShown, 0, sizeof(mMessageShown));
 	memset(mPetsInTank, 0, sizeof(mPetsInTank));
 
 	mCurrentBackgroundId = 0;
@@ -288,23 +288,23 @@ void Board::ShowText(std::string aText, bool aFlag, int anID)
 {
 	if (anID == -1)
 	{
-		mMessageWidget->m0xd8 = -1;
+		mMessageWidget->mMessageId = -1;
 		mMessageWidget->mMessage = aText;
-		mMessageWidget->m0xd4 = aFlag;
+		mMessageWidget->mIsBlinking = aFlag;
 		if (!aFlag)
-			mMessageWidget->m0xd0 = 100;
+			mMessageWidget->mMessageTimer = 100;
 		else
-			mMessageWidget->m0xd0 = 500;
+			mMessageWidget->mMessageTimer = 500;
 	}
-	else if (!m0x4b0[anID])
+	else if (!mMessageShown[anID])
 	{
-		mMessageWidget->m0xd8 = anID;
+		mMessageWidget->mMessageId = anID;
 		mMessageWidget->mMessage = aText;
-		mMessageWidget->m0xd4 = aFlag;
+		mMessageWidget->mIsBlinking = aFlag;
 		if (aFlag)
-			mMessageWidget->m0xd0 = 500;
-		m0x4b0[anID] = true;
-		mMessageWidget->m0xd0 = 185;
+			mMessageWidget->mMessageTimer = 500;
+		mMessageShown[anID] = true;
+		mMessageWidget->mMessageTimer = 185;
 	}
 	mMessageWidget->mColor1 = Color(0xb4, 0xfa, 0x5a);
 	mMessageWidget->mColor2 = Color(0, 0x4b, 0);
@@ -905,7 +905,7 @@ void Board::Update()
 			if (mSlotPrices[SLOT_EGG] < mMoney)
 				m0x4e8++;
 			if (m0x4e8 > 1500)
-				m0x4b0[40] = true;
+				mMessageShown[40] = true;
 		}
 		if (mTank == 5 && mCyraxPtr == 0 && m0x4f4 && !mIsBonusRound && !mSlotUnlocked[SLOT_EGG])
 			MakeAndUnlockMenuButton(SLOT_EGG, true);
@@ -936,8 +936,8 @@ void Board::Update()
 
 			if (m0x45c % aDifIncreaseProb == 0 && m0x45c != 0)
 			{
-				mMessageWidget->m0xd4 = true;
-				mMessageWidget->m0xd0 = 274;
+				mMessageWidget->mIsBlinking = true;
+				mMessageWidget->mMessageTimer = 274;
 				mMessageWidget->mColor1 = Color(255, 50, 50, 255);
 				mMessageWidget->mColor2 = Color(100, 20, 20, 255);
 			}
@@ -948,26 +948,26 @@ void Board::Update()
 			{
 				if (!mApp->mRelaxMode && mApp->mGameMode != GAMEMODE_VIRTUAL_TANK)
 				{
-					if (!m0x4b0[3] && IsTankAndLevelNB(1, 2))
+					if (!mMessageShown[3] && IsTankAndLevelNB(1, 2))
 					{
 						mApp->DoDialogUnkF(DIALOG_INFO, true, "DANGER!", "A vicious alien is about to enter your tank! Defeat it with your laser weapon by clicking on it!", "Click to Continue", Dialog::BUTTONS_FOOTER);
-						m0x4b0[3] = true;
+						mMessageShown[3] = true;
 					}
-					else if (!m0x4b0[4] && IsTankAndLevelNB(1, 2))
+					else if (!mMessageShown[4] && IsTankAndLevelNB(1, 2))
 					{
 						mApp->DoDialogUnkF(DIALOG_INFO, true, "BATTLE TIP", "Shoot the alien\'s head to push it downwards! Shoot its tail to deflect it upwards!", "Click to Continue", Dialog::BUTTONS_FOOTER);
-						m0x4b0[4] = true;
+						mMessageShown[4] = true;
 					}
-					else if (!m0x4b0[17] && IsTankAndLevelNB(2, 3))
+					else if (!mMessageShown[17] && IsTankAndLevelNB(2, 3))
 					{
 						mApp->DoDialogUnkF(DIALOG_INFO, true, "WARNING!", "A new breed of alien is fast approaching!  Lasers can\'t hurt this baddie, so find another way to defeat it!", "Click to Continue", Dialog::BUTTONS_FOOTER);
-						m0x4b0[17] = true;
+						mMessageShown[17] = true;
 					}
 				}
 			}
 			else if (mAlienTimer == 275)
 			{
-				if(!m0x4b0[46] && mLevel == 4 && mTank == 2 && (mAlienExpect == 9 || mAlienExpect == 10 
+				if(!mMessageShown[46] && mLevel == 4 && mTank == 2 && (mAlienExpect == 9 || mAlienExpect == 10 
 					|| mAlienExpect == 11 || mAlienExpect == 12))
 					mMessageWidget->mMessage = "FOURTEEN ALIEN SIGNATURES DETECTED";
 				else
@@ -989,8 +989,8 @@ void Board::Update()
 					else
 						mMessageWidget->mMessage = "ENEMY APPROACHING";
 				}
-				mMessageWidget->m0xd4 = false;
-				mMessageWidget->m0xd0 = 274;
+				mMessageWidget->mIsBlinking = false;
+				mMessageWidget->mMessageTimer = 274;
 				mMessageWidget->mColor1 = Color(255, 50, 50, 255);
 				mMessageWidget->mColor2 = Color(100, 20, 20, 255);
 				mApp->SomeMusicFunc(true);
@@ -1096,11 +1096,11 @@ void Board::Update()
 			}
 			else if (mAlienTimer < 275)
 			{
-				if (!m0x4b0[46] && mLevel == 4 && mTank == 4 && (mAlienExpect == 9 || mAlienExpect == 10 ||
+				if (!mMessageShown[46] && mLevel == 4 && mTank == 4 && (mAlienExpect == 9 || mAlienExpect == 10 ||
 					mAlienExpect == 11 || mAlienExpect == 12) && mAlienTimer == 100)
 				{
 					mMessageWidget->mMessage = "JUST KIDDING. ONLY TWO!";
-					m0x4b0[46] = true;
+					mMessageShown[46] = true;
 				}
 				if (mAlienTimer == 1)
 					mApp->PlayMusic(1, 1);
@@ -1157,7 +1157,7 @@ void Board::Update()
 		if (mSlotPrices[SLOT_EGG] < mMoney)
 			m0x4e8++;
 		if (m0x4e8 > 1500)
-			m0x4b0[40] = true;
+			mMessageShown[40] = true;
 	}
 	
 	if (mTank == 5 && mCyraxPtr == nullptr && m0x4f4 && !mIsBonusRound && !mSlotUnlocked[SLOT_EGG])
@@ -1180,7 +1180,7 @@ void Board::Draw(Graphics* g)
 
 	g->SetFont(FONT_JUNGLEFEVER10OUTLINE);
 	g->SetColor(Color(0x6e, 0xfa, 0x6e));
-	if (m0x4b0[2] && mLevel == 1 && mTank == 1 && !mApp->mCurrentProfile->mFinishedGame) // 52
+	if (mMessageShown[2] && mLevel == 1 && mTank == 1 && !mApp->mCurrentProfile->mFinishedGame) // 52
 	{
 		g->DrawImage(IMAGE_HELPARROW, 40, 70);
 		g->DrawString("Click here to", 65, 95);
@@ -1188,9 +1188,9 @@ void Board::Draw(Graphics* g)
 	} // 65
 	else
 	{
-		if (!m0x4b0[40] || mLevel != 1 || mTank != 1 || mApp->mCurrentProfile->mFinishedGame) //66
+		if (!mMessageShown[40] || mLevel != 1 || mTank != 1 || mApp->mCurrentProfile->mFinishedGame) //66
 		{
-			if (m0x4b0[15] && mLevel == 2 && mTank == 1 && !mApp->mCurrentProfile->mFinishedGame)
+			if (mMessageShown[15] && mLevel == 2 && mTank == 1 && !mApp->mCurrentProfile->mFinishedGame)
 			{
 				g->DrawImage(IMAGE_HELPARROW, 110, 70);
 				g->DrawString("Click here to", 135, 95);
@@ -2484,8 +2484,8 @@ bool Sexy::Board::SyncGameData(DataSync& theSync)
 	theSync.SyncBool(mAlienAttractorShown);
 	theSync.SyncBool(mAlwaysShowWhenHungry);
 	theSync.SyncBool(m0x500);
-	for (int i = 0; i < sizeof(m0x4b0); i++)
-		theSync.SyncBool(m0x4b0[i]);
+	for (int i = 0; i < sizeof(mMessageShown); i++)
+		theSync.SyncBool(mMessageShown[i]);
 	theSync.SyncBool(m0x4e6);
 	theSync.SyncLong(m0x4e8);
 	theSync.SyncLong(m0x4f0);
@@ -2706,7 +2706,7 @@ void Sexy::Board::InitLevel()
 	m0x2a8 = 0;
 	m0x43c = 1;
 	m0x3e4 = 2;
-	mAlienExpect = 2;
+	mAlienExpect = ALIEN_STRONG_SYLV;
 	gFoodType = 0;
 	gFoodLimit = 1;
 	gMerylActive = false;
@@ -2744,7 +2744,7 @@ void Sexy::Board::InitLevel()
 	mWidgetManager->AddWidget(mMoneyLabel);
 	mWidgetManager->AddWidget(mMessageWidget);
 	UpdateMoneyLabelText();
-	memset(m0x4b0, 0, 54);
+	memset(mMessageShown, 0, 54);
 	DeterminePricesAndSlots();
 	m0x2dc = 0;
 	m0x2e0 = 0;
@@ -2764,9 +2764,9 @@ void Sexy::Board::InitLevel()
 
 void Sexy::Board::InitBonusLevel()
 {
-	mMessageWidget->m0xd0 = 0;
+	mMessageWidget->mMessageTimer = 0;
 	m0x2a8 = mGameUpdateCnt;
-	mAlienExpect = 0;
+	mAlienExpect = ALIEN_NONE;
 	mPause = false;
 	mIsBonusRound = true;
 	mBonusRoundStarted = false;
@@ -3260,14 +3260,14 @@ void Sexy::Board::HandleBuyEgg()
 		return;
 	}
 
-	if (m0x4b0[40])
+	if (mMessageShown[40])
 	{
-		m0x4b0[40] = false;
+		mMessageShown[40] = false;
 		m0x4e6 = true;
 		m0x4e8 = 0;
 	}
 	
-	if (IsTankAndLevelNB(1, 1) && mMessageWidget->m0xd0 < 1 && m0x43c == 1)
+	if (IsTankAndLevelNB(1, 1) && mMessageWidget->mMessageTimer < 1 && m0x43c == 1)
 		ShowText("Collect 2 more egg pieces to finish level!", true, 10);
 
 	m0x43c++;
@@ -4108,7 +4108,7 @@ void Sexy::Board::HandleBuySlotPressed(int theSlotId)
 			return;
 
 		SpawnGuppyBought();
-		if (m0x4b0[2]) m0x4b0[2] = false;
+		if (mMessageShown[2]) mMessageShown[2] = false;
 
 		PlaySample(SOUND_GROW_ID, 3, 1.0);
 		PlaySplashSound();
@@ -4121,8 +4121,8 @@ void Sexy::Board::HandleBuySlotPressed(int theSlotId)
 	case SLOT_FOODLVL:
 		if (gFoodType < 2 && Buy(aPrice, true))
 		{
-			if (m0x4b0[15])
-				m0x4b0[15] = false;
+			if (mMessageShown[15])
+				mMessageShown[15] = false;
 			gFoodType++;
 			MenuButtonSetupNoVT(SLOT_FOODLVL, true);
 
@@ -4173,7 +4173,7 @@ void Sexy::Board::HandleBuySlotPressed(int theSlotId)
 				if (mLevel < 3)
 				{
 					ShowText("Click on tank to drop star potion!", 0, -1);
-					mMessageWidget->m0xd0 = 180;
+					mMessageWidget->mMessageTimer = 180;
 				}
 			}
 			m0x440 = true;
@@ -4275,7 +4275,7 @@ void Sexy::Board::MakeVirtualTankButtons()
 	mMenuButtons[SLOT_GRUBBER]->mButtonImage = IMAGE_MENUBTNU;
 	mMenuButtons[SLOT_GRUBBER]->mOverImage = IMAGE_MENUBTNO;
 	mMenuButtons[SLOT_GRUBBER]->mDownImage = IMAGE_MENUBTND2;
-	mMenuButtons[SLOT_GRUBBER]->Resize(0x46, 2, 0x3a, 60);
+	mMenuButtons[SLOT_GRUBBER]->Resize(70, 2, 58, 60);
 	mWidgetManager->AddWidget(mMenuButtons[SLOT_GRUBBER]);
 
 	mMenuButtons[SLOT_GRUBBER]->mPriceText = "STORE";
@@ -4285,7 +4285,7 @@ void Sexy::Board::MakeVirtualTankButtons()
 	mMenuButtons[SLOT_GEKKO]->mButtonImage = IMAGE_MENUBTNU;
 	mMenuButtons[SLOT_GEKKO]->mOverImage = IMAGE_MENUBTNO;
 	mMenuButtons[SLOT_GEKKO]->mDownImage = IMAGE_MENUBTND2;
-	mMenuButtons[SLOT_GEKKO]->Resize(0x90, 2, 0x3a, 60);
+	mMenuButtons[SLOT_GEKKO]->Resize(144, 2, 58, 60);
 	mWidgetManager->AddWidget(mMenuButtons[SLOT_GEKKO]);
 	mMenuButtons[SLOT_GEKKO]->mPriceText = "FISH";
 	mMenuButtons[SLOT_GEKKO]->Configure(IMAGE_TROPHYBUTTONS, 5, 1, 0, 3);
@@ -4294,7 +4294,7 @@ void Sexy::Board::MakeVirtualTankButtons()
 	mMenuButtons[SLOT_ULTRA]->mButtonImage = IMAGE_MENUBTNU;
 	mMenuButtons[SLOT_ULTRA]->mOverImage = IMAGE_MENUBTNO;
 	mMenuButtons[SLOT_ULTRA]->mDownImage = IMAGE_MENUBTND2;
-	mMenuButtons[SLOT_ULTRA]->Resize(0xd8, 2, 0x3a, 60);
+	mMenuButtons[SLOT_ULTRA]->Resize(216, 2, 58, 60);
 	mWidgetManager->AddWidget(mMenuButtons[SLOT_ULTRA]);
 	mMenuButtons[SLOT_ULTRA]->mPriceText = "PETS";
 	mMenuButtons[SLOT_ULTRA]->Configure(IMAGE_TROPHYBUTTONS, 5, 1, 0, 4);
@@ -4303,7 +4303,7 @@ void Sexy::Board::MakeVirtualTankButtons()
 	mMenuButtons[SLOT_WEAPON]->mButtonImage = IMAGE_MENUBTNU;
 	mMenuButtons[SLOT_WEAPON]->mOverImage = IMAGE_MENUBTNO;
 	mMenuButtons[SLOT_WEAPON]->mDownImage = IMAGE_MENUBTND2;
-	mMenuButtons[SLOT_WEAPON]->Resize(0x16c, 2, 0x3a, 60);
+	mMenuButtons[SLOT_WEAPON]->Resize(364, 2, 58, 60);
 	mWidgetManager->AddWidget(mMenuButtons[SLOT_WEAPON]);
 	mMenuButtons[SLOT_WEAPON]->mPriceText = "TANK";
 	mMenuButtons[SLOT_WEAPON]->Configure(IMAGE_TROPHYBUTTONS, 5, 1, 0, 5);
@@ -4312,7 +4312,7 @@ void Sexy::Board::MakeVirtualTankButtons()
 	mMenuButtons[SLOT_EGG]->mButtonImage = IMAGE_MENUBTNU;
 	mMenuButtons[SLOT_EGG]->mOverImage = IMAGE_MENUBTNO;
 	mMenuButtons[SLOT_EGG]->mDownImage = IMAGE_MENUBTND2;
-	mMenuButtons[SLOT_EGG]->Resize(0x122, 2, 0x3a, 60);
+	mMenuButtons[SLOT_EGG]->Resize(290, 2, 58, 60);
 	mWidgetManager->AddWidget(mMenuButtons[SLOT_EGG]);
 	mMenuButtons[SLOT_EGG]->mPriceText = "FEED";
 	mMenuButtons[SLOT_EGG]->Configure(IMAGE_TROPHYBUTTONS, 5, 1, 0, 1);
@@ -4321,7 +4321,7 @@ void Sexy::Board::MakeVirtualTankButtons()
 	mBackButton->mButtonImage = IMAGE_MENUBTNU;
 	mBackButton->mOverImage = IMAGE_MENUBTNO;
 	mBackButton->mDownImage = IMAGE_MENUBTND2;
-	mBackButton->Resize(0x1b6, 2, 0x3a, 60);
+	mBackButton->Resize(438, 2, 58, 60);
 	mWidgetManager->AddWidget(mBackButton);
 	mBackButton->mPriceText = "BACK";
 	mBackButton->Configure(IMAGE_TROPHYBUTTONS, 5, 1, 0, 0);
@@ -4329,7 +4329,7 @@ void Sexy::Board::MakeVirtualTankButtons()
 
 void Sexy::Board::StartVirtualTank()
 {
-	mAlienExpect = 0;
+	mAlienExpect = ALIEN_NONE;
 	mPause = false;
 	mShouldSave = true;
 
@@ -4898,9 +4898,9 @@ void Sexy::Board::DropFood(int theX, int theY, int unk1, bool unk2, int theFoodC
 					mMoney = 9999999;
 				UpdateMoneyLabelText();
 			}
-			if (IsTankAndLevelNB(1, 1) && mMessageWidget->m0xd0 <= 0)
+			if (IsTankAndLevelNB(1, 1) && mMessageWidget->mMessageTimer <= 0)
 				ShowText("You can only drop 1 food pellet at a time for now", false, 6);
-			else if(IsTankAndLevelNB(1, 2) && mMessageWidget->m0xd0 <= 0 && mSlotUnlocked[3])
+			else if(IsTankAndLevelNB(1, 2) && mMessageWidget->mMessageTimer <= 0 && mSlotUnlocked[3])
 				ShowText("Upgrade Food Quantity to drop more food at once!", false, 13);
 			return;
 		}
@@ -5007,8 +5007,8 @@ void Sexy::Board::UpdateSlotPrice(int theSlotId, int thePrice)
 
 void Sexy::Board::ResetMessageWidget(int unk)
 {
-	if (mMessageWidget && mMessageWidget->m0xd8 == unk)
-		mMessageWidget->m0xd0 = 0;
+	if (mMessageWidget && mMessageWidget->mMessageId == unk)
+		mMessageWidget->mMessageTimer = 0;
 }
 
 void Sexy::Board::MakeNote(int theX, int theY, int unk, const SexyString& theText)
@@ -5045,7 +5045,7 @@ int Sexy::Board::PlayFishSong(int theObjType, int theSpecObjType)
 			aTitle.append(" (extended)");
 
 		ShowText(aTitle, false, -1);
-		mMessageWidget->m0xd0 = 180;
+		mMessageWidget->mMessageTimer = 180;
 	}
 
 	gUnkBool02 = true;

@@ -605,7 +605,7 @@ void Sexy::Breeder::UpdateStoreAnimation()
 {
 	mStoreAnimationTimer++;
 	if (mInvisible)
-		m0x128++;
+		mStoreInvisibilityTimer++;
 	mStoreAnimationIndex = (mStoreAnimationTimer / 2) % 10;
 }
 
@@ -1065,7 +1065,7 @@ bool Sexy::Breeder::GiveBirth()
 
 	Fish* aGuppy = new Fish(mX + 5, mY + 10);
 	mApp->mBoard->PlayBirthSound(false);
-	aGuppy->SomeBoughtFunc();
+	aGuppy->BoughtSetup();
 	aGuppy->CopyBreederDataVT(this);
 	aGuppy->mVirtualTankId = aNextVirtId;
 	aGuppy->mTimeBought = time(NULL);

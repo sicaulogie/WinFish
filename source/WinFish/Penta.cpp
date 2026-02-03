@@ -185,7 +185,7 @@ void Sexy::Penta::UpdateStoreAnimation()
 {
 	mStoreAnimationTimer++;
 	if (mInvisible)
-		m0x128++;
+		mStoreInvisibilityTimer++;
 	mStoreAnimationIndex = (mStoreAnimationTimer / 2) % 10;
 }
 
@@ -409,9 +409,9 @@ void Sexy::Penta::Remove(bool removeShadow)
 	{
 		if (mApp->mBoard->IsTankAndLevelNB(2, 2) && ShouldDie())
 		{
-			if(mApp->mBoard->m0x4b0[35])
+			if(mApp->mBoard->mMessageShown[35])
 				mApp->mBoard->ShowText("Hint: Star potions allow guppies to produce stars!", false, 36);
-			if(mApp->mBoard->m0x4b0[34])
+			if(mApp->mBoard->mMessageShown[34])
 				mApp->mBoard->ShowText("Hint: Starcatchers need stars to stay alive!", false, 35);
 			mApp->mBoard->ShowText("Warning! Your starcatcher has died!", false, 34);
 		}

@@ -54,14 +54,14 @@ GameObject::GameObject()
 	mLikes[0] = 0;
 	mLikes[1] = 0;
 	mLikes[2] = 0;
-	m0x128 = 0;
+	mStoreInvisibilityTimer = 0;
 	mStoreAnimationTimer = 0;
 	mStoreAnimationIndex = 0;
 	mCanBeEatenDelay = 0;
-	m0x138 = 0;
-	m0x140 = 0;
+	mBoughtTimeDaySecs = 0;
+	mLastMentalStateUpdateTime = 0;
 	mTimesFedToday = 0;
-	m0x150 = 0;
+	mRandomHappiestMentalId = 0;
 	mPreNamedTypeId = -1;
 	mMentalState = 3;
 }
@@ -184,14 +184,14 @@ void Sexy::GameObject::Sync(DataSync* theSync)
 		theSync->SyncLong(m0x118);
 		theSync->SyncLong(mSongId);
 		if (theSync->mReader)
-			m0x138 = 0;
-		theSync->SyncLong((int&)m0x138);
+			mBoughtTimeDaySecs = 0;
+		theSync->SyncLong((int&)mBoughtTimeDaySecs);
 		if (theSync->mReader)
-			m0x140 = 0;
-		theSync->SyncLong((int&)m0x140);
+			mLastMentalStateUpdateTime = 0;
+		theSync->SyncLong((int&)mLastMentalStateUpdateTime);
 		theSync->SyncLong(mTimesFedToday);
 		theSync->SyncLong(mMentalState);
-		theSync->SyncLong(m0x150);
+		theSync->SyncLong(mRandomHappiestMentalId);
 		theSync->SyncLong(mPreNamedTypeId);
 		//theSync->SyncBytes((void*) mPreNamedTypeId, 4);
 		for (int i = 0; i < 3; i++)
@@ -471,10 +471,7 @@ void Sexy::GameObject::Unk02(bool flag)
 
 		if (mSinging)
 		{
-			int aPrevVal = m0x118;
-			int unk = aPrevVal / 5;
-			m0x118++;
-			if (aPrevVal % 5 == 0 && mPreNamedTypeId != KILGORE && m0x114 == 0)
+			if (m0x118++ % 5 == 0 && mPreNamedTypeId != KILGORE && m0x114 == 0)
 			{
 				int aVal = m0x10c;
 				if (m0x10c < 5)
@@ -497,18 +494,18 @@ void Sexy::GameObject::Unk03(long long theTodayInSec, __time64_t theCurTime)
 			mTodayBought = false;
 	}
 
-	if (theTodayInSec != m0x138)
+	if (theTodayInSec != mBoughtTimeDaySecs)
 	{
-		long long daysPassed = (theTodayInSec - m0x140) - 1;
+		long long daysPassed = (theTodayInSec - mLastMentalStateUpdateTime) - 1;
 		if (daysPassed < 0)
 		{
-			m0x140 = theTodayInSec;
+			mLastMentalStateUpdateTime = theTodayInSec;
 			daysPassed = 0;
 		}
 
 		mMentalState -= daysPassed;
 		mTimesFedToday = 0;
-		m0x138 = theTodayInSec;
+		mBoughtTimeDaySecs = theTodayInSec;
 		if (mMentalState < 0)
 			mMentalState = 0;
 	}
@@ -527,7 +524,7 @@ bool Sexy::GameObject::UpdateMentalState()
 		if (mTimesFedToday == 3)
 		{
 			mMentalState++;
-			m0x140 = aTime;
+			mLastMentalStateUpdateTime = aTime;
 			if (mMentalState > 6)
 				mMentalState = 6;
 		}
@@ -648,7 +645,7 @@ GameObject* Sexy::GameObject::FindNearestExoticFoodOther(int theX, int theY, int
 
 void Sexy::GameObject::VoraciousScream(int theNum)
 {
-	if (mVoracious && ((mPreNamedTypeId != KILGORE || mSongId != -1) && mVoraciousScreamCounter == 0))
+	if (mVoracious && (mPreNamedTypeId != KILGORE || mSongId != -1) && mVoraciousScreamCounter == 0)
 	{
 		mApp->PlaySample(SOUND_PRIMALSCREAM);
 		mVoraciousScreamCounter = theNum;
@@ -1020,7 +1017,7 @@ void Sexy::GameObject::SetStoreColor(Graphics* g, Color& theColor)
 	}
 	else
 	{
-		int anAlphaMul = m0x128 % 300;
+		int anAlphaMul = mStoreInvisibilityTimer % 300;
 		if (anAlphaMul > 150)
 			anAlphaMul = 300 - anAlphaMul;
 		g->SetColor(Color(theColor.mRed, theColor.mGreen, theColor.mBlue, (theColor.mAlpha * anAlphaMul) / 600 + 10));
@@ -1037,31 +1034,31 @@ void Sexy::GameObject::ResetSpecialProperties()
 	mSpeedy = false;
 }
 
-void Sexy::GameObject::SomeBoughtFunc()
+void Sexy::GameObject::BoughtSetup()
 {
 	long long secs = GetTodayStartSeconds();
-	m0x138 = secs;
-	m0x140 = secs - 1;
+	mBoughtTimeDaySecs = secs;
+	mLastMentalStateUpdateTime = secs - 1;
 	mMentalState = 3;
-	m0x150 = Rand() % 1000;
+	mRandomHappiestMentalId = Rand() % 1000;
 	m0xd8 = Rand() % 12;
 
 	mHometownIdx = (Rand() % 374) + 1;
-	int* colors = (int*)&mLikes;
+	int* likes = (int*)&mLikes;
 
 	for (int i = 0; i < 3; i++)
 	{
 		while (true)
 		{
-			int rndColor = Rand() % 331;
-			colors[i] = rndColor;
+			int rndLike = Rand() % 331;
+			likes[i] = rndLike;
 
 			bool isDuplicate = false;
 			if (i > 0)
 			{
 				for (int j = 0; j < i; j++)
 				{
-					if (colors[j] == rndColor)
+					if (likes[j] == rndLike)
 					{
 						isDuplicate = true;
 						break;
