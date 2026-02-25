@@ -453,3 +453,4 @@ sounds/
 *.dat
 **/[Uu]serdata/
 UnusedStuff/
+.DS_Store

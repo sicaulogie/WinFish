@@ -107,72 +107,81 @@ Fish::~Fish()
 
 void Fish::Update()
 {
-    // Skip update if game is paused
-    if (mApp->mBoard == NULL || mApp->mBoard->mPause)
+    if (mApp->mBoard == NULL || mApp->mBoard->mPause) // Skip update if game is paused
         return;
     Board* aBoard = mApp->mBoard;
     // UpdateCounters() increments mUpdateCnt each tick
     // This is the fish's personal frame counter
     UpdateCounters();
-    // Only run movement/hunger if not a special Wadsworth guppy
-    // or if fish is large enough (size > 1)
+    // the function below defines normal fish movement when they are not inside wadsworth, which only contains medium/small fish
     if (!gWadsworthTimer || !mIsGuppy || mSize > 1)
     {
-        // Hungry() handles hunger decrement AND food-chasing behavior
-        // Returns true if fish is actively chasing food
-        // Only runs when no aliens are in tank (aliens pause hunger)
-        if (!Hungry())
+        if (!Hungry()) //default state if fish isn't hungry
         {
-            bool anAliensInTank = aBoard->AliensInTank();
+            bool anAliensInTank = aBoard->AliensInTank();  // check if alien is in tank
             if (!anAliensInTank || !aBoard->mPetsInTank[12] || !mIsGuppy)
-            //Ensures the fish performs standard movement only if there are no aliens, or if Gumbo is not present, or if the object isn't a guppy.
+            //If there are no aliens or Gumbo is not present or if the object isn't guppy
             {
                 if (mMovementState == 123)
+                // Movement State Reference:
+                // State 0-4: Standard idle wandering (Sinking, Drifting, or Diving).
+                // State 5-9: Horizontal patrolling between fixed tank boundaries.
+                // State 123: "Scared" reaction; high-speed dash following a player click.
+                // Food/Pet Overrides: Hunger and Gumbo override these states to force target-following.
                 {
-                    mVXAbs = (int)abs(mVX); //Stores the absolute value of the fish's current horizontal velocity.
+                    mVXAbs = (int)abs(mVX); // Sync absolute velocity for animation tail-wagging speed
                     mMovementStateChangeTimer = 0;
-                    if (mSpecialMovementStateChangeTimer > 30)
+                    // Phase 1: High speed (0-30 frames). Physics processing starts after frame 30
+                    if (mSpecialMovementStateChangeTimer > 30) 
                     {
                         if (abs(mVX) > 2.0)
-                            mVX *= 0.95;
+                            mVX *= 0.95; //If the fish is moving fast horizontally, it begins to slow down.
                         if (abs(mVY) > 2.0)
-                            mVY *= 0.95;
+                            mVY *= 0.95; // ditto, vertical
                     }
+                    // Phase 2: Exit state (after 50 frames)
                     if (mSpecialMovementStateChangeTimer > 50)
                     {
-                        mSpecialMovementStateChangeTimer = 0;
-                        mMovementState = Rand() % 9 + 1;
-                        int pr = mXMax - 20;
+                        mSpecialMovementStateChangeTimer = 0; //Reset internal state frame counter
+                        mMovementState = Rand() % 9 + 1; // Transition to a random standard wandering state (1-9)
+
+                        int pr = mXMax - 20; // Defines a boundary variable near the right edge of the tank.
+                        // Direction Logic: Reverse horizontal direction if hitting walls or by 1-in-3 chance
                         if (mXD > mXMax - 20 || mXD < mXMin + 20 || Rand() % 3 == 0)
-                            mVX *= -1.0;
+                            mVX *= -1.0; //Reverses the fish's horizontal direction so it swims the opposite way.
                     }
                 }
-                else if (mMovementState < 5)
+                else if (mMovementState < 5) //first 5 states (0-4) wandering states
                 {
-                    if (mMovementState == 0)
+                    
+                    if (mMovementState == 0) //Specifically targets Movement State 0, which functions as a "Slow Sink/Drift" state.
                     {
+                        /* If the fish wasn't just purchased (which would involve a separate "dropping into the tank" velocity), 
+                        it sets a constant vertical velocity (mVY) of 0.5, causing the fish to slowly sink toward the bottom. */
                         if (mBoughtTimer == 0)
-                            mVY = 0.5;
-                        if(mSpecialMovementStateChangeTimer > 39)
+                            mVY = 0.5;  // Set constant sinking speed if not newly purchased
+                        if(mSpecialMovementStateChangeTimer > 39) // Pulse logic every 40 frames
                         {
                             mSpecialMovementStateChangeTimer = 0;
+                            // Stepwise horizontal friction: bring mVX toward 0 by 0.5 units
                             if (mVX < -0.5)
                                 mVX += 0.5;
                             else if (mVX > 0.5)
                                 mVX -= 0.5;
 
-                            mVXAbs = (int)abs(mVX);
+                            mVXAbs = (int)abs(mVX); // Update animation speed
                         }
 
-                        mYD -= 0.25 / mSpeedMod;
+                        mYD -= 0.25 / mSpeedMod; // Apply fine-tuned vertical adjustment
                     }
-                    else if (mMovementState == 1)
+                    else if (mMovementState == 1) // Drift Up and Right
                     {
                         if (mBoughtTimer == 0)
-                            mVY = -0.5;
+                            mVY = -0.5; // Constant upward velocity
                         if (mSpecialMovementStateChangeTimer > 39)
                         {
-                            mSpecialMovementStateChangeTimer = 0;
+                            mSpecialMovementStateChangeTimer = 0; 
+                            // Accelerate/Decelerate toward 1.0 horizontal speed
                             if (mVX < 1.0)
                                 mVX++;
                             else if (mVX > 1.0)
@@ -182,7 +191,7 @@ void Fish::Update()
 
                         mYD -= 0.5 / mSpeedMod;
                     }
-                    else if (mMovementState == 2)
+                    else if (mMovementState == 2) // Drift Up and Left
                     {
                         if (mBoughtTimer == 0)
                             mVY = -0.5;
@@ -206,22 +215,24 @@ void Fish::Update()
                         if (mSpecialMovementStateChangeTimer > 39)
                         {
                             mSpecialMovementStateChangeTimer = 0;
+                            // Horizontal: Target -1.0 (State 3) or 1.0 (State 4)
                             if (mVX < -1.0)
                                 mVX++;
                             else if (mVX > -1.0)
                                 mVX--;
-
+                            // Vertical: Target 3.0 (Downward Dive)
                             if (mVY < 3.0)
                                 mVY++;
                             else if (mVY > 3.0)
                                 mVY--;
-
+                            
+                            // Animation logic: ramp up tail wagging during the dive
                             if (mVXAbs < 5)
                             {
                                 if (mVY >= 4.0)
                                 {
                                     if (mYD > 240.0)
-                                        mMovementState = 0;
+                                        mMovementState = 0; // Finish dive and drift
                                 }
                                 else
                                 {
@@ -234,9 +245,9 @@ void Fish::Update()
                             }
                         }
                         if (mYD > 240.0)
-                            mMovementState = 0;
+                            mMovementState = 0; // Safety floor: transition to State 0 if too deep
                     }
-                    else if (mMovementState == 4)
+                    else if (mMovementState == 4) //same as above
                     {
                         if (mSpecialMovementStateChangeTimer > 39)
                         {
@@ -273,10 +284,11 @@ void Fish::Update()
                             mMovementState = 0;
                     }
                 }
-                else
+                else // Logic for States 5, 6, 7, 8, 9
                 {
                     if(mBoughtTimer == 0)
                     {
+                        // Maintain vertical level: rise slower if already near the top
                         if (mYD >= 115.0)
                             mVY = -0.5;
                         else
@@ -285,32 +297,34 @@ void Fish::Update()
                     if (mSpecialMovementStateChangeTimer > 39)
                     {
                         mSpecialMovementStateChangeTimer = 0;
-                        if (mXDirection == 1)
+                        if (mXDirection == 1) // Patrolling Right
                         {
-                            if (mVX < 0.0)
+                            if (mVX < 0.0) // Accelerate rightward
                                 mVX += 2.0;
                             else
                                 mVX += 1.0;
 
                             mVXAbs = (int)abs(mVX);
                             if (mXD > 250.0)
+                            // Bounce off right boundary
                             {
                                 mXDirection = -1;
                                 mVX -= 2.0;
                             }
                         }
-                        else if (mXDirection == -1)
+                        else if (mXDirection == -1) // Patrolling Left
                         {
-                            if (mVX > 0.0)
+                            if (mVX > 0.0)  // Accelerate leftward
                                 mVX -= 2.0;
                             else
                                 mVX -= 1.0;
 
                             mVXAbs = (int)abs(mVX);
                             if (mXD < 175.0)
+                            // Bounce off left boundary
                             {
                                 mXDirection = 1;
-                                mVX += 2.0;
+                                mVX += 2.0; 
                             }
                         }
                     }
@@ -436,7 +450,7 @@ void Fish::Update()
             mMovementState = Rand() % 9 + 1;
     }
 
-    if (!aBoard->AliensInTank())
+    if (!aBoard->AliensInTank()) //stop dropping coin when aliens enter
         DropCoin();
 
     if (mBoughtTimer > 0)
