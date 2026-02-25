@@ -107,20 +107,29 @@ Fish::~Fish()
 
 void Fish::Update()
 {
+    // Skip update if game is paused
     if (mApp->mBoard == NULL || mApp->mBoard->mPause)
         return;
     Board* aBoard = mApp->mBoard;
+    // UpdateCounters() increments mUpdateCnt each tick
+    // This is the fish's personal frame counter
     UpdateCounters();
+    // Only run movement/hunger if not a special Wadsworth guppy
+    // or if fish is large enough (size > 1)
     if (!gWadsworthTimer || !mIsGuppy || mSize > 1)
     {
+        // Hungry() handles hunger decrement AND food-chasing behavior
+        // Returns true if fish is actively chasing food
+        // Only runs when no aliens are in tank (aliens pause hunger)
         if (!Hungry())
         {
             bool anAliensInTank = aBoard->AliensInTank();
             if (!anAliensInTank || !aBoard->mPetsInTank[12] || !mIsGuppy)
+            //Ensures the fish performs standard movement only if there are no aliens, or if Gumbo is not present, or if the object isn't a guppy.
             {
                 if (mMovementState == 123)
                 {
-                    mVXAbs = (int)abs(mVX);
+                    mVXAbs = (int)abs(mVX); //Stores the absolute value of the fish's current horizontal velocity.
                     mMovementStateChangeTimer = 0;
                     if (mSpecialMovementStateChangeTimer > 30)
                     {
