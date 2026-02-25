@@ -113,8 +113,8 @@ void Fish::Update()
     // UpdateCounters() increments mUpdateCnt each tick
     // This is the fish's personal frame counter
     UpdateCounters();
-    // the function below defines normal fish movement when they are not inside wadsworth, which only contains medium/small fish
-    if (!gWadsworthTimer || !mIsGuppy || mSize > 1)
+    // default swimming state
+    if (!gWadsworthTimer || !mIsGuppy || mSize > 1) //default state
     {
         if (!Hungry()) //default state if fish isn't hungry
         {
@@ -172,7 +172,7 @@ void Fish::Update()
                             mVXAbs = (int)abs(mVX); // Update animation speed
                         }
 
-                        mYD -= 0.25 / mSpeedMod; // Apply fine-tuned vertical adjustment
+                        mYD -= 0.25 / mSpeedMod; // buoyancy
                     }
                     else if (mMovementState == 1) // Drift Up and Right
                     {
