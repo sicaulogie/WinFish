@@ -486,14 +486,14 @@ void Fish::Update()
     if (mYD > (double)mYMax)
         mYD = (double)mYMax;
 
-    if (mBoughtTimer < 1 || mVY <= 0.0)
+    if (mBoughtTimer < 1 || mVY <= 0.0)                                 //countdown from buying action or no longer at top
     {
         if (mYD < (double)mYMin)
-            mYD = (double)mYMin;
+            mYD = (double)mYMin;                                        //
     }
-    else
+    else                                                                //bubble spawning logic for buying fish
     {
-        if (mBoughtTimer >= 31)
+        if (mBoughtTimer >= 31)                                         //31st frame since fish is bought
         {
             int aChance = 2;
             int aSpawnX;
@@ -501,7 +501,7 @@ void Fish::Update()
             if (mBoughtTimer > 40)
                 aChance = 1;
 
-            if (Rand() % aChance == 0)
+            if (Rand() % aChance == 0)                                  //decide if bubble is spawned
             {
                 if (mSize == SIZE_SMALL)
                 {
@@ -556,12 +556,12 @@ void Fish::Update()
     Move(mXD, mYD);
 }
 
-void Fish::Draw(Graphics* g)
+void Fish::Draw(Graphics* g)                                                               //rendering controller
 {
     UpdateFishSongMgr();
 
     if (gWadsworthTimer != 0 && mXD < gWadsworthX + 8 && mXD > gWadsworthX - 8 &&
-        mYD < gWadsworthY + 8 && mYD > gWadsworthY - 8 && mIsGuppy && mSize < 2)
+        mYD < gWadsworthY + 8 && mYD > gWadsworthY - 8 && mIsGuppy && mSize < 2)           //Wadsworth hides fishes
     {
         if (mShadowPtr)
             mShadowPtr->m0x168 = 0.0;
@@ -603,9 +603,9 @@ void Fish::Draw(Graphics* g)
         DrawName(g, false);
 }
 
-void Sexy::Fish::MouseDown(int x, int y, int theClickCount)
+void Sexy::Fish::MouseDown(int x, int y, int theClickCount)                                //feeding logic
 {
-    if (theClickCount < 0)
+    if (theClickCount < 0)                                                                 //special interaction
     {
         mApp->mBoard->CheckMouseDown(mX + x, mY + y);
         return;
@@ -613,14 +613,14 @@ void Sexy::Fish::MouseDown(int x, int y, int theClickCount)
     Board* aBoard = mApp->mBoard;
 
     if (aBoard->mAlienList->size() == 0 && aBoard->mBilaterusList->size() == 0 &&
-        aBoard->mMissleList1->size() == 0 && mIsGuppy)
+        aBoard->mMissleList1->size() == 0 && mIsGuppy)                                     //check if there are aliens, bilaterus or missles
     {
         double absX = x + mXD;
         double absY = y + mYD;
-        if (absX < 587.0 && absX > 30.0 && absY < 400.0 && absY > 60.0)
+        if (absX < 587.0 && absX > 30.0 && absY < 400.0 && absY > 60.0)                    //check if click is within playable bounds
         {
             bool unk = aBoard->Unk11(mX + x, mY + y);
-            if (!unk && aBoard->Buy(aBoard->m0x4ac, true))
+            if (!unk && aBoard->Buy(aBoard->m0x4ac, true))                                 //check if player has enough money
             {
                 int theXVal = 0;
                 int theYVal = 0;
@@ -654,7 +654,7 @@ int Sexy::Fish::SpecialReturnValue()
     return 10;
 }
 
-int Sexy::Fish::GetShellPrice()
+int Sexy::Fish::GetShellPrice()                                                            //virtual tank shells
 {
     int aVal = GetShellPrice();
     if (mVirtualFish)
